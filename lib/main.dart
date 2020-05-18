@@ -1,16 +1,19 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+import 'package:adnproject/constants/routes.dart';
+import 'package:flutter/material.dart';
 
-import 'package:flutter/widgets.dart';
+import 'constants/strings.dart';
 
-void main() =>
-  runApp(
-    const Center(
-      child:
-        Text('Hello, world!',
-          key: Key('title'),
-          textDirection: TextDirection.ltr
-        )
-      )
+void main() {
+  runApp(ADNApp());
+}
+
+class ADNApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: Strings.appTitle,
+      initialRoute: RouteStrings.home,
+      routes: routesMap,
     );
+  }
+}
