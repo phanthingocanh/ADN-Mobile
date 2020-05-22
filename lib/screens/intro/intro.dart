@@ -9,7 +9,7 @@ class IntroRoute extends StatelessWidget {
         child: RaisedButton(
           child: Text(Strings.domesticGuests),
           onPressed: () {
-            Navigator.pushNamed(context, RouteStrings.selectImage);
+            Navigator.pushNamed(context, RouteStrings.fillForm);
           },
         ),
       ),
