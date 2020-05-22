@@ -14,6 +14,9 @@ class ADNApp extends StatelessWidget {
       title: Strings.appTitle,
       initialRoute: RouteStrings.home,
       routes: routesMap,
+      theme: ThemeData.light().copyWith(
+          inputDecorationTheme:
+              InputDecorationTheme(border: OutlineInputBorder())),
     );
   }
 }

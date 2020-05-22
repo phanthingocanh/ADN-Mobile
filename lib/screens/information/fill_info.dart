@@ -1,17 +1,20 @@
 import 'package:validators/validators.dart' as validate;
 import 'package:adnproject/constants/strings.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:adnproject/constants/globals.dart' as globals;
-// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart' as intl;
+import 'package:validators/validators.dart' as validate;
+import 'package:intl/intl.dart';
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
+
 
 
 class FillInforRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
+      Color hexToColor(String code) {
+            return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+          }
     return Scaffold(
         appBar: AppBar(
           title: Text(Strings.formTitle),
@@ -67,7 +70,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  // final format = intl.DateFormat("yyyy-MM-dd");
+  final format = DateFormat("yyyy-MM-dd");
   @override
   Widget build(BuildContext context) {
 
@@ -131,19 +134,52 @@ class MyCustomFormState extends State<MyCustomForm> {
 
           TravelCheckbox(),
 
+          // 
+          SizedBox(height: 16.0),
+          DateTimeField(
+            decoration: InputDecoration(
+              labelText: 'Ngày sinh'
+            ),
+            format: format,
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+          ),
+          SizedBox(height: 16.0),
+          DateTimeField(
+            decoration: InputDecoration(
+              labelText: 'Ngày cấp'
+            ),
+            format: format,
+            onShowPicker: (context, currentValue) {
+              return showDatePicker(
+                  context: context,
+                  firstDate: DateTime(1900),
+                  initialDate: currentValue ?? DateTime.now(),
+                  lastDate: DateTime(2100));
+            },
+          ),
+          SizedBox(height: 16.0),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 100.0),
+            padding: EdgeInsets.all(16.0),
+            // padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 100.0),
             child: RaisedButton(
               onPressed: () {
                 // Validate returns true if the form is valid, or false
                 // otherwise.
                 if (_formKey.currentState.validate()) {
                   // If the form is valid, display a Snackbar.
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  // Scaffold.of(context)
+                  //     .showSnackBar(SnackBar(content: Text('Processing Data')));
+                  Navigator.pushNamed(context, RouteStrings.fillFormEmailPhone);
+                  
                 }
               },
-              child: Text('Submit'),
+              child: Text('Tiếp tục'),
             ),
           ),
         ],
