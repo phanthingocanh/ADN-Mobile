@@ -46,6 +46,10 @@ class FillInforRoute extends StatelessWidget {
                 ),
               ),
             ),
+            Divider(
+              height: 30.0,
+              color: Colors.grey[800],
+            ),
             MyCustomForm(),
           ],
         ),
@@ -81,10 +85,10 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
               decoration: InputDecoration(
-                labelText: 'Họ và tên'
+                labelText: 'Họ và tên',
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -110,7 +114,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
               maxLines: 3,
               decoration: InputDecoration(
@@ -134,52 +138,61 @@ class MyCustomFormState extends State<MyCustomForm> {
 
           TravelCheckbox(),
 
-          // 
-          SizedBox(height: 16.0),
-          DateTimeField(
-            decoration: InputDecoration(
-              labelText: 'Ngày sinh'
-            ),
-            format: format,
-            onShowPicker: (context, currentValue) {
-              return showDatePicker(
-                  context: context,
-                  firstDate: DateTime(1900),
-                  initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
-            },
-          ),
-          SizedBox(height: 16.0),
-          DateTimeField(
-            decoration: InputDecoration(
-              labelText: 'Ngày cấp'
-            ),
-            format: format,
-            onShowPicker: (context, currentValue) {
-              return showDatePicker(
-                  context: context,
-                  firstDate: DateTime(1900),
-                  initialDate: currentValue ?? DateTime.now(),
-                  lastDate: DateTime(2100));
-            },
-          ),
-          SizedBox(height: 16.0),
+          //
           Padding(
-            padding: EdgeInsets.all(16.0),
-            // padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 100.0),
-            child: RaisedButton(
-              onPressed: () {
-                // Validate returns true if the form is valid, or false
-                // otherwise.
-                if (_formKey.currentState.validate()) {
-                  // If the form is valid, display a Snackbar.
-                  // Scaffold.of(context)
-                  //     .showSnackBar(SnackBar(content: Text('Processing Data')));
-                  Navigator.pushNamed(context, RouteStrings.fillFormEmailPhone);
-                  
-                }
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: DateTimeField(
+              decoration: InputDecoration(
+                labelText: 'Ngày sinh'
+              ),
+              format: format,
+              onShowPicker: (context, currentValue) {
+                return showDatePicker(
+                    context: context,
+                    firstDate: DateTime(1900),
+                    initialDate: currentValue ?? DateTime.now(),
+                    lastDate: DateTime(2100));
               },
-              child: Text('Tiếp tục'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: DateTimeField(
+              decoration: InputDecoration(
+                labelText: 'Ngày cấp'
+              ),
+              format: format,
+              onShowPicker: (context, currentValue) {
+                return showDatePicker(
+                    context: context,
+                    firstDate: DateTime(1900),
+                    initialDate: currentValue ?? DateTime.now(),
+                    lastDate: DateTime(2100));
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ButtonTheme(
+                height: 50,
+                child: RaisedButton(
+                  onPressed: () {
+                    // Validate returns true if the form is valid, or false
+                    // otherwise.
+                    if (_formKey.currentState.validate()) {
+                      // If the form is valid, display a Snackbar.
+                      // Scaffold.of(context)
+                      //     .showSnackBar(SnackBar(content: Text('Processing Data')));
+                      Navigator.pushNamed(context, RouteStrings.fillFormEmailPhone);
+
+                    }
+                  },
+                  color: Colors.blue[400],
+                  child: Text('Tiếp tục'),
+                ),
+              ),
             ),
           ),
         ],

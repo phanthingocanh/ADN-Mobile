@@ -12,7 +12,40 @@ class FillEmailPhoneRoute extends StatelessWidget {
         appBar: AppBar(
           title: Text(Strings.formTitle),
         ),
-        body: MyCustomFormEmailPhone(),
+        body: ListView(
+//        crossAxisAlignment: CrossAxisAlignment.center,
+//        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Center(
+                child: Container(
+                    padding: EdgeInsets.only(top:20),
+                    child: Text(
+                        'KHAI BÁO Y TẾ',
+                        style: TextStyle(
+                            fontSize: 40.0
+                        )
+                    ),
+                  ),
+              ),
+
+              Center(
+                child: Container(
+                  padding: EdgeInsets.only(top:10),
+                  child: Text(
+                      'Cho khách nội địa',
+                      style: TextStyle(
+                      fontSize: 25.0
+                    )
+                    ),
+                  ),
+                ),
+              Divider(
+                height: 30.0,
+                color: Colors.grey[800],
+              ),
+              MyCustomFormEmailPhone(),
+            ],
+        ),
     );
   }
 }
@@ -56,39 +89,56 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-        new TextFormField(
-          decoration: const InputDecoration(labelText: 'Số điện thoại'),
-          keyboardType: TextInputType.phone,
-          validator: validateMobile,
-          onSaved: (String val) {
-            _mobile = val;
-          },
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: new TextFormField(
+            decoration: const InputDecoration(labelText: 'Số điện thoại'),
+            keyboardType: TextInputType.phone,
+            validator: validateMobile,
+            onSaved: (String val) {
+              _mobile = val;
+            },
+          ),
         ),
-        new TextFormField(
-          decoration: const InputDecoration(labelText: 'Địa chỉ email'),
-          keyboardType: TextInputType.emailAddress,
-          validator: validateEmail,
-          onSaved: (String val) {
-            _email = val;
-          },
+        new Padding(
+          padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: new TextFormField(
+            decoration: const InputDecoration(labelText: 'Địa chỉ email'),
+            keyboardType: TextInputType.emailAddress,
+            validator: validateEmail,
+            onSaved: (String val) {
+              _email = val;
+            },
+          ),
         ),
         new SizedBox(
           height: 10.0,
         ),
-        new RaisedButton(
-          onPressed: (){
-            if (_formKey.currentState.validate()) {
-              //    If all data are correct then save data to out variables
-                  _formKey.currentState.save();
-                } else {
-              //    If all data are not valid then start auto validation.
-                  setState(() {
-                    _autoValidate = true;
-                  });
-                }
-          },
-          child: new Text('Tiếp tục'),
-        )
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ButtonTheme(
+                height: 50,
+                child: RaisedButton(
+                  onPressed: (){
+                    if (_formKey.currentState.validate()) {
+                      //    If all data are correct then save data to out variables
+                          _formKey.currentState.save();
+                        } else {
+                      //    If all data are not valid then start auto validation.
+                          setState(() {
+                            _autoValidate = true;
+                          });
+                        }
+                  },
+                  color: Colors.blue[400],
+                  child: Text('Tiếp tục'),
+                ),
+              ),
+            ),
+          ),
+
       ],
                 ),
     );
