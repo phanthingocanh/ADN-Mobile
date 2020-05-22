@@ -12,7 +12,7 @@ class IntroRoute extends StatelessWidget {
           ),
 
           onPressed: () {
-            Navigator.pushNamed(context, RouteStrings.selectImage);
+            Navigator.pushNamed(context, RouteStrings.fillForm);
           },
         ),
       ),
