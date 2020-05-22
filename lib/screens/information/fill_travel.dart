@@ -1,5 +1,7 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
 import 'package:email_validator/email_validator.dart';
 
 // import 'package:validators/validators.dart' as validate;
@@ -65,6 +67,8 @@ class MyTravelFormState extends State<MyTravelForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
+  final format = DateFormat("yyyy-MM-dd");
+
   bool _autoValidate = false;
   String _email;
   String _mobile;
@@ -92,9 +96,9 @@ class MyTravelFormState extends State<MyTravelForm> {
               decoration: InputDecoration(
                 alignLabelWithHint: true,
                 hintText: 'Nhập tên các quốc gia/vùng lãnh thổ đã đi qua (nếu có)',
-//                border: OutlineInputBorder(
-//                    borderRadius: BorderRadius.circular(10.0)
-//                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
 
 
               ),
@@ -174,7 +178,11 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
             child: TextFormField(
               decoration: InputDecoration(
-                  labelText: 'Nơi đi'
+                  labelText: 'Nơi đi',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0)
+                  ),
+
               ),
               validator: (value) {
                 if (value.isEmpty) {

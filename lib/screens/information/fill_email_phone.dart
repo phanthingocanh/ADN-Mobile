@@ -92,7 +92,12 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: new TextFormField(
-            decoration: const InputDecoration(labelText: 'Số điện thoại'),
+            decoration: InputDecoration(
+              labelText: 'Số điện thoại',
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+              ),
+            ),
             keyboardType: TextInputType.phone,
             validator: validateMobile,
             onSaved: (String val) {
@@ -103,7 +108,13 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
         new Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: new TextFormField(
-            decoration: const InputDecoration(labelText: 'Địa chỉ email'),
+            decoration: InputDecoration(
+              labelText: 'Địa chỉ email',
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+              ),
+
+            ),
             keyboardType: TextInputType.emailAddress,
             validator: validateEmail,
             onSaved: (String val) {

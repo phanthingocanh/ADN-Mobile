@@ -89,6 +89,10 @@ class MyCustomFormState extends State<MyCustomForm> {
             child: TextFormField(
               decoration: InputDecoration(
                 labelText: 'Họ và tên',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -103,7 +107,11 @@ class MyCustomFormState extends State<MyCustomForm> {
             child: TextFormField(
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Số CMND'
+                labelText: 'Số CMND',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+
               ),
               validator: (value) {
                 if (validate.isNumeric(value) == false | value.isEmpty) {
@@ -121,9 +129,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 labelText: 'Địa chỉ thường trú',
                 alignLabelWithHint: true,
                 hintText: 'Nhập địa chỉ thường trú',
-//                border: OutlineInputBorder(
-//                  borderRadius: BorderRadius.circular(10.0)
-//                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+                ),
 
 
               ),
@@ -143,7 +151,11 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: DateTimeField(
               decoration: InputDecoration(
-                labelText: 'Ngày sinh'
+                labelText: 'Ngày sinh',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+
               ),
               format: format,
               onShowPicker: (context, currentValue) {
@@ -159,7 +171,11 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: DateTimeField(
               decoration: InputDecoration(
-                labelText: 'Ngày cấp'
+                labelText: 'Ngày cấp',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+
               ),
               format: format,
               onShowPicker: (context, currentValue) {
