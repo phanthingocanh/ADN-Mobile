@@ -121,9 +121,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 labelText: 'Địa chỉ thường trú',
                 alignLabelWithHint: true,
                 hintText: 'Nhập địa chỉ thường trú',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0)
-                ),
+//                border: OutlineInputBorder(
+//                  borderRadius: BorderRadius.circular(10.0)
+//                ),
 
 
               ),

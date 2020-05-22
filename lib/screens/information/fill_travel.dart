@@ -88,13 +88,13 @@ class MyTravelFormState extends State<MyTravelForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
-              maxLines: 3,
+              maxLines: 4,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
                 hintText: 'Nhập tên các quốc gia/vùng lãnh thổ đã đi qua (nếu có)',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
+//                border: OutlineInputBorder(
+//                    borderRadius: BorderRadius.circular(10.0)
+//                ),
 
 
               ),
