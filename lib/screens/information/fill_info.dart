@@ -17,7 +17,7 @@ class FillInforRoute extends StatelessWidget {
           }
     return Scaffold(
         appBar: AppBar(
-          title: Text(Strings.formTitle),
+          title: Text(Strings.formCMNDTitle),
         ),
         body: ListView(
 //        crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +136,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
 
-          TravelCheckbox(),
+
 
           //
           Padding(

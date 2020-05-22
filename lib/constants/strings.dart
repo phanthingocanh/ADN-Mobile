@@ -5,7 +5,10 @@ class Strings {
 
   static const String selectIdCardImage = 'Select ID Card Image';
 
-  static const String formTitle = 'Khai báo y tế';
+  static const String formCMNDTitle = 'Thông tin CMND';
+
+  static const String formInfoTitle = 'Thông tin liên lạc';
+
 
 }
 
@@ -18,5 +21,8 @@ class RouteStrings {
 
   static const String fillFormEmailPhone = '/fillFormEmailPhone';
 
-  
+  static const String fillFormTravel = '/fillFormTravel';
+
+
+
 }

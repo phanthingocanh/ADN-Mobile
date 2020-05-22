@@ -10,7 +10,7 @@ class FillEmailPhoneRoute extends StatelessWidget {
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
         appBar: AppBar(
-          title: Text(Strings.formTitle),
+          title: Text(Strings.formInfoTitle),
         ),
         body: ListView(
 //        crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,6 +125,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                           _formKey.currentState.save();
+                          Navigator.pushNamed(context, RouteStrings.fillFormTravel);
                         } else {
                       //    If all data are not valid then start auto validation.
                           setState(() {
