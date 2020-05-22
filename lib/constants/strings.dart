@@ -5,7 +5,7 @@ class Strings {
 
   static const String selectIdCardImage = 'Select ID Card Image';
 
-  static const String formTitle = 'Form Validation Demo';
+  static const String formTitle = 'Khai báo y tế';
 
 }
 
@@ -15,6 +15,8 @@ class RouteStrings {
   static const String selectImage = '/selectImage';
 
   static const String fillForm = '/fillForm';
+
+  static const String fillFormEmailPhone = '/fillFormEmailPhone';
 
   
 }
