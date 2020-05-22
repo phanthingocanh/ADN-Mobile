@@ -7,9 +7,12 @@ class IntroRoute extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: RaisedButton(
-          child: Text(Strings.domesticGuests),
+          child: Text(
+            Strings.domesticGuests,
+          ),
+
           onPressed: () {
-            Navigator.pushNamed(context, RouteStrings.selectImage);
+            Navigator.pushNamed(context, RouteStrings.fillForm);
           },
         ),
       ),
