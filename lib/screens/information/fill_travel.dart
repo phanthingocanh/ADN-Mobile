@@ -1,8 +1,9 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
-import 'package:email_validator/email_validator.dart';
+// import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+// import 'package:intl/intl.dart';
+// import 'package:email_validator/email_validator.dart';
+// import 'package:dropdownfield/dropdownfield.dart';
 
 // import 'package:validators/validators.dart' as validate;
 
@@ -67,7 +68,7 @@ class MyTravelFormState extends State<MyTravelForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
-  final format = DateFormat("yyyy-MM-dd");
+  // final format = DateFormat("yyyy-MM-dd");
 
   bool _autoValidate = false;
   String _email;
@@ -156,12 +157,19 @@ class TravelCheckbox extends StatefulWidget {
 class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
+  String _value;
+  final List<String> _dropdownCity = [
+              "HCM",
+              "HN",
+              "BRVT",
+              "LD",
+  ];
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(3.0, 10.0, 20.0, 0.0),
           child: CheckboxListTile(
               title: const Text('Di chuyển trong nước?'),
               value: _travel,
@@ -175,25 +183,15 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
         Visibility(
           visible: _travel,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'Nơi đi',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)
-                  ),
-
-              ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập nơi đi';
-                }
-                return null;
-              },
+          padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          child: Text('Nơi đi',
+            style: TextStyle(
+              fontSize: 17
             ),
           ),
+        ),  
         ),
-      ],
+        ],
     );
   }
 }

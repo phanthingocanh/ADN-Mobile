@@ -114,8 +114,11 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               ),
               validator: (value) {
-                if (validate.isNumeric(value) == false | value.isEmpty) {
+                if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
+                }
+                if (validate.isNumeric(value) == false){
+                  return 'Vui lòng nhập số chứng minh nhân dân hợp lệ';
                 }
                 return null;
               },
@@ -158,6 +161,12 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               ),
               format: format,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng nhập ngày sinh';
+                }
+                return null;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
@@ -165,6 +174,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     initialDate: currentValue ?? DateTime.now(),
                     lastDate: DateTime(2100));
               },
+              
             ),
           ),
           Padding(
@@ -178,6 +188,12 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               ),
               format: format,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng nhập cấp CMND';
+                }
+                return null;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
