@@ -11,6 +11,14 @@ class Strings {
 
   static const String formTravelTitle = 'Thông tin di chuyển';
 
+  static const String formSymptom = 'Thông tin triệu chứng';
+
+  static const String formSchedule = 'Thông tin triệu chứng';
+
+  static const String formMedicalHistorical = 'Thông tin bệnh tiền sử';
+
+
+
 
 
 }
@@ -27,6 +35,14 @@ class RouteStrings {
   static const String fillFormTravel = '/fillFormTravel';
 
   static const String showPopup = '/showPopup';
+
+  static const String fillFormSymptom = '/fillFormSymptom';
+
+  static const String fillFormSchedule = '/fillFormSchedule';
+
+  static const String fillFormMedicalHistorical = '/fillFormMedicalHistorical';
+
+
 
 
 }
