@@ -123,6 +123,9 @@ class MyTravelFormState extends State<MyTravelForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+                      Navigator.pushNamed(context, RouteStrings.fillFormSymptom);
+
+
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
