@@ -12,7 +12,7 @@ class FillTravelRoute extends StatelessWidget {
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.formInfoTitle),
+        title: Text(Strings.formTravelTitle),
       ),
       body: ListView(
 //        crossAxisAlignment: CrossAxisAlignment.center,

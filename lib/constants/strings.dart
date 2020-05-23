@@ -9,6 +9,9 @@ class Strings {
 
   static const String formInfoTitle = 'Thông tin liên lạc';
 
+  static const String formTravelTitle = 'Thông tin di chuyển';
+
+
 
 }
 
