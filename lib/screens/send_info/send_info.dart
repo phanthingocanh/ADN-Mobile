@@ -1,5 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 
@@ -68,6 +69,32 @@ class MySendInfoFormState extends State<MySendInfoForm> {
   String _email;
   String _mobile;
 
+  createAlertDialog(BuildContext context){
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        content:
+        Row(
+          children: <Widget>[
+            Expanded(
+                flex: 1,
+                child: Icon(Icons.check_circle, color: Colors.green, size: 60,)
+            ),
+            Expanded(
+                flex: 3,
+                child: Text("Dữ liệu được gửi thành công. \nCảm ơn bạn đã tham gia khai báo y tế!")),
+          ],
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Đóng'),
+            onPressed: () => Navigator.pushNamed(context, RouteStrings.home),
+
+          )
+        ],
+      );
+    }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -76,6 +103,26 @@ class MySendInfoFormState extends State<MySendInfoForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: TextFormField(
+              decoration: InputDecoration(
+                labelText: 'Mã bảo mật',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Vui lòng nhập mã bảo mật';
+                }
+                return null;
+              },
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: Text('Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự.',
@@ -119,6 +166,7 @@ class MySendInfoFormState extends State<MySendInfoForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+                      createAlertDialog(context);
 
                     } else {
                       //    If all data are not valid then start auto validation.
@@ -128,7 +176,7 @@ class MySendInfoFormState extends State<MySendInfoForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục'),
+                  child: Text('Gửi tờ khai', style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),
