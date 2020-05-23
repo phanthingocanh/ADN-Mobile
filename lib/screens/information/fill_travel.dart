@@ -13,7 +13,7 @@ class FillTravelRoute extends StatelessWidget {
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.formInfoTitle),
+        title: Text(Strings.formTravelTitle),
       ),
       body: ListView(
 //        crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,7 +68,6 @@ class MyTravelFormState extends State<MyTravelForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
-  // final format = DateFormat("yyyy-MM-dd");
 
   bool _autoValidate = false;
   String _email;
@@ -104,9 +103,6 @@ class MyTravelFormState extends State<MyTravelForm> {
 
               ),
               validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập địa chỉ thường trú';
-                }
                 return null;
               },
             ),
@@ -157,21 +153,22 @@ class TravelCheckbox extends StatefulWidget {
 class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
-  String _value;
-  final List<String> _dropdownCity = [
-              "HCM",
-              "HN",
-              "BRVT",
-              "LD",
-  ];
+  String dropdownValue = 'Tp. Hồ Chí Minh';
+  var currentSelectedValue='Tp. Hồ Chí Minh';
+  var deviceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
+  final format = DateFormat("yyyy-MM-dd");
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(3.0, 10.0, 20.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(5.0, 10.0, 20.0, 0.0),
           child: CheckboxListTile(
-              title: const Text('Di chuyển trong nước?'),
+              title: Text('Di chuyển trong nước?',
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+              ),
               value: _travel,
               onChanged: (bool value) {
                 setState(() {
@@ -180,18 +177,201 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
               }
           ),
         ),
-        Visibility(
-          visible: _travel,
-          child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          child: Text('Nơi đi',
-            style: TextStyle(
-              fontSize: 17
+
+        Column(
+          children: <Widget>[
+            Visibility(
+              visible: _travel,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                child: FormField<String>(
+                  builder: (FormFieldState<String> state) {
+                    return InputDecorator(
+                      decoration: InputDecoration(
+                          labelText: 'Nơi đi',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          hint: Text("Select Device"),
+                          value: currentSelectedValue,
+                          isDense: true,
+                          onChanged: (newValue) {
+                            setState(() {
+                              currentSelectedValue = newValue;
+                            });
+                            print(currentSelectedValue);
+                          },
+                          items: deviceTypes.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
-          ),
-        ),  
+
+            Visibility(
+              visible: _travel,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                child: FormField<String>(
+                  builder: (FormFieldState<String> state) {
+                    return InputDecorator(
+                      decoration: InputDecoration(
+                          labelText: 'Nơi đến',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0))),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          hint: Text("Select Device"),
+                          value: currentSelectedValue,
+                          isDense: true,
+                          onChanged: (newValue) {
+                            setState(() {
+                              currentSelectedValue = newValue;
+                            });
+                            print(currentSelectedValue);
+                          },
+                          items: deviceTypes.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _travel,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                child: DateTimeField(
+                  decoration: InputDecoration(
+                    labelText: 'Ngày đi',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+
+                  ),
+                  format: format,
+                  onShowPicker: (context, currentValue) {
+                    return showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1900),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime(2100));
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _travel,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                child: DateTimeField(
+                  decoration: InputDecoration(
+                    labelText: 'Ngày đến',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+
+                  ),
+                  format: format,
+                  onShowPicker: (context, currentValue) {
+                    return showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1900),
+                        initialDate: currentValue ?? DateTime.now(),
+                        lastDate: DateTime(2100));
+                  },
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _travel,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Phương tiện di chuyển',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Vui lòng nhập phương tiện di chuyển';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
         ],
     );
   }
 }
+
+class DropdownWidget extends StatefulWidget {
+  DropdownWidget({Key key}) : super(key: key);
+
+  @override
+  _DropdownWidgetState createState() => _DropdownWidgetState();
+}
+
+class _DropdownWidgetState extends State<DropdownWidget> {
+  String dropdownValue = 'Tp. Hồ Chí Minh';
+  var currentSelectedValue;
+  var deviceTypes = ["Mac", "Windows", "Mobile"];
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: FormField<String>(
+        builder: (FormFieldState<String> state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                hint: Text("Select Device"),
+                value: currentSelectedValue,
+                isDense: true,
+                onChanged: (newValue) {
+                  setState(() {
+                    currentSelectedValue = newValue;
+                  });
+                  print(currentSelectedValue);
+                },
+                items: deviceTypes.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+
