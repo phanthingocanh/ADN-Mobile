@@ -4,7 +4,10 @@ import 'package:adnproject/screens/information/fill_info.dart';
 import 'package:adnproject/screens/select_image/select_image.dart';
 import 'package:adnproject/screens/information/fill_email_phone.dart';
 import 'package:adnproject/screens/information/fill_travel.dart';
+import 'package:adnproject/screens/information/fill_health.dart';
 import 'package:adnproject/screens/pop_up/success.dart';
+import 'package:adnproject/screens/send_info/send_info.dart';
+
 
 
 import 'package:flutter/widgets.dart';
@@ -15,6 +18,8 @@ final Map<String, WidgetBuilder> routesMap = <String, WidgetBuilder>{
   RouteStrings.fillForm: (BuildContext context) => FillInforRoute(),
   RouteStrings.fillFormEmailPhone: (BuildContext context) => FillEmailPhoneRoute(),
   RouteStrings.fillFormTravel: (BuildContext context) => FillTravelRoute(),
+  RouteStrings.fillFormHealth: (BuildContext context) => FillHealthRoute(),
+  RouteStrings.sendInfoForm: (BuildContext context) => SendInfoRoute(),
   RouteStrings.showPopup: (BuildContext context) => PopupDialog(),
 
 };
