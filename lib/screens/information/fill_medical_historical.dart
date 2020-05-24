@@ -103,6 +103,7 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+                      Navigator.pushNamed(context, RouteStrings.sendInfoForm);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -111,7 +112,7 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục'),
+                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),

@@ -113,7 +113,7 @@ class MySymptomFormState extends State<MySymptomForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục'),
+                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),

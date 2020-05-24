@@ -134,7 +134,7 @@ class MyTravelFormState extends State<MyTravelForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục'),
+                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),
@@ -156,9 +156,9 @@ class TravelCheckbox extends StatefulWidget {
 class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
-  String dropdownValue = 'Tp. Hồ Chí Minh';
+
   var currentSelectedValue='Tp. Hồ Chí Minh';
-  var deviceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
+  var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
   final format = DateFormat("yyyy-MM-dd");
   Widget build(BuildContext context) {
     return ListView(
@@ -196,7 +196,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                               borderRadius: BorderRadius.circular(5.0))),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          hint: Text("Select Device"),
+                          hint: Text("Chọn tỉnh"),
                           value: currentSelectedValue,
                           isDense: true,
                           onChanged: (newValue) {
@@ -205,7 +205,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                             });
                             print(currentSelectedValue);
                           },
-                          items: deviceTypes.map((String value) {
+                          items: provinceTypes.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -232,7 +232,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                               borderRadius: BorderRadius.circular(5.0))),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          hint: Text("Select Device"),
+                          hint: Text('Chọn Tỉnh'),
                           value: currentSelectedValue,
                           isDense: true,
                           onChanged: (newValue) {
@@ -241,7 +241,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                             });
                             print(currentSelectedValue);
                           },
-                          items: deviceTypes.map((String value) {
+                          items: provinceTypes.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -328,52 +328,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
   }
 }
 
-class DropdownWidget extends StatefulWidget {
-  DropdownWidget({Key key}) : super(key: key);
 
-  @override
-  _DropdownWidgetState createState() => _DropdownWidgetState();
-}
-
-class _DropdownWidgetState extends State<DropdownWidget> {
-  String dropdownValue = 'Tp. Hồ Chí Minh';
-  var currentSelectedValue;
-  var deviceTypes = ["Mac", "Windows", "Mobile"];
-  @override
-  Widget build(BuildContext context){
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: FormField<String>(
-        builder: (FormFieldState<String> state) {
-          return InputDecorator(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0))),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                hint: Text("Select Device"),
-                value: currentSelectedValue,
-                isDense: true,
-                onChanged: (newValue) {
-                  setState(() {
-                    currentSelectedValue = newValue;
-                  });
-                  print(currentSelectedValue);
-                },
-                items: deviceTypes.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
 
 
 
