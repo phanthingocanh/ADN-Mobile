@@ -75,6 +75,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   final format = DateFormat("yyyy-MM-dd");
+
+  var currentSelectedValue='Tp. Hồ Chí Minh';
+  var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
+
   @override
   Widget build(BuildContext context) {
 
@@ -114,37 +118,16 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               ),
               validator: (value) {
-                if (validate.isNumeric(value) == false | value.isEmpty) {
+                if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
-                return null;
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextFormField(
-              maxLines: 3,
-              decoration: InputDecoration(
-                labelText: 'Địa chỉ thường trú',
-                alignLabelWithHint: true,
-                hintText: 'Nhập địa chỉ thường trú',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0)
-                ),
-
-
-              ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập địa chỉ thường trú';
+                if (validate.isNumeric(value) == false){
+                  return 'Vui lòng nhập số chứng minh nhân dân hợp lệ';
                 }
                 return null;
               },
             ),
           ),
-
-
 
           //
           Padding(
@@ -158,6 +141,12 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               ),
               format: format,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng nhập ngày sinh';
+                }
+                return null;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
@@ -165,19 +154,50 @@ class MyCustomFormState extends State<MyCustomForm> {
                     initialDate: currentValue ?? DateTime.now(),
                     lastDate: DateTime(2100));
               },
+
             ),
           ),
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: TextFormField(
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: 'Địa chỉ thường trú',
+                alignLabelWithHint: true,
+                hintText: 'Nhập địa chỉ thường trú',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)
+                ),
+
+
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Vui lòng nhập địa chỉ thường trú';
+                }
+                return null;
+              },
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: DateTimeField(
               decoration: InputDecoration(
-                labelText: 'Ngày cấp',
+                labelText: 'Ngày cấp CMND',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)
                 ),
 
               ),
               format: format,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng nhập ngày cấp CMND';
+                }
+                return null;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
@@ -187,6 +207,59 @@ class MyCustomFormState extends State<MyCustomForm> {
               },
             ),
           ),
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: FormField<String>(
+              builder: (FormFieldState<String> state) {
+                return InputDecorator(
+                  decoration: InputDecoration(
+                      labelText: 'Nơi cấp CMND',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      hint: Text("Chọn tỉnh"),
+                      value: currentSelectedValue,
+                      isDense: true,
+                      onChanged: (newValue) {
+                        setState(() {
+                          currentSelectedValue = newValue;
+                        });
+                        print(currentSelectedValue);
+                      },
+                      items: provinceTypes.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: Text(
+              'Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự.',
+              style: TextStyle(
+                fontSize: 17,
+                color: Colors.red,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+            child: Text(
+              'Vui lòng kiểm tra lại thông tin trước khi sang bước tiếp theo.',
+              style: TextStyle(
+                fontSize: 17,
+              ),
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: SizedBox(
@@ -206,7 +279,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục'),
+                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),
