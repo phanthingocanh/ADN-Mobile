@@ -1,9 +1,8 @@
-import 'package:validators/validators.dart' as validate;
 import 'package:adnproject/constants/strings.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:validators/validators.dart' as validate;
 import 'package:intl/intl.dart';
+import 'package:validators/validators.dart' as validate;
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 
@@ -75,6 +74,10 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   final format = DateFormat("yyyy-MM-dd");
+
+  var currentSelectedValue = 'Tp. Hồ Chí Minh';
+  var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
+
   @override
   Widget build(BuildContext context) {
 
@@ -114,13 +117,43 @@ class MyCustomFormState extends State<MyCustomForm> {
 
               ),
               validator: (value) {
-                if (validate.isNumeric(value) == false | value.isEmpty) {
+                if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
+                }
+                if (validate.isNumeric(value) == false) {
+                  return 'Vui lòng nhập số chứng minh nhân dân hợp lệ';
                 }
                 return null;
               },
             ),
           ),
+
+          //
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: DateTimeField(
+              decoration: InputDecoration(
+                labelText: 'Ngày sinh',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
+              format: format,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng nhập ngày sinh';
+                }
+                return null;
+              },
+              onShowPicker: (context, currentValue) {
+                return showDatePicker(
+                    context: context,
+                    firstDate: DateTime(1900),
+                    initialDate: currentValue ?? DateTime.now(),
+                    lastDate: DateTime(2100));
+              },
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
@@ -130,7 +163,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 alignLabelWithHint: true,
                 hintText: 'Nhập địa chỉ thường trú',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0)
+                    borderRadius: BorderRadius.circular(10.0)
                 ),
 
 
@@ -144,20 +177,23 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
 
-
-
-          //
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: DateTimeField(
               decoration: InputDecoration(
-                labelText: 'Ngày sinh',
+                labelText: 'Ngày cấp CMND',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)
                 ),
 
               ),
               format: format,
+              validator: (value) {
+                if (value == null) {
+                  return 'Vui lòng nhập ngày cấp CMND';
+                }
+                return null;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
@@ -167,26 +203,59 @@ class MyCustomFormState extends State<MyCustomForm> {
               },
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: DateTimeField(
-              decoration: InputDecoration(
-                labelText: 'Ngày cấp',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-
-              ),
-              format: format,
-              onShowPicker: (context, currentValue) {
-                return showDatePicker(
-                    context: context,
-                    firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
-                    lastDate: DateTime(2100));
+            child: FormField<String>(
+              builder: (FormFieldState<String> state) {
+                return InputDecorator(
+                  decoration: InputDecoration(
+                      labelText: 'Nơi cấp CMND',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      hint: Text("Chọn tỉnh"),
+                      value: currentSelectedValue,
+                      isDense: true,
+                      onChanged: (newValue) {
+                        setState(() {
+                          currentSelectedValue = newValue;
+                        });
+                        print(currentSelectedValue);
+                      },
+                      items: provinceTypes.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                );
               },
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: Text(
+              'Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự.',
+              style: TextStyle(
+                fontSize: 17,
+                color: Colors.red,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
+            child: Text(
+              'Vui lòng kiểm tra lại thông tin trước khi sang bước tiếp theo.',
+              style: TextStyle(
+                fontSize: 17,
+              ),
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: SizedBox(
@@ -206,7 +275,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục'),
+                  child: Text('Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),
