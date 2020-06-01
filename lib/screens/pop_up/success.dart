@@ -1,14 +1,11 @@
 import 'package:adnproject/constants/strings.dart';
-import 'package:adnproject/screens/information/fill_travel.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-
-
 class PopupDialog extends StatelessWidget {
   bool _failed = false;
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
@@ -16,44 +13,44 @@ class PopupDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Visibility(
-                visible: _failed,
-                child: Padding(
+              visible: _failed,
+              child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: RaisedButton(
                   child: Text('Basic Alert'),
                   onPressed: () => _onBasicAlertPressed(context),
                 ),
-              ),  
+              ),
             ),
             Visibility(
-                visible: _failed,
-                child: Padding(
+              visible: _failed,
+              child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: RaisedButton(
                   child: Text('Alert with Button'),
                   onPressed: () => _onAlertButtonPressed(context),
                 ),
-              ),  
+              ),
             ),
-                        
+
             // RaisedButton(
             //   child: Text('Alert with Style'),
             //   onPressed: () => _onAlertWithStylePressed(context),
             // ),
             Visibility(
-                visible: !_failed,
-                child: Padding(
+              visible: !_failed,
+              child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: RaisedButton(
                   child: Text('Tiếp tục'),
-                  onPressed: () { 
+                  onPressed: () {
                     Navigator.pushNamed(context, RouteStrings.fillForm);
                     _onAlertWithCustomImagePressed(context);
                   },
                 ),
-              ),  
+              ),
             ),
-            
+
             // RaisedButton(
             //   child: Text('Alert with Custom Content'),
             //   onPressed: () => _onAlertWithCustomContentPressed(context),
@@ -128,22 +125,21 @@ class PopupDialog extends StatelessWidget {
   _onAlertWithStylePressed(context) {
     // Reusable alert style
     var alertStyle = AlertStyle(
-      animationType: AnimationType.fromTop,
-      isCloseButton: false,
-      isOverlayTapDismiss: false,
-      descStyle: TextStyle(fontWeight: FontWeight.bold),
-      animationDuration: Duration(milliseconds: 400),
-      alertBorder: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0.0),
-        side: BorderSide(
-          color: Colors.grey,
+        animationType: AnimationType.fromTop,
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        descStyle: TextStyle(fontWeight: FontWeight.bold),
+        animationDuration: Duration(milliseconds: 400),
+        alertBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+          side: BorderSide(
+            color: Colors.grey,
+          ),
         ),
-      ),
-      titleStyle: TextStyle(
-        color: Colors.red,
-      ),
-      constraints: BoxConstraints.expand(width: 300)
-    );
+        titleStyle: TextStyle(
+          color: Colors.red,
+        ),
+        constraints: BoxConstraints.expand(width: 300));
 
     // Alert dialog using custom alert style
     Alert(
@@ -169,11 +165,11 @@ class PopupDialog extends StatelessWidget {
 // Alert custom images
   _onAlertWithCustomImagePressed(context) {
     Alert(
-      context: context,
-      title: "Trích xuất thông tin thành công",
-      // desc: "Trích xuất thông tin thành công",
-      image: Image.asset("assets/images/icon_success.png"),
-      buttons: [
+        context: context,
+        title: "Trích xuất thông tin thành công",
+        // desc: "Trích xuất thông tin thành công",
+        image: Image.asset("assets/images/icon_success.png"),
+        buttons: [
           DialogButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
@@ -181,10 +177,9 @@ class PopupDialog extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           )
-        ]
-    ).show();
+        ]).show();
   }
-  
+
 // Alert custom content
   _onAlertWithCustomContentPressed(context) {
     Alert(

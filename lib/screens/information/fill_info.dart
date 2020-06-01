@@ -1,9 +1,8 @@
-import 'package:validators/validators.dart' as validate;
 import 'package:adnproject/constants/strings.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:validators/validators.dart' as validate;
 import 'package:intl/intl.dart';
+import 'package:validators/validators.dart' as validate;
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 
@@ -76,7 +75,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   final format = DateFormat("yyyy-MM-dd");
 
-  var currentSelectedValue='Tp. Hồ Chí Minh';
+  var currentSelectedValue = 'Tp. Hồ Chí Minh';
   var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
 
   @override
@@ -121,7 +120,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
-                if (validate.isNumeric(value) == false){
+                if (validate.isNumeric(value) == false) {
                   return 'Vui lòng nhập số chứng minh nhân dân hợp lệ';
                 }
                 return null;
@@ -136,9 +135,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               decoration: InputDecoration(
                 labelText: 'Ngày sinh',
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               format: format,
               validator: (value) {
@@ -154,7 +151,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     initialDate: currentValue ?? DateTime.now(),
                     lastDate: DateTime(2100));
               },
-
             ),
           ),
 
@@ -279,7 +275,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text('Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),),
                 ),
               ),
             ),
