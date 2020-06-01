@@ -1,1 +1,4 @@
-enum CardType { cmnd, cccd, passport }
+enum CardType {
+  cmnd,
+  cccd,
+}

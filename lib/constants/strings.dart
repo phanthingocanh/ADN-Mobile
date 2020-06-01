@@ -28,6 +28,21 @@ class Strings {
   static const String selectMethodManual = 'Khai báo thủ công';
 
   static const String healthDeclaration = 'KHAI BÁO Y TẾ';
+
+  static const String continues = 'Tiếp tục';
+
+  static const String permissionIsRequired =
+      'Ứng dụng sẽ yêu cầu quyền truy cập nếu chưa được cung cấp';
+
+  static const String cmnd = 'Chứng minh thư nhân dân';
+
+  static const String cccd = 'Căn cước công dân';
+
+  static const String cardType = 'Loại giấy tờ';
+
+  static const String frontImage = 'Mặt trước';
+
+  static const String backImage = 'Mặt sau';
 }
 
 class RouteStrings {

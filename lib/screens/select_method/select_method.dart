@@ -1,5 +1,4 @@
 import 'package:adnproject/constants/strings.dart';
-import 'package:adnproject/models/card_info.dart';
 import 'package:adnproject/screens/select_image/select_front_image.dart';
 import 'package:adnproject/widgets/domestic_guest_banner.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +36,7 @@ class SelectMethodRoute extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SelectFrontImageScreen(
-                      cardInfo: new CardInfo(),
-                    ),
+                    builder: (context) => SelectFrontImageScreen(),
                   ),
                 ),
               ),
