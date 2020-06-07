@@ -1,7 +1,8 @@
 import 'package:adnproject/constants/strings.dart';
-import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 // import 'package:email_validator/email_validator.dart';
 // import 'package:dropdownfield/dropdownfield.dart';
 
@@ -123,9 +124,8 @@ class MyTravelFormState extends State<MyTravelForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      Navigator.pushNamed(context, RouteStrings.fillFormSymptom);
-
-
+                      Navigator.pushNamed(
+                          context, RouteStrings.fillFormSymptom);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -134,7 +134,10 @@ class MyTravelFormState extends State<MyTravelForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),
@@ -157,7 +160,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
 
-  var currentSelectedValue='Tp. Hồ Chí Minh';
+  var currentSelectedValue = 'Tp. Hồ Chí Minh';
   var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
   final format = DateFormat("yyyy-MM-dd");
   Widget build(BuildContext context) {
@@ -323,7 +326,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
             ),
           ],
         ),
-        ],
+      ],
     );
   }
 }

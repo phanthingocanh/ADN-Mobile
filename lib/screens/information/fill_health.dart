@@ -1,7 +1,5 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
 
 class FillHealthRoute extends StatelessWidget {
   @override
@@ -17,25 +15,15 @@ class FillHealthRoute extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:20),
-              child: Text(
-                  'KHAI BÁO Y TẾ',
-                  style: TextStyle(
-                      fontSize: 40.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 20),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
             ),
           ),
-
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:10),
-              child: Text(
-                  'Cho khách nội địa',
-                  style: TextStyle(
-                      fontSize: 25.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 10),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
             ),
           ),
           Divider(
@@ -78,14 +66,11 @@ class MyHealthFormState extends State<MyHealthForm> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Trong vòng 14 ngày qua, anh/chị có thấy xuất hiện dấu hiệu nào sau đây không?',
-              style: TextStyle(
-                  fontSize: 17
-              ),
+            child: Text(
+              'Trong vòng 14 ngày qua, anh/chị có thấy xuất hiện dấu hiệu nào sau đây không?',
+              style: TextStyle(fontSize: 17),
             ),
           ),
-
-
           new SizedBox(
             height: 10.0,
           ),
@@ -96,12 +81,11 @@ class MyHealthFormState extends State<MyHealthForm> {
               child: ButtonTheme(
                 height: 50,
                 child: RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
                       Navigator.pushNamed(context, RouteStrings.sendInfoForm);
-
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -115,7 +99,6 @@ class MyHealthFormState extends State<MyHealthForm> {
               ),
             ),
           ),
-
         ],
       ),
     );
