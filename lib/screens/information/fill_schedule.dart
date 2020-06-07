@@ -1,7 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
+
 // import 'package:email_validator/email_validator.dart';
 // import 'package:dropdownfield/dropdownfield.dart';
 
@@ -21,25 +20,15 @@ class FillScheduleRoute extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:20),
-              child: Text(
-                  'KHAI BÁO Y TẾ',
-                  style: TextStyle(
-                      fontSize: 40.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 20),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
             ),
           ),
-
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:10),
-              child: Text(
-                  'Cho khách nội địa',
-                  style: TextStyle(
-                      fontSize: 25.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 10),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
             ),
           ),
           Divider(
@@ -70,7 +59,6 @@ class MyScheduleFormState extends State<MyScheduleForm> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
-
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -81,13 +69,11 @@ class MyScheduleFormState extends State<MyScheduleForm> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Trong vòng 14 ngày qua, Anh/Chị có tiếp xúc với:',
-              style: TextStyle(
-                fontSize: 17
-              ),
+            child: Text(
+              'Trong vòng 14 ngày qua, Anh/Chị có tiếp xúc với:',
+              style: TextStyle(fontSize: 17),
             ),
           ),
-
           ScheduleCheckbox(),
           new SizedBox(
             height: 10.0,
@@ -99,12 +85,12 @@ class MyScheduleFormState extends State<MyScheduleForm> {
               child: ButtonTheme(
                 height: 50,
                 child: RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      Navigator.pushNamed(context, RouteStrings.fillFormMedicalHistorical);
-
+                      Navigator.pushNamed(
+                          context, RouteStrings.fillFormMedicalHistorical);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -113,12 +99,14 @@ class MyScheduleFormState extends State<MyScheduleForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -138,27 +126,22 @@ class _ScheduleCheckboxState extends State<ScheduleCheckbox> {
     'Người từ nước có bệnh COVID-19': false,
     'Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)': false,
   };
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       children: question2.keys.map((String key) {
-          return new CheckboxListTile(
-            title: new Text(key),
-            value: question2[key],
-            onChanged: (bool value) {
-              setState(() {
-                question2[key] = value;
-              });
-            },
-          );
-        }).toList(),
+        return new CheckboxListTile(
+          title: new Text(key),
+          value: question2[key],
+          onChanged: (bool value) {
+            setState(() {
+              question2[key] = value;
+            });
+          },
+        );
+      }).toList(),
     );
   }
 }
-
-
-
-
-
-
