@@ -1,8 +1,5 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
 
 class SendInfoRoute extends StatelessWidget {
   @override
@@ -18,25 +15,15 @@ class SendInfoRoute extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:20),
-              child: Text(
-                  'KHAI BÁO Y TẾ',
-                  style: TextStyle(
-                      fontSize: 40.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 20),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
             ),
           ),
-
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:10),
-              child: Text(
-                  'Cho khách nội địa',
-                  style: TextStyle(
-                      fontSize: 25.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 10),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
             ),
           ),
           Divider(
@@ -69,32 +56,37 @@ class MySendInfoFormState extends State<MySendInfoForm> {
   String _email;
   String _mobile;
 
-  createAlertDialog(BuildContext context){
-    return showDialog(context: context, builder: (context) {
-      return AlertDialog(
-        content:
-        Row(
-          children: <Widget>[
-            Expanded(
-                flex: 1,
-                child: Icon(Icons.check_circle, color: Colors.green, size: 60,)
+  createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Row(
+              children: <Widget>[
+                Expanded(
+                    flex: 1,
+                    child: Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: 60,
+                    )),
+                Expanded(
+                    flex: 3,
+                    child: Text(
+                        "Dữ liệu được gửi thành công. \nCảm ơn bạn đã tham gia khai báo y tế!")),
+              ],
             ),
-            Expanded(
-                flex: 3,
-                child: Text("Dữ liệu được gửi thành công. \nCảm ơn bạn đã tham gia khai báo y tế!")),
-          ],
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Đóng'),
-            onPressed: () => Navigator.pushNamed(context, RouteStrings.home),
-
-          )
-        ],
-      );
-    }
-    );
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Đóng'),
+                onPressed: () =>
+                    Navigator.pushNamed(context, RouteStrings.home),
+              )
+            ],
+          );
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -103,16 +95,13 @@ class MySendInfoFormState extends State<MySendInfoForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
               decoration: InputDecoration(
                 labelText: 'Mã bảo mật',
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -122,10 +111,10 @@ class MySendInfoFormState extends State<MySendInfoForm> {
               },
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự.',
+            child: Text(
+              'Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự.',
               style: TextStyle(
                 fontSize: 17,
                 color: Colors.red,
@@ -134,24 +123,22 @@ class MySendInfoFormState extends State<MySendInfoForm> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Vui lòng kiểm tra lại thông tin trước khi gửi tờ khai.',
+            child: Text(
+              'Vui lòng kiểm tra lại thông tin trước khi gửi tờ khai.',
               style: TextStyle(
                 fontSize: 17,
-
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Dữ liệu bạn cung cấp hoàn toàn bảo mật, chỉ phục vụ cho mục đích phòng chống dịch COVID-19.',
+            child: Text(
+              'Dữ liệu bạn cung cấp hoàn toàn bảo mật, chỉ phục vụ cho mục đích phòng chống dịch COVID-19.',
               style: TextStyle(
                 fontSize: 17,
-
               ),
             ),
           ),
-
-
           new SizedBox(
             height: 10.0,
           ),
@@ -162,12 +149,11 @@ class MySendInfoFormState extends State<MySendInfoForm> {
               child: ButtonTheme(
                 height: 50,
                 child: RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
                       createAlertDialog(context);
-
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -176,12 +162,14 @@ class MySendInfoFormState extends State<MySendInfoForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Gửi tờ khai', style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Gửi tờ khai',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );

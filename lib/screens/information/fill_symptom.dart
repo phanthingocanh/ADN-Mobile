@@ -1,5 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
+
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 // import 'package:intl/intl.dart';
 // import 'package:email_validator/email_validator.dart';
@@ -21,25 +22,15 @@ class FillSymptomRoute extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:20),
-              child: Text(
-                  'KHAI BÁO Y TẾ',
-                  style: TextStyle(
-                      fontSize: 40.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 20),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
             ),
           ),
-
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:10),
-              child: Text(
-                  'Cho khách nội địa',
-                  style: TextStyle(
-                      fontSize: 25.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 10),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
             ),
           ),
           Divider(
@@ -70,7 +61,6 @@ class MySymptomFormState extends State<MySymptomForm> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
-
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -81,13 +71,11 @@ class MySymptomFormState extends State<MySymptomForm> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Trong vòng 14 ngày qua Anh/Chị có thấy xuất hiện dấu hiệu nào sau đây không?',
-              style: TextStyle(
-                fontSize: 17
-              ),
+            child: Text(
+              'Trong vòng 14 ngày qua Anh/Chị có thấy xuất hiện dấu hiệu nào sau đây không?',
+              style: TextStyle(fontSize: 17),
             ),
           ),
-
           SymptomCheckbox(),
           new SizedBox(
             height: 10.0,
@@ -99,12 +87,12 @@ class MySymptomFormState extends State<MySymptomForm> {
               child: ButtonTheme(
                 height: 50,
                 child: RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      Navigator.pushNamed(context, RouteStrings.fillFormSchedule);
-
+                      Navigator.pushNamed(
+                          context, RouteStrings.fillFormSchedule);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -113,12 +101,14 @@ class MySymptomFormState extends State<MySymptomForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -140,28 +130,22 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
     'Viêm phổi': false,
     'Đau họng': false,
     'Mệt mỏi': false,
-
   };
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: question1.keys.map((String key) {
-          return new CheckboxListTile(
-            title: new Text(key),
-            value: question1[key],
-            onChanged: (bool value) {
-              setState(() {
-                question1[key] = value;
-              });
-            },
-          );
-        }).toList(),
+        return new CheckboxListTile(
+          title: new Text(key),
+          value: question1[key],
+          onChanged: (bool value) {
+            setState(() {
+              question1[key] = value;
+            });
+          },
+        );
+      }).toList(),
     );
   }
 }
-
-
-
-
-
-

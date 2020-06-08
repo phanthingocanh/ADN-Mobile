@@ -1,7 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
+
 // import 'package:email_validator/email_validator.dart';
 // import 'package:dropdownfield/dropdownfield.dart';
 
@@ -21,25 +20,15 @@ class FillMedicalHistoricalRoute extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:20),
-              child: Text(
-                  'KHAI BÁO Y TẾ',
-                  style: TextStyle(
-                      fontSize: 40.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 20),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
             ),
           ),
-
           Center(
             child: Container(
-              padding: EdgeInsets.only(top:10),
-              child: Text(
-                  'Cho khách nội địa',
-                  style: TextStyle(
-                      fontSize: 25.0
-                  )
-              ),
+              padding: EdgeInsets.only(top: 10),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
             ),
           ),
           Divider(
@@ -70,7 +59,6 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
-
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -81,13 +69,11 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: Text('Hiện tại Anh/Chị có các bệnh nào dưới đây:',
-              style: TextStyle(
-                fontSize: 17
-              ),
+            child: Text(
+              'Hiện tại Anh/Chị có các bệnh nào dưới đây:',
+              style: TextStyle(fontSize: 17),
             ),
           ),
-
           MedicalHistoricalCheckbox(),
           new SizedBox(
             height: 10.0,
@@ -99,7 +85,7 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
               child: ButtonTheme(
                 height: 50,
                 child: RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
@@ -112,12 +98,14 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -128,7 +116,8 @@ class MedicalHistoricalCheckbox extends StatefulWidget {
   MedicalHistoricalCheckbox({Key key}) : super(key: key);
 
   @override
-  _MedicalHistoricalCheckboxState createState() => _MedicalHistoricalCheckboxState();
+  _MedicalHistoricalCheckboxState createState() =>
+      _MedicalHistoricalCheckboxState();
 }
 
 class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
@@ -144,28 +133,22 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
     'Tiểu đường': false,
     'Ung thư': false,
     'Bạn có đang trong thời gian thai kỳ hay không?': false,
-
   };
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: question3.keys.map((String key) {
-          return new CheckboxListTile(
-            title: new Text(key),
-            value: question3[key],
-            onChanged: (bool value) {
-              setState(() {
-                question3[key] = value;
-              });
-            },
-          );
-        }).toList(),
+        return new CheckboxListTile(
+          title: new Text(key),
+          value: question3[key],
+          onChanged: (bool value) {
+            setState(() {
+              question3[key] = value;
+            });
+          },
+        );
+      }).toList(),
     );
   }
 }
-
-
-
-
-
-
