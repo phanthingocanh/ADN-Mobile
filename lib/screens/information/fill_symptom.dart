@@ -144,8 +144,7 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
   };
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
+    return Column(
       children: question1.keys.map((String key) {
           return new CheckboxListTile(
             title: new Text(key),

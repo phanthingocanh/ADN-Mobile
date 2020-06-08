@@ -4,6 +4,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart' as validate;
 import 'package:intl/intl.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 
@@ -78,7 +79,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   var currentSelectedValue='Tp. Hồ Chí Minh';
   var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
-
+  var controller = new MaskedTextController(mask: '000-000-000');
   @override
   Widget build(BuildContext context) {
 
@@ -110,6 +111,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
               keyboardType: TextInputType.number,
+              controller: controller,
               decoration: InputDecoration(
                 labelText: 'Số CMND',
                 border: OutlineInputBorder(
