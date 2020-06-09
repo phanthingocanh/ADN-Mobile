@@ -1,6 +1,5 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 
 // import 'package:validators/validators.dart' as validate;
 
@@ -145,7 +144,10 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                         }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',  style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),

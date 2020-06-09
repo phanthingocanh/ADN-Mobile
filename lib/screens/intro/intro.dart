@@ -1,32 +1,52 @@
 import 'package:adnproject/constants/strings.dart';
-import 'package:adnproject/screens/pop_up/success.dart';
 import 'package:flutter/material.dart';
 
 class IntroRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PopupDialog(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
+            Flexible(
+              flex: 3,
+              child: Container(),
+            ),
+            Container(
+              padding: EdgeInsets.all(10.0),
               child: Text(
-                Strings.domesticGuests,
+                Strings.appTitle,
+                style: TextStyle(fontSize: 30.0),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, RouteStrings.showPopup);
-              },
-            )
+            ),
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                Strings.healthDeclaration,
+                style: TextStyle(fontSize: 40.0),
+              ),
+            ),
+            Flexible(
+              flex: 2,
+              child: Container(),
+            ),
+            Container(
+              width: 200.0,
+              height: 50.0,
+              child: RaisedButton(
+                child: Text(
+                  Strings.domesticGuests,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, RouteStrings.selectMethod);
+                },
+              ),
+            ),
+            Flexible(
+              flex: 3,
+              child: Container(),
+            ),
           ],
         ),
       ),
