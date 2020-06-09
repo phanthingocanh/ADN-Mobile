@@ -58,19 +58,7 @@ class MyCustomFormEmailPhone extends StatefulWidget {
     return MyCustomFormEmailPhoneState();
   }
 } 
-String validateMobile(String value) {
-  String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-  RegExp regExp = new RegExp(pattern);
-  if (value.length == 0) {
-        return 'Vui lòng nhập số điện thoại';
-  }
-  else if (!regExp.hasMatch(value)) {
-        return 'Vui lòng nhập số điện thoại hợp lệ';
-  }
-  return null;
-}
-String _email;
-String _mobile;
+  
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
@@ -89,6 +77,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
+      autovalidate: _autoValidate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -153,15 +142,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
 
 
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Vui lòng nhập địa chỉ email hợp lệ';
-    else
-      return null;
-  }
+
 
 Widget _phoneInput() {
   var controller = new MaskedTextController(mask: '0000-000-000');
@@ -209,3 +190,26 @@ Widget _phoneInput() {
 
 
 
+String validateEmail(String value) {
+  Pattern pattern =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  RegExp regex = new RegExp(pattern);
+  if (value.isEmpty){
+    return 'Vui lòng nhập địa chỉ email';
+  }
+  if (!regex.hasMatch(value))
+    return 'Địa chỉ email không hợp lệ';
+  else
+    return null;
+}
+String validateMobile(String value) {
+  String patttern = r'(^(?:[+0]9)?[0-9]{10,11}$)';
+  RegExp regExp = new RegExp(patttern);
+  if (value.isEmpty) {
+        return 'Vui lòng nhập số điện thoại';
+  }
+  else if (!regExp.hasMatch(value)) {
+        return 'Số điện thoại không hợp lệ';
+  }
+  return null;
+} 

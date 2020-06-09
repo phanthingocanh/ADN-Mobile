@@ -71,14 +71,13 @@ class MyTravelFormState extends State<MyTravelForm> {
   final _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
-  String _email;
-  String _mobile;
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
+      autovalidate: _autoValidate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -159,6 +158,8 @@ class TravelCheckbox extends StatefulWidget {
 class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
+  var now = new DateTime.now();
+
 
   var currentSelectedValue = 'Hồ Chí Minh';
   var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
@@ -274,7 +275,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime(1900),
-                        initialDate: currentValue ?? DateTime.now(),
+                        initialDate: currentValue ?? DateTime(now.year, now.month),
                         lastDate: DateTime(2100));
                   },
                 ),

@@ -86,10 +86,25 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
 
   final _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
+
   final format = DateFormat("yyyy-MM-dd");
+  var now = new DateTime.now();
+  // var formatter = new DateFormat("MM");
+  // String month = formatter.format(now);
+
+  var currentSelectedProvince = 'Tp. Hồ Chí Minh';
+  var currentSelectedGender = 'Nam';
+  String _fullName;
+  String  _cmnd;
+  DateTime _birthday;
+  String _address;
+  DateTime _ngaycap;
 
   var currentSelectedValue = 'Hồ Chí Minh';
   var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
+  var gender = ["Nam","Nữ","Khác"];
+
 
 
   @override
@@ -97,6 +112,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
+      autovalidate: _autoValidate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -116,10 +132,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ],
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Vui lòng nhập tên';
+                  return 'Vui lòng nhập họ tên';
                 }
                 return null;
               },
+              onSaved: (String val) {
+                _fullName = val;
+              }
             ),
           ),
           Padding(
@@ -127,6 +146,38 @@ class MyCustomFormState extends State<MyCustomForm> {
             child: _CMNDInput()
           ),
 
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: FormField<String>(
+              builder: (FormFieldState<String> state) {
+                return InputDecorator(
+                  decoration: InputDecoration(
+                      labelText: 'Giới tính',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      hint: Text("Chọn giới tính"),
+                      value: currentSelectedGender,
+                      isDense: true,
+                      onChanged: (newValue) {
+                        setState(() {
+                          currentSelectedGender = newValue;
+                        });
+                        // print(currentSelectedGender);
+                      },
+                      items: gender.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           //
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -143,11 +194,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (DateTime val) {
+                _birthday = val;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
                     firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
+                    initialDate: currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -173,6 +227,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (String val) {
+                _address = val;
+              },
             ),
           ),
 
@@ -193,11 +250,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (DateTime val) {
+                _ngaycap = val;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
                     firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
+                    initialDate: currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -215,13 +275,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       hint: Text("Chọn tỉnh"),
-                      value: currentSelectedValue,
+                      value: currentSelectedProvince,
                       isDense: true,
                       onChanged: (newValue) {
                         setState(() {
-                          currentSelectedValue = newValue;
+                          currentSelectedProvince = newValue;
                         });
-                        print(currentSelectedValue);
+                        print(currentSelectedProvince);
                       },
                       items: provinceTypes.map((String value) {
                         return DropdownMenuItem<String>(
@@ -266,13 +326,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a Snackbar.
-                      // Scaffold.of(context)
-                      //     .showSnackBar(SnackBar(content: Text('Processing Data')));
-//                      Navigator.push(
-//                          context, MySlide(builder: (BuildContext context) => FillEmailPhoneRoute()));
-                      Navigator.pushNamed(
-                          context, RouteStrings.fillFormEmailPhone);
+                      Navigator.pushNamed(context, RouteStrings.fillFormEmailPhone);
+
+                    }else {
+                      //    If all data are not valid then start auto validation.
+                      setState(() {
+                        _autoValidate = true;
+                      });
                     }
                   },
                   color: Colors.blue[400],
