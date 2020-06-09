@@ -73,10 +73,25 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  final format = DateFormat("yyyy-MM-dd");
+  bool _autoValidate = false;
 
-  var currentSelectedValue = 'Tp. Hồ Chí Minh';
+  final format = DateFormat("yyyy-MM-dd");
+  var now = new DateTime.now();
+  // var formatter = new DateFormat("MM");
+  // String month = formatter.format(now);
+
+  var currentSelectedProvince = 'Tp. Hồ Chí Minh';
+  var currentSelectedGender = 'Nam';
+  String _fullName;
+  String  _cmnd;
+  DateTime _birthday;
+  String _address;
+  DateTime _ngaycap;
+
   var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
+  var gender = ["Nam","Nữ","Khác"];
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +99,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
+      autovalidate: _autoValidate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -99,10 +115,13 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Vui lòng nhập tên';
+                  return 'Vui lòng nhập họ tên';
                 }
                 return null;
               },
+              onSaved: (String val) {
+                _fullName = val;
+              }
             ),
           ),
           Padding(
@@ -125,9 +144,44 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (String val) {
+                _cmnd = val;
+              }
             ),
           ),
 
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            child: FormField<String>(
+              builder: (FormFieldState<String> state) {
+                return InputDecorator(
+                  decoration: InputDecoration(
+                      labelText: 'Giới tính',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5.0))),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      hint: Text("Chọn giới tính"),
+                      value: currentSelectedGender,
+                      isDense: true,
+                      onChanged: (newValue) {
+                        setState(() {
+                          currentSelectedGender = newValue;
+                        });
+                        // print(currentSelectedGender);
+                      },
+                      items: gender.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           //
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -144,11 +198,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (DateTime val) {
+                _birthday = val;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
                     firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
+                    initialDate: currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -174,6 +231,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (String val) {
+                _address = val;
+              },
             ),
           ),
 
@@ -194,11 +254,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
                 return null;
               },
+              onSaved: (DateTime val) {
+                _ngaycap = val;
+              },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
                     firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime.now(),
+                    initialDate: currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -216,13 +279,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
                       hint: Text("Chọn tỉnh"),
-                      value: currentSelectedValue,
+                      value: currentSelectedProvince,
                       isDense: true,
                       onChanged: (newValue) {
                         setState(() {
-                          currentSelectedValue = newValue;
+                          currentSelectedProvince = newValue;
                         });
-                        print(currentSelectedValue);
+                        print(currentSelectedProvince);
                       },
                       items: provinceTypes.map((String value) {
                         return DropdownMenuItem<String>(
@@ -267,11 +330,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a Snackbar.
-                      // Scaffold.of(context)
-                      //     .showSnackBar(SnackBar(content: Text('Processing Data')));
                       Navigator.pushNamed(context, RouteStrings.fillFormEmailPhone);
 
+                    }else {
+                      //    If all data are not valid then start auto validation.
+                      setState(() {
+                        _autoValidate = true;
+                      });
                     }
                   },
                   color: Colors.blue[400],

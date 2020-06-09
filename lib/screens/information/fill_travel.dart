@@ -71,14 +71,13 @@ class MyTravelFormState extends State<MyTravelForm> {
   final _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
-  String _email;
-  String _mobile;
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
+      autovalidate: _autoValidate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -159,6 +158,8 @@ class TravelCheckbox extends StatefulWidget {
 class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
+  var now = new DateTime.now();
+
 
   var currentSelectedValue = 'Tp. Hồ Chí Minh';
   var provinceTypes = ["Tp. Hồ Chí Minh", "Hà Nội", "Lâm Đồng"];
@@ -274,7 +275,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime(1900),
-                        initialDate: currentValue ?? DateTime.now(),
+                        initialDate: currentValue ?? DateTime(now.year, now.month),
                         lastDate: DateTime(2100));
                   },
                 ),
