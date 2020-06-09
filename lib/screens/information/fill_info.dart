@@ -93,7 +93,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // var formatter = new DateFormat("MM");
   // String month = formatter.format(now);
 
-  var currentSelectedProvince = 'Tp. Hồ Chí Minh';
+  var currentSelectedProvince = 'Hồ Chí Minh';
   var currentSelectedGender = 'Nam';
   String _fullName;
   String  _cmnd;
@@ -101,7 +101,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _address;
   DateTime _ngaycap;
 
-  var currentSelectedValue = 'Hồ Chí Minh';
+  // var currentSelectedValue = 'Hồ Chí Minh';
   var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
   var gender = ["Nam","Nữ","Khác"];
 
@@ -348,54 +348,54 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 }
 
-class TravelCheckbox extends StatefulWidget {
-  TravelCheckbox({Key key}) : super(key: key);
+// class TravelCheckbox extends StatefulWidget {
+//   TravelCheckbox({Key key}) : super(key: key);
 
-  @override
-  _TravelCheckboxState createState() => _TravelCheckboxState();
-}
+//   @override
+//   _TravelCheckboxState createState() => _TravelCheckboxState();
+// }
 
-class _TravelCheckboxState extends State<TravelCheckbox> {
-  @override
-  bool _travel = false;
+// class _TravelCheckboxState extends State<TravelCheckbox> {
+//   @override
+//   bool _travel = false;
 
-  Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 0.0),
-          child: CheckboxListTile(
-              title: const Text('Di chuyển trong nước?'),
-              value: _travel,
-              onChanged: (bool value) {
-                setState(() {
-                  _travel = value;
-                });
-              }
-          ),
-        ),
-        Visibility(
-          visible: _travel,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  labelText: 'Nơi đi'
-              ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập nơi đi';
-                }
-                return null;
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   Widget build(BuildContext context) {
+//     return ListView(
+//       shrinkWrap: true,
+//       children: <Widget>[
+//         Padding(
+//           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 0.0),
+//           child: CheckboxListTile(
+//               title: const Text('Di chuyển trong nước?'),
+//               value: _travel,
+//               onChanged: (bool value) {
+//                 setState(() {
+//                   _travel = value;
+//                 });
+//               }
+//           ),
+//         ),
+//         Visibility(
+//           visible: _travel,
+//           child: Padding(
+//             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+//             child: TextFormField(
+//               decoration: InputDecoration(
+//                   labelText: 'Nơi đi'
+//               ),
+//               validator: (value) {
+//                 if (value.isEmpty) {
+//                   return 'Vui lòng nhập nơi đi';
+//                 }
+//                 return null;
+//               },
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 
 Widget _CMNDInput() {
