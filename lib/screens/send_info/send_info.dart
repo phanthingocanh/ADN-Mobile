@@ -79,8 +79,14 @@ class MySendInfoFormState extends State<MySendInfoForm> {
             actions: <Widget>[
               FlatButton(
                 child: Text('Đóng'),
-                onPressed: () =>
-                    Navigator.pushNamed(context, RouteStrings.home),
+                onPressed: () {
+//                  Navigator.pushNamed(context, RouteStrings.home)  ,
+                  return Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteStrings.home,
+                  ModalRoute.withName(RouteStrings.home),
+
+                  );
+                }
               )
             ],
           );

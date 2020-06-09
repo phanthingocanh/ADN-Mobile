@@ -1,6 +1,8 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 // import 'package:validators/validators.dart' as validate;
 
 class FillEmailPhoneRoute extends StatelessWidget {
@@ -57,8 +59,8 @@ class MyCustomFormEmailPhone extends StatefulWidget {
   }
 } 
 String validateMobile(String value) {
-  String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-  RegExp regExp = new RegExp(patttern);
+  String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+  RegExp regExp = new RegExp(pattern);
   if (value.length == 0) {
         return 'Vui lòng nhập số điện thoại';
   }
@@ -66,7 +68,9 @@ String validateMobile(String value) {
         return 'Vui lòng nhập số điện thoại hợp lệ';
   }
   return null;
-}   
+}
+String _email;
+String _mobile;
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
@@ -77,9 +81,9 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
-  String _email;
-  String _mobile;
 
+  var controller = new MaskedTextController(mask: '0000-000-000');
+  var maskFormatter = new MaskTextInputFormatter(mask: '####-##-##', filter: { "#": RegExp(r'[0-9]') });
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -90,19 +94,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
         children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          child: new TextFormField(
-            decoration: InputDecoration(
-              labelText: 'Số điện thoại',
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0)
-              ),
-            ),
-            keyboardType: TextInputType.phone,
-            validator: validateMobile,
-            onSaved: (String val) {
-              _mobile = val;
-            },
-          ),
+          child: _phoneInput(),
         ),
         new Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -170,3 +162,50 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
     else
       return null;
   }
+
+Widget _phoneInput() {
+  var controller = new MaskedTextController(mask: '0000-000-000');
+
+  controller.beforeChange = (String previous, String next) {
+    print("$previous");
+    if (previous.length == 12 ) {
+
+      controller.updateMask('0000-000-000');
+    }
+    else{
+      controller.updateMask('0000-000-000');
+
+    }
+
+    return true;
+  };
+  controller.afterChange = (String previous, String next) {
+//    print("$previous | $next");
+  };
+
+  return new TextFormField(
+    controller: controller,
+    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+    decoration: InputDecoration(
+      labelText: 'Số điện thoại',
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0)
+      ),
+    ),
+
+    keyboardType: TextInputType.number,
+    validator: (value) {
+      if (value.isEmpty) {
+        return 'Vui lòng nhập số điện thoại';
+      }
+      return null;
+    },
+    onSaved: (String val) {
+      _mobile = val;
+    },
+  );
+}
+
+
+
+
