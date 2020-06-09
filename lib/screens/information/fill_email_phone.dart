@@ -69,9 +69,11 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
+  var _email ;
+  
 
   var controller = new MaskedTextController(mask: '0000-000-000');
-  var maskFormatter = new MaskTextInputFormatter(mask: '####-##-##', filter: { "#": RegExp(r'[0-9]') });
+  var maskFormatter = new MaskTextInputFormatter(mask: '####-##-##', filter: { "#": RegExp(r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)') });
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -146,6 +148,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
 
 Widget _phoneInput() {
   var controller = new MaskedTextController(mask: '0000-000-000');
+  var _mobile;
 
   controller.beforeChange = (String previous, String next) {
     print("$previous");
