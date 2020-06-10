@@ -1,15 +1,12 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:validators/validators.dart' as validate;
-import 'package:adnproject/screens/animation/slide.dart';
-import 'package:adnproject/screens/information/fill_email_phone.dart';
+import 'package:intl/intl.dart';
 
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
-
 
 class FillInforRoute extends StatelessWidget {
   @override
@@ -18,6 +15,7 @@ class FillInforRoute extends StatelessWidget {
     Color hexToColor(String code) {
       return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.formCMNDTitle),
@@ -29,24 +27,14 @@ class FillInforRoute extends StatelessWidget {
           Center(
             child: Container(
               padding: EdgeInsets.only(top: 20),
-              child: Text(
-                  'KHAI BÁO Y TẾ',
-                  style: TextStyle(
-                      fontSize: 40.0
-                  )
-              ),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
             ),
           ),
-
           Center(
             child: Container(
               padding: EdgeInsets.only(top: 10),
-              child: Text(
-                  'Cho khách nội địa',
-                  style: TextStyle(
-                      fontSize: 25.0
-                  )
-              ),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
             ),
           ),
           Divider(
@@ -59,17 +47,26 @@ class FillInforRoute extends StatelessWidget {
     );
   }
 }
+
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
+      TextEditingValue newValue) {
     return TextEditingValue(
       text: newValue.text?.toUpperCase(),
       selection: newValue.selection,
     );
   }
 }
+
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
+  String _fullName;
+  String _cmnd;
+  DateTime _birthday;
+  String _address;
+  DateTime _ngaycap;
+
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
@@ -90,26 +87,44 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   final format = DateFormat("yyyy-MM-dd");
   var now = new DateTime.now();
+
+
   // var formatter = new DateFormat("MM");
   // String month = formatter.format(now);
 
   var currentSelectedProvince = 'Hồ Chí Minh';
   var currentSelectedGender = 'Nam';
-  String _fullName;
-  String  _cmnd;
-  DateTime _birthday;
-  String _address;
-  DateTime _ngaycap;
+
 
   // var currentSelectedValue = 'Hồ Chí Minh';
   var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
   var gender = ["Nam","Nữ","Khác"];
 
-
-
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
+    var controller = new MaskedTextController(
+        text: '000-000-000', mask: '000-000-000');
+    controller.beforeChange = (String previous, String next) {
+      if (previous.length == 9) {
+        controller.updateMask('000-000-000');
+      } else {
+        controller.updateMask('000-000-000-000');
+      }
+      return true;
+    };
+
+    controller.updateText(widget._cmnd);
+
+
+//    controller.afterChange = (String previous, String next) {
+//      print("$previous | $next");
+//    };
+
+    PersonInfo arguments = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
     return Form(
       key: _formKey,
       autovalidate: _autoValidate,
@@ -119,31 +134,58 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Họ và tên',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
+                decoration: InputDecoration(
+                  labelText: 'Họ và tên',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
                 ),
-
-              ),
-              textCapitalization: TextCapitalization.characters,
-              inputFormatters: [
+                textCapitalization: TextCapitalization.characters,
+                inputFormatters: [
                   UpperCaseTextFormatter(),
                 ],
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập họ tên';
-                }
-                return null;
-              },
-              onSaved: (String val) {
-                _fullName = val;
-              }
-            ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Vui lòng nhập họ tên';
+                  }
+                  return null;
+                },
+                onSaved: (String val) {
+                  widget._fullName = val;
+//                  print(_fullName);
+                }),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: _CMNDInput()
+            child: TextFormField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+//              initialValue: widget._cmnd,
+              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                labelText: 'Số CMND',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Vui lòng nhập số chứng minh nhân dân';
+                }
+                if (value.length != 11) {
+                  return 'Số chứng minh nhân dân không hợp lệ';
+                }
+//                if (value.length != 15 && arguments.cardType == CardType.cccd){
+//                  return 'Số căn cước không hợp lệ';
+//                }
+                return null;
+              },
+              onSaved: (String val) {
+//                _cmnd = val;
+                setState(() {
+                  widget._cmnd = val;
+                });
+                print(widget._cmnd);
+              },
+            ),
           ),
 
           Padding(
@@ -195,13 +237,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
               onSaved: (DateTime val) {
-                _birthday = val;
+                widget._birthday = val;
               },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
                     firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime(1995, now.month, now.day),
+                    initialDate:
+                    currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -216,10 +259,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 alignLabelWithHint: true,
                 hintText: 'Nhập địa chỉ thường trú',
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-
-
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               validator: (value) {
                 if (value.isEmpty) {
@@ -228,7 +268,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
               onSaved: (String val) {
-                _address = val;
+                widget._address = val;
               },
             ),
           ),
@@ -239,9 +279,7 @@ class MyCustomFormState extends State<MyCustomForm> {
               decoration: InputDecoration(
                 labelText: 'Ngày cấp CMND',
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               format: format,
               validator: (value) {
@@ -251,13 +289,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
               onSaved: (DateTime val) {
-                _ngaycap = val;
+                widget._ngaycap = val;
               },
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
                     context: context,
                     firstDate: DateTime(1900),
-                    initialDate: currentValue ?? DateTime(2015, now.month, now.day),
+                    initialDate:
+                    currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -326,9 +365,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      Navigator.pushNamed(context, RouteStrings.fillFormEmailPhone);
-
-                    }else {
+                      Navigator.pushNamed(
+                          context, RouteStrings.fillFormEmailPhone);
+                    } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
                         _autoValidate = true;
@@ -336,8 +375,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   color: Colors.blue[400],
-                  child: Text('Tiếp tục',
-                    style: TextStyle(fontSize: 20, color: Colors.white),),
+                  child: Text(
+                    'Tiếp tục',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
                 ),
               ),
             ),
@@ -397,14 +438,12 @@ class MyCustomFormState extends State<MyCustomForm> {
 //   }
 // }
 
-
 Widget _CMNDInput() {
   var controller = new MaskedTextController(mask: '000-000-000');
   controller.beforeChange = (String previous, String next) {
-    if (previous.length == 9 ) {
+    if (previous.length == 9) {
       controller.updateMask('000-000-000');
-    }
-    else {
+    } else {
       controller.updateMask('000-000-000-000');
     }
     return true;
@@ -420,10 +459,7 @@ Widget _CMNDInput() {
     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
     decoration: InputDecoration(
       labelText: 'Số CMND',
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0)
-      ),
-
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
     ),
     validator: (value) {
       if (value.isEmpty) {
