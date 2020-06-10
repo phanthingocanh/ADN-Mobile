@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
 
+
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 class FillInforRoute extends StatelessWidget {
@@ -103,8 +104,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    var controller = new MaskedTextController(
-        text: '000-000-000', mask: '000-000-000');
+    var controller = new MaskedTextController(mask: '000-000-000');
     controller.beforeChange = (String previous, String next) {
       if (previous.length == 9) {
         controller.updateMask('000-000-000');
@@ -167,10 +167,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                     borderRadius: BorderRadius.circular(10.0)),
               ),
               validator: (value) {
+                widget._cmnd = value;
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
                 if (value.length != 11) {
+                  print(widget._cmnd);
                   return 'Số chứng minh nhân dân không hợp lệ';
                 }
 //                if (value.length != 15 && arguments.cardType == CardType.cccd){
@@ -181,9 +183,10 @@ class MyCustomFormState extends State<MyCustomForm> {
               onSaved: (String val) {
 //                _cmnd = val;
                 setState(() {
-                  widget._cmnd = val;
+                  print(controller.text);
+
+                  widget._cmnd = controller.text;
                 });
-                print(widget._cmnd);
               },
             ),
           ),
