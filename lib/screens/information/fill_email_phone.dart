@@ -70,12 +70,28 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
   var _email ;
+  var _mobile;
+
   
 
-  var controller = new MaskedTextController(mask: '0000-000-000');
-  var maskFormatter = new MaskTextInputFormatter(mask: '####-##-##', filter: { "#": RegExp(r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)') });
   @override
   Widget build(BuildContext context) {
+    var controller = new MaskedTextController(mask: '0000-000-000');
+    controller.beforeChange = (String previous, String next) {
+      print("$previous");
+      if (previous.length == 12 ) {
+        controller.updateMask('0000-000-000');
+      }
+      else{
+        controller.updateMask('0000-000-000');
+      }
+
+      return true;
+    };
+    controller.afterChange = (String previous, String next) {
+//    print("$previous | $next");
+    };
+    controller.updateText(_mobile);
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -85,8 +101,36 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
         children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          child: _phoneInput(),
+          child: TextFormField(
+            controller: controller,
+            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+            decoration: InputDecoration(
+              labelText: 'Số điện thoại',
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+              ),
+            ),
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              String patttern =r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)';
+              RegExp regExp = new RegExp(patttern);
+              _mobile = value;
+              if (value.isEmpty) {
+
+                return 'Vui lòng nhập số điện thoại';
+              }
+              else if (!regExp.hasMatch(value)) {
+                return 'Số điện thoại không hợp lệ';
+              }
+              return null;
+
+            },
+            onSaved: (String val) {
+              _mobile = val;
+            },
+          ),
         ),
+
         new Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: new TextFormField(
@@ -206,9 +250,11 @@ String validateEmail(String value) {
     return null;
 }
 String validateMobile(String value) {
-  String patttern = r'(^(?:[+0]9)?[0-9]{10,11}$)';
+  String patttern =r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)';
   RegExp regExp = new RegExp(patttern);
+
   if (value.isEmpty) {
+
         return 'Vui lòng nhập số điện thoại';
   }
   else if (!regExp.hasMatch(value)) {
