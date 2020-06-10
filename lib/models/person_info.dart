@@ -1,3 +1,5 @@
+import 'package:adnproject/constants/enums.dart';
+
 class PersonInfo {
   String name;
   String cmnd;
@@ -6,6 +8,7 @@ class PersonInfo {
   String permanentAddress;
   DateTime cardDate;
   String cardPlace;
+  CardType cardType;
 
   PersonInfo({
     this.name,
@@ -15,5 +18,6 @@ class PersonInfo {
     this.permanentAddress,
     this.cardDate,
     this.cardPlace,
+    this.cardType,
   });
 }
