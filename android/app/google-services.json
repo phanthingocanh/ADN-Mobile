@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "63244937567",
+    "firebase_url": "https://adn-mobile-ocr.firebaseio.com",
+    "project_id": "adn-mobile-ocr",
+    "storage_bucket": "adn-mobile-ocr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63244937567:android:df231f4ae226173ff3aeea",
+        "android_client_info": {
+          "package_name": "com.example.adnproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63244937567-oicus25184nglpe2tgkul89vh650q0rl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeXFHidumAQmHrsOflYxDAB6KA5z5R7Vw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63244937567-oicus25184nglpe2tgkul89vh650q0rl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
