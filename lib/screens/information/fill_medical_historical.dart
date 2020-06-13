@@ -1,4 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:email_validator/email_validator.dart';
@@ -7,6 +9,13 @@ import 'package:flutter/material.dart';
 // import 'package:validators/validators.dart' as validate;
 
 class FillMedicalHistoricalRoute extends StatelessWidget {
+  PersonInfo person;
+  Declaration declare;
+  FillMedicalHistoricalRoute({
+    Key key,
+    @required this.person,
+    @required this.declare,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
@@ -35,7 +44,7 @@ class FillMedicalHistoricalRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MyMedicalHistoricalForm(),
+          MyMedicalHistoricalForm(person: person,declare: declare,),
         ],
       ),
     );
@@ -44,6 +53,9 @@ class FillMedicalHistoricalRoute extends StatelessWidget {
 
 // Create a Form widget.
 class MyMedicalHistoricalForm extends StatefulWidget {
+  PersonInfo person;
+  Declaration declare;
+  MyMedicalHistoricalForm({this.person, this.declare});
   @override
   MyMedicalHistoricalFormState createState() {
     return MyMedicalHistoricalFormState();
@@ -74,7 +86,7 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
               style: TextStyle(fontSize: 17),
             ),
           ),
-          MedicalHistoricalCheckbox(),
+          MedicalHistoricalCheckbox(person: widget.person,declare: widget.declare,),
           new SizedBox(
             height: 10.0,
           ),
@@ -89,7 +101,7 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      Navigator.pushNamed(context, RouteStrings.sendInfoForm);
+                      Navigator.pushNamed(context, RouteStrings.sendInfoForm, arguments: [widget.person,widget.declare]);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -113,7 +125,10 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
 }
 
 class MedicalHistoricalCheckbox extends StatefulWidget {
-  MedicalHistoricalCheckbox({Key key}) : super(key: key);
+  PersonInfo person;
+  Declaration declare;
+  MedicalHistoricalCheckbox({this.person, this.declare});
+//  MedicalHistoricalCheckbox({Key key}) : super(key: key);
 
   @override
   _MedicalHistoricalCheckboxState createState() =>
@@ -125,7 +140,7 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
     'Bệnh gan mãn tĩnh': false,
     'Bệnh máu mãn tính': false,
     'Bệnh phổi mãn tính': false,
-    'Bệnh thận mãn tĩnh': false,
+    'Bệnh thận mãn tính': false,
     'Bệnh tim mạch': false,
     'Huyết áp cao': false,
     'Suy giảm miễn dịch': false,
@@ -146,6 +161,19 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
             setState(() {
               question3[key] = value;
             });
+            widget.declare.benhGanManTinh=question3['Bệnh gan mãn tĩnh'];
+            widget.declare.benhMauManTinh=question3['Bệnh máu mãn tính'];
+            widget.declare.benhPhoiManTinh=question3['Bệnh phổi mãn tính'];
+            widget.declare.benhThanManTinh=question3['Bệnh thận mãn tính'];
+            widget.declare.benhTimMach=question3['Bệnh tim mạch'];
+            widget.declare.huyetApCao=question3['Huyết áp cao'];
+            widget.declare.suyGiamMienDich=question3['Suy giảm miễn dịch'];
+            widget.declare.ghepTangHoacXuong=question3['Người nhận ghép tạng , Thủy xương'];
+            widget.declare.tieuDuong=question3['Tiểu đường'];
+            widget.declare.ungThu=question3['Ung thư'];
+            widget.declare.mangThai=question3['Bạn có đang trong thời gian thai kỳ hay không?'];
+
+
           },
         );
       }).toList(),

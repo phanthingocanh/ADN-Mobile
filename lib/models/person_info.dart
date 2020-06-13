@@ -1,4 +1,6 @@
 import 'package:adnproject/constants/enums.dart';
+import 'package:flutter/foundation.dart';
+
 
 class PersonInfo {
   String name;
@@ -9,6 +11,10 @@ class PersonInfo {
   DateTime cardDate;
   String cardPlace;
   CardType cardType;
+  String phone;
+  String email;
+  Gender gender;
+
 
   PersonInfo({
     this.name,
@@ -19,5 +25,17 @@ class PersonInfo {
     this.cardDate,
     this.cardPlace,
     this.cardType,
+    this.email,
+    this.phone,
+    this.gender,
   });
+
+//  String get personName{
+//    return name;
+//  }
+//
+//  void set personName (String nameval){
+//    name=nameval;
+//
+//  }
 }

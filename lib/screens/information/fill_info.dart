@@ -1,15 +1,26 @@
+import 'package:adnproject/constants/enums.dart';
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 class FillInforRoute extends StatelessWidget {
+  PersonInfo person;
+  FillInforRoute({
+    Key key,
+    @required this.person,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
@@ -42,7 +53,7 @@ class FillInforRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MyCustomForm(),
+          MyCustomForm(person:person),
         ],
       ),
     );
@@ -62,6 +73,8 @@ class UpperCaseTextFormatter extends TextInputFormatter {
 
 // Create a Form widget.
 class MyCustomForm extends StatefulWidget {
+  PersonInfo person;
+  MyCustomForm({this.person});
   String _fullName;
   String _cmnd;
   DateTime _birthday;
@@ -83,8 +96,24 @@ class MyCustomFormState extends State<MyCustomForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
 
+  List data;
+  Future<String> getData() async {
+    var response = await http.get(
+        Uri.encodeFull("http://10.0.2.2:8080/users"),
+        headers: {
+          "Accept": "application/hal+json",
+          "id":"string"
+        }
+    );
+//    data = json.decode(response.body);
+    print(response.body);
+
+    return "Success!";
+  }
+
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
+
 
   final format = DateFormat("yyyy-MM-dd");
   var now = new DateTime.now();
@@ -104,7 +133,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    var controller = new MaskedTextController(mask: '000-000-000');
+    var controller = new MaskedTextController(mask: '000-000-000-000');
     controller.beforeChange = (String previous, String next) {
       if (previous.length == 9) {
         controller.updateMask('000-000-000');
@@ -126,6 +155,23 @@ class MyCustomFormState extends State<MyCustomForm> {
         .of(context)
         .settings
         .arguments;
+//    personInfo.PersonInfo person=personInfo.PersonInfo(name: arguments.name,
+//        cardType: arguments.cardType,
+//        cardDate: arguments.cardDate,
+//        cardPlace: arguments.cardPlace,
+//        cmnd: arguments.cmnd,
+//        phone: arguments.phone,
+//        birthDay: arguments.birthDay,
+//        email: arguments.email,
+//        gender: arguments.gender,
+//        permanentAddress: arguments.permanentAddress);
+//    personInfo.PersonInfo person = new personInfo.PersonInfo();
+    String namePerson;
+
+
+
+
+
     return Form(
       key: _formKey,
       autovalidate: _autoValidate,
@@ -145,6 +191,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   UpperCaseTextFormatter(),
                 ],
                 validator: (value) {
+
                   if (value.isEmpty) {
                     return 'Vui lòng nhập họ tên';
                   }
@@ -159,6 +206,7 @@ class MyCustomFormState extends State<MyCustomForm> {
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
               controller: controller,
+              maxLength: 15,
               keyboardType: TextInputType.number,
 //              initialValue: widget._cmnd,
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -168,28 +216,36 @@ class MyCustomFormState extends State<MyCustomForm> {
                     borderRadius: BorderRadius.circular(10.0)),
               ),
               validator: (value) {
-                widget._cmnd = value;
+//                widget._cmnd = value;
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
-                if (value.length != 9) {
-                  print("Hello from valid"+widget._cmnd);
-                  print("Hello from valid-2"+value);
 
-                  return 'Số chứng minh nhân dân không hợp lệ';
+                if (widget.person.cardType != null) {
+                  if (value.length != 11 && widget.person.cardType == CardType.cmnd) {
+                    print(widget._cmnd);
+                    return 'Số chứng minh nhân dân không hợp lệ';
+                  }
+                  else if (value.length != 15 && widget.person.cardType == CardType.cccd){
+                    return 'Số căn cước không hợp lệ';
+                  }
+
                 }
-//                if (value.length != 15 && arguments.cardType == CardType.cccd){
-//                  return 'Số căn cước không hợp lệ';
-//                }
+                else if (value.length != 11 && value.length != 15 ) {
+                  print(widget._cmnd);
+                  return 'Số chứng minh nhân dân/căn cước công dân không hợp lệ';
+                }
+
                 return null;
               },
               onSaved: (String val) {
-                widget._cmnd = val;
-                print("Hellooo");
-                // setState(() {
-                //   print("Hello"+controller.text);
-                //   widget._cmnd = controller.text;
-                // });
+//                _cmnd = val;
+                widget._cmnd = controller.text;
+//                setState(() {
+//                  print(controller.text);
+//
+//                  widget._cmnd = controller.text;
+//                });
               },
             ),
           ),
@@ -334,6 +390,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           child: Text(value),
                         );
                       }).toList(),
+
                     ),
                   ),
                 );
@@ -370,9 +427,31 @@ class MyCustomFormState extends State<MyCustomForm> {
                   onPressed: () {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
+//                    getData();
                     if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      widget.person.name = widget._fullName;
+                      widget.person.permanentAddress=widget._address;
+                      widget.person.birthDay=widget._birthday;
+                      widget.person.cardDate=widget._ngaycap;
+                      if (currentSelectedGender=="Nam"){
+                        widget.person.gender=Gender.male;
+                      }
+                      else if (currentSelectedGender=="Nam"){
+                        widget.person.gender=Gender.female;
+                      }
+                      else{
+                        widget.person.gender=Gender.other;
+                      }
+                      widget.person.cardPlace=currentSelectedProvince;
+
+
+//
                       Navigator.pushNamed(
-                          context, RouteStrings.fillFormEmailPhone);
+                          context,
+                          RouteStrings.fillFormEmailPhone,
+                          arguments: widget.person,
+                      );
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {

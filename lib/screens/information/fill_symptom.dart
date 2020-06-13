@@ -1,4 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -9,6 +11,13 @@ import 'package:flutter/material.dart';
 // import 'package:validators/validators.dart' as validate;
 
 class FillSymptomRoute extends StatelessWidget {
+  PersonInfo person;
+  Declaration declare;
+  FillSymptomRoute({
+    Key key,
+    @required this.person,
+    @required this.declare,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
@@ -37,7 +46,7 @@ class FillSymptomRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MySymptomForm(),
+          MySymptomForm(person: person,declare: declare,),
         ],
       ),
     );
@@ -46,6 +55,9 @@ class FillSymptomRoute extends StatelessWidget {
 
 // Create a Form widget.
 class MySymptomForm extends StatefulWidget {
+  PersonInfo person;
+  Declaration declare;
+  MySymptomForm({this.person, this.declare});
   @override
   MySymptomFormState createState() {
     return MySymptomFormState();
@@ -76,7 +88,7 @@ class MySymptomFormState extends State<MySymptomForm> {
               style: TextStyle(fontSize: 17),
             ),
           ),
-          SymptomCheckbox(),
+          SymptomCheckbox(person: widget.person,declare: widget.declare,),
           new SizedBox(
             height: 10.0,
           ),
@@ -91,8 +103,9 @@ class MySymptomFormState extends State<MySymptomForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+
                       Navigator.pushNamed(
-                          context, RouteStrings.fillFormSchedule);
+                          context, RouteStrings.fillFormSchedule, arguments: [widget.person,widget.declare]);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -116,7 +129,12 @@ class MySymptomFormState extends State<MySymptomForm> {
 }
 
 class SymptomCheckbox extends StatefulWidget {
-  SymptomCheckbox({Key key}) : super(key: key);
+  PersonInfo person;
+  Declaration declare;
+  SymptomCheckbox({this.person, this.declare});
+
+
+//  SymptomCheckbox({Key key}) : super(key: key);
 
   @override
   _SymptomCheckboxState createState() => _SymptomCheckboxState();
@@ -143,6 +161,12 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
             setState(() {
               question1[key] = value;
             });
+            widget.declare.sot=question1["Sốt"];
+            widget.declare.ho=question1["Ho"];
+            widget.declare.khoTho=question1["Khó thở"];
+            widget.declare.viemPhoi=question1["Viêm phổi"];
+            widget.declare.dauHong=question1["Đau họng"];
+            widget.declare.metMoi=question1["Mệt mỏi"];
           },
         );
       }).toList(),
