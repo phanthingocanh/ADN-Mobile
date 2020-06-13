@@ -1,5 +1,6 @@
 import 'package:adnproject/models/card_info.dart';
 import 'package:adnproject/models/person_info.dart';
+import 'package:adnproject/constants/enums.dart';
 
 class ClientApiService {
   ClientApiService._();
@@ -17,6 +18,10 @@ class ClientApiService {
       cmnd: '123123123',
       name: 'Aaa Bbb Ccc',
       permanentAddress: '123 Abc, Xyz',
+      phone: '099-999-999',
+      email: 'aa@gmail.com',
+      gender: Gender.male,
+      cardType: CardType.cmnd,
     );
   }
 }
