@@ -108,7 +108,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     controller.beforeChange = (String previous, String next) {
       if (previous.length == 9) {
         controller.updateMask('000-000-000');
-      } else {
+      } 
+      else {
         controller.updateMask('000-000-000-000');
       }
       return true;
@@ -171,8 +172,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
-                if (value.length != 11) {
-                  print(widget._cmnd);
+                if (value.length != 9) {
+                  print("Hello from valid"+widget._cmnd);
+                  print("Hello from valid-2"+value);
+
                   return 'Số chứng minh nhân dân không hợp lệ';
                 }
 //                if (value.length != 15 && arguments.cardType == CardType.cccd){
@@ -181,12 +184,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
               onSaved: (String val) {
-//                _cmnd = val;
-                setState(() {
-                  print(controller.text);
-
-                  widget._cmnd = controller.text;
-                });
+                widget._cmnd = val;
+                print("Hellooo");
+                // setState(() {
+                //   print("Hello"+controller.text);
+                //   widget._cmnd = controller.text;
+                // });
               },
             ),
           ),
