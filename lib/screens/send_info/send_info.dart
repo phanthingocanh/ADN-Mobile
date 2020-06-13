@@ -1,7 +1,16 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:flutter/material.dart';
 
 class SendInfoRoute extends StatelessWidget {
+  PersonInfo person;
+  Declaration declare;
+  SendInfoRoute({
+    Key key,
+    @required this.person,
+    @required this.declare,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
@@ -101,22 +110,22 @@ class MySendInfoFormState extends State<MySendInfoForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Mã bảo mật',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-              ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập mã bảo mật';
-                }
-                return null;
-              },
-            ),
-          ),
+//          Padding(
+//            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+//            child: TextFormField(
+//              decoration: InputDecoration(
+//                labelText: 'Mã bảo mật',
+//                border: OutlineInputBorder(
+//                    borderRadius: BorderRadius.circular(10.0)),
+//              ),
+//              validator: (value) {
+//                if (value.isEmpty) {
+//                  return 'Vui lòng nhập mã bảo mật';
+//                }
+//                return null;
+//              },
+//            ),
+//          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: Text(

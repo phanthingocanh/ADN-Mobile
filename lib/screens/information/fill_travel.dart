@@ -1,4 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +11,11 @@ import 'package:intl/intl.dart';
 // import 'package:validators/validators.dart' as validate;
 
 class FillTravelRoute extends StatelessWidget {
+  PersonInfo person;
+  FillTravelRoute({
+    Key key,
+    @required this.person,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
@@ -47,7 +54,7 @@ class FillTravelRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MyTravelForm(),
+          MyTravelForm(person: person,),
         ],
       ),
     );
@@ -56,6 +63,8 @@ class FillTravelRoute extends StatelessWidget {
 
 // Create a Form widget.
 class MyTravelForm extends StatefulWidget {
+  PersonInfo person;
+  MyTravelForm({this.person});
   @override
   MyTravelFormState createState() {
     return MyTravelFormState();
@@ -71,6 +80,8 @@ class MyTravelFormState extends State<MyTravelForm> {
   final _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
+  Declaration declare = new Declaration();
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,10 +116,13 @@ class MyTravelFormState extends State<MyTravelForm> {
               validator: (value) {
                 return null;
               },
+              onSaved: (String val){
+                declare.countriesVisited=val;
+              },
             ),
           ),
 
-          TravelCheckbox(),
+          TravelCheckbox(declare: declare,),
           new SizedBox(
             height: 10.0,
           ),
@@ -123,8 +137,10 @@ class MyTravelFormState extends State<MyTravelForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+                      print(widget.person.name);
                       Navigator.pushNamed(
-                          context, RouteStrings.fillFormSymptom);
+                          context, RouteStrings.fillFormSymptom,
+                      arguments: [widget.person,declare]);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -149,7 +165,9 @@ class MyTravelFormState extends State<MyTravelForm> {
 }
 
 class TravelCheckbox extends StatefulWidget {
-  TravelCheckbox({Key key}) : super(key: key);
+  Declaration declare;
+  TravelCheckbox({this.declare});
+//  TravelCheckbox({Key key}) : super(key: key);
 
   @override
   _TravelCheckboxState createState() => _TravelCheckboxState();
@@ -165,8 +183,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
   var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
   final format = DateFormat("yyyy-MM-dd");
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
+    return Column(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(5.0, 10.0, 20.0, 0.0),
@@ -178,10 +195,12 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
               ),
               value: _travel,
               onChanged: (bool value) {
+                widget.declare.isDomesticTravel=value;
                 setState(() {
                   _travel = value;
                 });
               }
+
           ),
         ),
 
@@ -204,6 +223,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                           value: currentSelectedValue,
                           isDense: true,
                           onChanged: (newValue) {
+                            widget.declare.fromProvince=newValue;
                             setState(() {
                               currentSelectedValue = newValue;
                             });
@@ -240,6 +260,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                           value: currentSelectedValue,
                           isDense: true,
                           onChanged: (newValue) {
+                            widget.declare.toProvince=newValue;
                             setState(() {
                               currentSelectedValue = newValue;
                             });
@@ -271,12 +292,16 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
 
                   ),
                   format: format,
+
                   onShowPicker: (context, currentValue) {
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime(1900),
                         initialDate: currentValue ?? DateTime(now.year, now.month),
                         lastDate: DateTime(2100));
+                  },
+                  onSaved: (DateTime val) {
+                    widget.declare.departureDate=val;
                   },
                 ),
               ),
@@ -301,6 +326,9 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                         initialDate: currentValue ?? DateTime.now(),
                         lastDate: DateTime(2100));
                   },
+                  onSaved: (DateTime val) {
+                    widget.declare.arrivalDate=val;
+                  },
                 ),
               ),
             ),
@@ -321,6 +349,9 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                       return 'Vui lòng nhập phương tiện di chuyển';
                     }
                     return null;
+                  },
+                  onSaved: (String val) {
+                    widget.declare.travelBy=val;
                   },
                 ),
               ),
