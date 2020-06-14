@@ -1,6 +1,5 @@
 import 'package:adnproject/constants/enums.dart';
 import 'package:adnproject/constants/strings.dart';
-import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/user_declare.dart';
@@ -10,14 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 class FillInforRoute extends StatelessWidget {
   PersonInfo person;
+
   FillInforRoute({
     Key key,
     @required this.person,
@@ -188,6 +185,11 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    widget._cmnd = widget.person.cmnd;
+    widget._birthday = widget.person.birthDay;
+    widget._ngaycap = widget.person.cardDate;
+    widget._address = widget.person.permanentAddress;
+    widget._fullName = widget.person.name;
     // Build a Form widget using the _formKey created above.
     var controller = new MaskedTextController(mask: '000-000-000-000');
     controller.beforeChange = (String previous, String next) {
@@ -228,25 +230,27 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Họ và tên',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                ),
-                textCapitalization: TextCapitalization.characters,
-                inputFormatters: [
-                  UpperCaseTextFormatter(),
-                ],
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Vui lòng nhập họ tên';
-                  }
-                  return null;
-                },
-                onSaved: (String val) {
-                  widget._fullName = val;
+              initialValue: widget._fullName,
+              decoration: InputDecoration(
+                labelText: 'Họ và tên',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+              ),
+              textCapitalization: TextCapitalization.characters,
+              inputFormatters: [
+                UpperCaseTextFormatter(),
+              ],
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Vui lòng nhập họ tên';
+                }
+                return null;
+              },
+              onSaved: (String val) {
+                widget._fullName = val;
 //                  print(_fullName);
-                }),
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -342,6 +346,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: DateTimeField(
+              initialValue: widget._birthday,
               decoration: InputDecoration(
                 labelText: 'Ngày sinh',
                 border: OutlineInputBorder(
@@ -362,7 +367,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     context: context,
                     firstDate: DateTime(1900),
                     initialDate:
-                        currentValue ?? DateTime(1995, now.month, now.day),
+                    currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -371,6 +376,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: TextFormField(
+              initialValue: widget._address,
               maxLines: 3,
               decoration: InputDecoration(
                 labelText: 'Địa chỉ thường trú',
@@ -394,6 +400,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: DateTimeField(
+              initialValue: widget._ngaycap,
               decoration: InputDecoration(
                 labelText: 'Ngày cấp CMND',
                 border: OutlineInputBorder(
@@ -414,7 +421,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     context: context,
                     firstDate: DateTime(1900),
                     initialDate:
-                        currentValue ?? DateTime(2015, now.month, now.day),
+                    currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),

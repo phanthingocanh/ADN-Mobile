@@ -22,8 +22,9 @@ Future<PersonInfo> analyzeImage(File frontImage, File backImage) async {
     name: _extractField(frontVisionText, 'ho ten')?.toUpperCase() ?? '',
     cmnd: _extractCmnd(frontVisionText) ?? '',
     birthDay: _extractDate(frontVisionText),
-    permanentAddress:
-    _extractBlock(frontVisionText, 'noi dkhk thuong tru') ?? '',
+    permanentAddress: _extractBlock(frontVisionText, 'noi dkhk thuong tru')
+            .replaceAll('\n', ' ') ??
+        '',
     cardDate: _extractCardDate(backVisionText),
     cardPlace: _extractCardPlace(backVisionText),
     cardType: CardType.cmnd,
@@ -98,11 +99,15 @@ String _extractCmnd(VisionText visionText) {
 }
 
 String _extractField(VisionText visionText, String fieldTitle) {
+  var ignorePattern = new RegExp('[.:]');
   List<TextLine> lines = visionText.blocks
       .map((block) => block.lines)
       .reduce((value, element) => value + element);
-  var lineTexts =
-      lines.map((line) => removeDiacritics(line.text.toLowerCase())).toList();
+  var lineTexts = lines
+      .map((line) =>
+      removeDiacritics(line.text.toLowerCase())
+          .replaceAll(ignorePattern, ''))
+      .toList();
   var lineCenters = lines.map((line) {
     return line.cornerPoints.reduce((value, element) => value + element) /
         line.cornerPoints.length.toDouble();
@@ -117,7 +122,7 @@ String _extractField(VisionText visionText, String fieldTitle) {
   var fieldTitleLine = lineTexts.elementAt(fieldTitleIndex);
   var fieldTitleLineXY = lineCenters.elementAt(fieldTitleIndex);
   var lineTopOffset =
-      lines.map((line) => line.boundingBox.top).elementAt(fieldTitleIndex);
+  lines.map((line) => line.boundingBox.top).elementAt(fieldTitleIndex);
   if (fieldTitleLine.length <= fieldTitle.length + 2) {
     lineTexts.removeAt(fieldTitleIndex);
     lineCenters.removeAt(fieldTitleIndex);
@@ -127,7 +132,7 @@ String _extractField(VisionText visionText, String fieldTitle) {
         .map((line) => (line.dy - fieldTitleLineXY.dy).abs())
         .reduce((value, element) => value <= element ? value : element);
     var nearestIndex = lineCenters.indexWhere(
-        (element) => (element.dy - fieldTitleLineXY.dy).abs() == nearestY);
+            (element) => (element.dy - fieldTitleLineXY.dy).abs() == nearestY);
     var fieldValue = lineTexts.elementAt(nearestIndex);
     return fieldValue;
   } else {
