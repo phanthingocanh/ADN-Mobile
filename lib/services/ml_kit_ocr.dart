@@ -35,6 +35,8 @@ Future<PersonInfo> analyzeImage(File frontImage, File backImage) async {
 }
 
 String _extractCardPlace(VisionText visionText) {
+  if (visionText.blocks.isEmpty) return null;
+
   var ignorePattern = new RegExp('[.:]');
   List<String> lineTexts = visionText.blocks
       .map((block) => block.lines)
@@ -56,6 +58,8 @@ String _extractCardPlace(VisionText visionText) {
 }
 
 DateTime _extractCardDate(VisionText visionText) {
+  if (visionText.blocks.isEmpty) return null;
+
   var datePattern = new RegExp('[0-9]{2}');
   var simplified = removeDiacritics(
     visionText.text.toLowerCase().replaceAll('\n', ' '),
@@ -74,14 +78,16 @@ DateTime _extractCardDate(VisionText visionText) {
 }
 
 DateTime _extractDate(VisionText visionText) {
+  if (visionText.blocks.isEmpty) return null;
+
   var datePattern = new RegExp('[0-9]{2}-[0-9]{2}-[0-9]{4}');
   var cmnd = visionText.blocks
       .map((block) =>
-          block.lines.map((line) => line.text.toLowerCase()).join(' '))
+      block.lines.map((line) => line.text.toLowerCase()).join(' '))
       .where((text) => text.contains(datePattern))
       .join(' ');
   var date =
-      datePattern.allMatches(cmnd).map((e) => e.group(0)).join('').split('-');
+  datePattern.allMatches(cmnd).map((e) => e.group(0)).join('').split('-');
   if (date.length >= 3) {
     return new DateTime(
       int.parse(date[2]),
@@ -93,16 +99,20 @@ DateTime _extractDate(VisionText visionText) {
 }
 
 String _extractCmnd(VisionText visionText) {
+  if (visionText.blocks.isEmpty) return null;
+
   var cmndPattern = new RegExp('[0-9]{9,12}');
   var cmnd = visionText.blocks
       .map((block) =>
-          block.lines.map((line) => line.text.toLowerCase()).join(' '))
+      block.lines.map((line) => line.text.toLowerCase()).join(' '))
       .where((text) => text.contains(cmndPattern))
       .join(' ');
   return cmndPattern.allMatches(cmnd).map((e) => e.group(0)).join('');
 }
 
 String _extractField(VisionText visionText, String fieldTitle) {
+  if (visionText.blocks.isEmpty) return null;
+
   var ignorePattern = new RegExp('[.:]');
   List<TextLine> lines = visionText.blocks
       .map((block) => block.lines)
@@ -150,6 +160,8 @@ String _extractField(VisionText visionText, String fieldTitle) {
 }
 
 String _extractBlock(VisionText visionText, String blockTitle) {
+  if (visionText.blocks.isEmpty) return null;
+
   var ignorePattern = new RegExp('[.:]');
   List<TextBlock> lines = visionText.blocks;
   var blockTexts = lines.map((block) {
@@ -177,7 +189,7 @@ String _extractBlock(VisionText visionText, String blockTitle) {
         .map((line) => (line.dy - fieldTitleLineXY.dy).abs())
         .reduce((value, element) => value <= element ? value : element);
     var nearestIndex = blockCenters.indexWhere(
-        (element) => (element.dy - fieldTitleLineXY.dy).abs() == nearestY);
+            (element) => (element.dy - fieldTitleLineXY.dy).abs() == nearestY);
     var fieldValue = blockTexts.elementAt(nearestIndex);
     return fieldValue;
   } else {
