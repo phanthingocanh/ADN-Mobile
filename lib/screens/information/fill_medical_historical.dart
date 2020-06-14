@@ -44,7 +44,10 @@ class FillMedicalHistoricalRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MyMedicalHistoricalForm(person: person,declare: declare,),
+          MyMedicalHistoricalForm(
+            person: person,
+            declare: declare,
+          ),
         ],
       ),
     );
@@ -86,7 +89,10 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
               style: TextStyle(fontSize: 17),
             ),
           ),
-          MedicalHistoricalCheckbox(person: widget.person,declare: widget.declare,),
+          MedicalHistoricalCheckbox(
+            person: widget.person,
+            declare: widget.declare,
+          ),
           new SizedBox(
             height: 10.0,
           ),
@@ -101,7 +107,8 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      Navigator.pushNamed(context, RouteStrings.sendInfoForm, arguments: [widget.person,widget.declare]);
+                      Navigator.pushNamed(context, RouteStrings.sendInfoForm,
+                          arguments: [widget.person, widget.declare]);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -152,6 +159,19 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
 
   @override
   Widget build(BuildContext context) {
+    widget.declare.benhGanManTinh = question3['Bệnh gan mãn tĩnh'];
+    widget.declare.benhMauManTinh = question3['Bệnh máu mãn tính'];
+    widget.declare.benhPhoiManTinh = question3['Bệnh phổi mãn tính'];
+    widget.declare.benhThanManTinh = question3['Bệnh thận mãn tính'];
+    widget.declare.benhTimMach = question3['Bệnh tim mạch'];
+    widget.declare.huyetApCao = question3['Huyết áp cao'];
+    widget.declare.suyGiamMienDich = question3['Suy giảm miễn dịch'];
+    widget.declare.ghepTangHoacXuong =
+        question3['Người nhận ghép tạng , Thủy xương'];
+    widget.declare.tieuDuong = question3['Tiểu đường'];
+    widget.declare.ungThu = question3['Ung thư'];
+    widget.declare.mangThai =
+        question3['Bạn có đang trong thời gian thai kỳ hay không?'];
     return Column(
       children: question3.keys.map((String key) {
         return new CheckboxListTile(
@@ -161,19 +181,19 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
             setState(() {
               question3[key] = value;
             });
-            widget.declare.benhGanManTinh=question3['Bệnh gan mãn tĩnh'];
-            widget.declare.benhMauManTinh=question3['Bệnh máu mãn tính'];
-            widget.declare.benhPhoiManTinh=question3['Bệnh phổi mãn tính'];
-            widget.declare.benhThanManTinh=question3['Bệnh thận mãn tính'];
-            widget.declare.benhTimMach=question3['Bệnh tim mạch'];
-            widget.declare.huyetApCao=question3['Huyết áp cao'];
-            widget.declare.suyGiamMienDich=question3['Suy giảm miễn dịch'];
-            widget.declare.ghepTangHoacXuong=question3['Người nhận ghép tạng , Thủy xương'];
-            widget.declare.tieuDuong=question3['Tiểu đường'];
-            widget.declare.ungThu=question3['Ung thư'];
-            widget.declare.mangThai=question3['Bạn có đang trong thời gian thai kỳ hay không?'];
-
-
+            widget.declare.benhGanManTinh = question3['Bệnh gan mãn tĩnh'];
+            widget.declare.benhMauManTinh = question3['Bệnh máu mãn tính'];
+            widget.declare.benhPhoiManTinh = question3['Bệnh phổi mãn tính'];
+            widget.declare.benhThanManTinh = question3['Bệnh thận mãn tính'];
+            widget.declare.benhTimMach = question3['Bệnh tim mạch'];
+            widget.declare.huyetApCao = question3['Huyết áp cao'];
+            widget.declare.suyGiamMienDich = question3['Suy giảm miễn dịch'];
+            widget.declare.ghepTangHoacXuong =
+                question3['Người nhận ghép tạng , Thủy xương'];
+            widget.declare.tieuDuong = question3['Tiểu đường'];
+            widget.declare.ungThu = question3['Ung thư'];
+            widget.declare.mangThai =
+                question3['Bạn có đang trong thời gian thai kỳ hay không?'];
           },
         );
       }).toList(),

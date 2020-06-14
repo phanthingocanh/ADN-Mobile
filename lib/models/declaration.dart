@@ -1,4 +1,7 @@
 import 'package:adnproject/constants/enums.dart';
+import 'package:intl/intl.dart';
+
+DateFormat format = DateFormat("yyyy-MM-dd");
 
 class Declaration {
   DateTime createdAt;
@@ -66,8 +69,8 @@ class Declaration {
       isDomesticTravel: json['isDomesticTravel'],
       fromProvince: json['fromProvince'],
       toProvince: json['toProvince'],
-      departureDate: json['departureDate'],
-      arrivalDate: json['arrivalDate'],
+      departureDate: format.parse(json['departureDate']),
+      arrivalDate: format.parse(json['arrivalDate']),
       travelBy: json['travelBy'],
       sot: json['sot'],
       ho: json['ho'],
@@ -97,8 +100,8 @@ class Declaration {
         'isDomesticTravel': isDomesticTravel,
         'fromProvince': fromProvince,
         'toProvince': toProvince,
-        'departureDate': departureDate.toString(),
-        'arrivalDate': arrivalDate.toString(),
+        'departureDate': departureDate.toIso8601String(),
+        'arrivalDate': arrivalDate.toIso8601String(),
         'travelBy': travelBy,
         'sot': sot,
         'ho': ho,

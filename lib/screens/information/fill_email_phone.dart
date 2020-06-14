@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:adnproject/models/person_info.dart';
+import 'package:adnproject/services/client_api_service.dart';
 
 // import 'package:validators/validators.dart' as validate;
 
@@ -85,26 +86,26 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
   var _email ;
   var _mobile;
 
-//  PersonInfo arguments;
-//  String name_person;
-//
-//  _getname(arguments) async {
-//    name_person=arguments.name;
-//
-//// whatever you want to do
-//  }
+
 
   @override
-//  void initState() {
-//    super.initState();
-//    WidgetsBinding.instance.addPostFrameCallback((_) {
-//      final routeArgs1 = ModalRoute.of(context).settings.arguments;
-//
-//    });
-//  }
+
 
 
   Widget build(BuildContext context) {
+    // var getPerson = ClientApiService.instance.getPersonInfoById(widget.person.cmnd);
+    ClientApiService.instance.getPersonInfoById(widget.person.cmnd).then((personInfo) {
+      print("aa");
+      if (personInfo!=null){
+        // print(personInfo.email);
+        _email=personInfo.email;
+        _mobile=personInfo.phone;
+        print(_email);
+      }
+      else {
+        print("fail");
+      }
+    });
     final PersonInfo args = ModalRoute.of(context).settings.arguments;
 //    RouteSettings settings = ModalRoute.of(context).settings;
 //    PersonInfo arguments = settings.arguments;
@@ -151,6 +152,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: TextFormField(
             controller: controller,
+            // initialValue: _mobile,
             inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
               labelText: 'Số điện thoại',
@@ -189,11 +191,14 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
           child: new TextFormField(
             decoration: InputDecoration(
               labelText: 'Địa chỉ email',
+              
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0)
               ),
 
             ),
+            initialValue: _email,
+
             keyboardType: TextInputType.emailAddress,
             validator: validateEmail,
             onSaved: (String val) {

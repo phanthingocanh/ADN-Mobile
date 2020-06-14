@@ -112,7 +112,7 @@ Route onGenerateRoute(RouteSettings settings) {
     case RouteStrings.fillFormMedicalHistorical:
       final List args = settings.arguments;
 
-      print(args[0]);
+      // print(args[0]);
       return MySlide(
         builder: (context) {
           return FillMedicalHistoricalRoute(person: args[0], declare: args[1],);

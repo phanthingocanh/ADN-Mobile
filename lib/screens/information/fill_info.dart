@@ -1,7 +1,9 @@
 import 'package:adnproject/constants/enums.dart';
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/person_info.dart';
+import 'package:adnproject/models/user_declare.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -96,27 +98,12 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
 
   List data;
-  Future<String> getData(String id) async {
-    Map<String, String> qParams = {
-      'id': id,
-    };
-    var response = await http.get(
-      Uri.http("10.0.2.2:8080", "/user-declarations", qParams),
-      headers: {"Accept": "application/hal+json", "id": "555-555-555"},
-    );
-//    data = json.decode(response.body);
-    if (response.statusCode == 200) {
-      print(response.body);
-      return "Success!";
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to load user-declare');
-    }
-  }
+  
+  
 
+  
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = false;
+  bool _autoValidate = true;
 
   final format = DateFormat("yyyy-MM-dd");
   var now = new DateTime.now();
@@ -272,7 +259,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     borderRadius: BorderRadius.circular(10.0)),
               ),
               validator: (value) {
-//                widget._cmnd = value;
+                widget._cmnd = value;
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
@@ -290,8 +277,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                   print(widget._cmnd);
                   return 'Số chứng minh nhân dân/căn cước công dân không hợp lệ';
                 }
+              
+                
+                // getData(controller.text).then((personInfo) {
+                //   if (personInfo!=null){
+                //     print(personInfo);
+                //   }
+                //   else {
+                //     print("fail");
+                //   }
+                
 
-                return null;
+                // });    
+                
               },
               onSaved: (String val) {
                 widget._cmnd = val;
@@ -481,7 +479,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   onPressed: () {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
-                    getData("555-555-555");
+                    // getData("111-111-111-111");
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
                       widget.person.name = widget._fullName;
