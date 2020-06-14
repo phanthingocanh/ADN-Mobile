@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:adnproject/constants/enums.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:string_similarity/string_similarity.dart';
 
 /// Deadline is coming, so there will be no explain in this comment section
-analyzeImage(File frontImage, File backImage) async {
+Future<PersonInfo> analyzeImage(File frontImage, File backImage) async {
   TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
 
   FirebaseVisionImage frontVisionImage =
@@ -22,18 +23,14 @@ analyzeImage(File frontImage, File backImage) async {
     cmnd: _extractCmnd(frontVisionText) ?? '',
     birthDay: _extractDate(frontVisionText),
     permanentAddress:
-        _extractBlock(frontVisionText, 'noi dkhk thuong tru') ?? '',
+    _extractBlock(frontVisionText, 'noi dkhk thuong tru') ?? '',
     cardDate: _extractCardDate(backVisionText),
     cardPlace: _extractCardPlace(backVisionText),
+    cardType: CardType.cmnd,
   );
-  print(person.name);
-  print(person.cmnd);
-  print(person.birthDay);
-  print(person.permanentAddress);
-  print(person.cardDate);
-  print(person.cardPlace);
 
   textRecognizer.close();
+  return person;
 }
 
 String _extractCardPlace(VisionText visionText) {

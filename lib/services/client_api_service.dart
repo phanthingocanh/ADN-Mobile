@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/card_info.dart';
 import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
-import 'package:adnproject/constants/enums.dart';
 import 'package:adnproject/models/user_declare.dart';
+import 'package:adnproject/services/ml_kit_ocr.dart';
 import 'package:http/http.dart' as http;
 
 class ClientApiService {
@@ -15,19 +16,7 @@ class ClientApiService {
   static ClientApiService get instance => _instance ?? ClientApiService._();
 
   Future<PersonInfo> getPersonInfo(CardInfo cardInfo) async {
-    await new Future.delayed(const Duration(seconds: 3));
-    return PersonInfo(
-      birthDay: DateTime.utc(1998, 1, 1),
-      cardDate: DateTime.utc(2014, 1, 1),
-      cardPlace: 'HCM',
-      cmnd: '123123123',
-      name: 'Aaa Bbb Ccc',
-      permanentAddress: '123 Abc, Xyz',
-      phone: '099-999-999',
-      email: 'aa@gmail.com',
-      gender: Gender.male,
-      cardType: CardType.cmnd,
-    );
+    return analyzeImage(cardInfo.frontImage, cardInfo.backImage);
   }
 
   Future<String> postPersonDeclare(
@@ -68,7 +57,7 @@ class ClientApiService {
     };
     
     var response = await http.get(
-      Uri.http("10.0.2.2:8080", "/user-declarations", qParams),
+      Uri.http(Strings.serverPath, "/user-declarations", qParams),
       headers: {"Accept": "application/hal+json"},
     );
 //    data = json.decode(response.body);
@@ -94,7 +83,7 @@ class ClientApiService {
     };
     
     var response = await http.get(
-      Uri.http("10.0.2.2:8080", "/user-declarations", qParams),
+      Uri.http(Strings.serverPath, "/user-declarations", qParams),
       headers: {"Accept": "application/hal+json"},
     );
 //    data = json.decode(response.body);

@@ -102,9 +102,8 @@ class _SelectBackImageScreenContainer extends StatelessWidget {
   _process(BuildContext context, CardInfoState state) async {
     BlocProvider.of<CardInfoBloc>(context).add(SendCardInfoEvent());
     PersonInfo personInfo =  await ClientApiService.instance.getPersonInfo(state.cardInfo);
-    return Navigator.of(context).pushNamedAndRemoveUntil(
+    return Navigator.of(context).pushReplacementNamed(
       RouteStrings.fillForm,
-      ModalRoute.withName(RouteStrings.selectMethod),
       arguments: personInfo,
     );
   }
