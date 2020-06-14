@@ -43,6 +43,8 @@ class Strings {
   static const String frontImage = 'Mặt trước';
 
   static const String backImage = 'Mặt sau';
+
+  static const String serverPath = 'localhost:8080';
 }
 
 class RouteStrings {
