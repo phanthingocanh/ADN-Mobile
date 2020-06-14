@@ -31,6 +31,8 @@ dependencies:
   english_words: ^3.1.0
   image_picker: ^0.6.7
   firebase_ml_vision: ^0.9.4
+  string_similarity: ^1.0.1
+  diacritic: ^0.1.1
   flutter_bloc: ^4.0.0
   http: ^0.12.1
   rflutter_alert: ^1.0.2
