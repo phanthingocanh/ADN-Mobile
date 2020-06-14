@@ -75,7 +75,7 @@ Route onGenerateRoute(RouteSettings settings) {
     case RouteStrings.sendInfoForm:
       final List args = settings.arguments;
 
-      print(args[0]);
+      // print(args[0]);
       return MySlide(
         builder: (context) {
           return SendInfoRoute(person: args[0], declare: args[1],);
@@ -89,7 +89,7 @@ Route onGenerateRoute(RouteSettings settings) {
     case RouteStrings.fillFormSymptom:
       final List args = settings.arguments;
 
-      print(args[0]);
+      // print(args[0]);
       return MySlide(
         builder: (context) {
           return FillSymptomRoute(person: args[0], declare: args[1],);
@@ -101,7 +101,7 @@ Route onGenerateRoute(RouteSettings settings) {
     case RouteStrings.fillFormSchedule:
       final List args = settings.arguments;
 
-      print(args[0]);
+      // print(args[0]);
       return MySlide(
         builder: (context) {
           return FillScheduleRoute(person: args[0], declare: args[1],);

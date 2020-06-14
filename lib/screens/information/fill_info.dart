@@ -11,7 +11,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 class FillInforRoute extends StatelessWidget {
@@ -53,7 +52,7 @@ class FillInforRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MyCustomForm(person:person),
+          MyCustomForm(person: person),
         ],
       ),
     );
@@ -62,8 +61,8 @@ class FillInforRoute extends StatelessWidget {
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue,
-      TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
       text: newValue.text?.toUpperCase(),
       selection: newValue.selection,
@@ -97,27 +96,30 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
 
   List data;
-  Future<String> getData() async {
+  Future<String> getData(String id) async {
+    Map<String, String> qParams = {
+      'id': id,
+    };
     var response = await http.get(
-        Uri.encodeFull("http://10.0.2.2:8080/users"),
-        headers: {
-          "Accept": "application/hal+json",
-          "id":"string"
-        }
+      Uri.http("10.0.2.2:8080", "/user-declarations", qParams),
+      headers: {"Accept": "application/hal+json", "id": "555-555-555"},
     );
 //    data = json.decode(response.body);
-    print(response.body);
-
-    return "Success!";
+    if (response.statusCode == 200) {
+      print(response.body);
+      return "Success!";
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to load user-declare');
+    }
   }
 
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
-
   final format = DateFormat("yyyy-MM-dd");
   var now = new DateTime.now();
-
 
   // var formatter = new DateFormat("MM");
   // String month = formatter.format(now);
@@ -125,10 +127,74 @@ class MyCustomFormState extends State<MyCustomForm> {
   var currentSelectedProvince = 'Hồ Chí Minh';
   var currentSelectedGender = 'Nam';
 
-
   // var currentSelectedValue = 'Hồ Chí Minh';
-  var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
-  var gender = ["Nam","Nữ","Khác"];
+  var provinceTypes = [
+    'An Giang',
+    'Bà Rịa-Vũng Tàu',
+    'Bạc Liêu',
+    'Bắc Kạn',
+    'Bắc Giang',
+    'Bắc Ninh',
+    'Bến Tre',
+    'Bình Dương',
+    'Bình Định',
+    'Bình Phước',
+    'Bình Thuận',
+    'Cà Mau',
+    'Cao Bằng',
+    'Cần Thơ',
+    'Đà Nẵng',
+    'Đắk Lắk',
+    'Đắk Nông',
+    'Điện Biên',
+    'Đồng Nai',
+    'Đồng Tháp',
+    'Gia Lai',
+    'Hà Giang',
+    'Hà Nam',
+    'Hà Nội',
+    'Hà Tây',
+    'Hà Tĩnh',
+    'Hải Dương',
+    'Hải Phòng',
+    'Hòa Bình',
+    'Hồ Chí Minh',
+    'Hậu Giang',
+    'Hưng Yên',
+    'Khánh Hòa',
+    'Kiên Giang',
+    'Kon Tum',
+    'Lai Châu',
+    'Lào Cai',
+    'Lạng Sơn',
+    'Lâm Đồng',
+    'Long An',
+    'Nam Định',
+    'Nghệ An',
+    'Ninh Bình',
+    'Ninh Thuận',
+    'Phú Thọ',
+    'Phú Yên',
+    'Quảng Bình',
+    'Quảng Nam',
+    'Quảng Ngãi',
+    'Quảng Ninh',
+    'Quảng Trị',
+    'Sóc Trăng',
+    'Sơn La',
+    'Tây Ninh',
+    'Thái Bình',
+    'Thái Nguyên',
+    'Thanh Hóa',
+    'Thừa Thiên - Huế',
+    'Tiền Giang',
+    'Trà Vinh',
+    'Tuyên Quang',
+    'Vĩnh Long',
+    'Vĩnh Phúc',
+    'Yên Bái'
+  ];
+  var gender = ["Nam", "Nữ", "Khác"];
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +203,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     controller.beforeChange = (String previous, String next) {
       if (previous.length == 9) {
         controller.updateMask('000-000-000');
-      } 
-      else {
+      } else {
         controller.updateMask('000-000-000-000');
       }
       return true;
@@ -146,15 +211,11 @@ class MyCustomFormState extends State<MyCustomForm> {
 
     controller.updateText(widget._cmnd);
 
-
 //    controller.afterChange = (String previous, String next) {
 //      print("$previous | $next");
 //    };
 
-    PersonInfo arguments = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    PersonInfo arguments = ModalRoute.of(context).settings.arguments;
 //    personInfo.PersonInfo person=personInfo.PersonInfo(name: arguments.name,
 //        cardType: arguments.cardType,
 //        cardDate: arguments.cardDate,
@@ -167,10 +228,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 //        permanentAddress: arguments.permanentAddress);
 //    personInfo.PersonInfo person = new personInfo.PersonInfo();
     String namePerson;
-
-
-
-
 
     return Form(
       key: _formKey,
@@ -191,7 +248,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                   UpperCaseTextFormatter(),
                 ],
                 validator: (value) {
-
                   if (value.isEmpty) {
                     return 'Vui lòng nhập họ tên';
                   }
@@ -222,16 +278,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                 }
 
                 if (widget.person.cardType != null) {
-                  if (value.length != 11 && widget.person.cardType == CardType.cmnd) {
+                  if (value.length != 11 &&
+                      widget.person.cardType == CardType.cmnd) {
                     print(widget._cmnd);
                     return 'Số chứng minh nhân dân không hợp lệ';
-                  }
-                  else if (value.length != 15 && widget.person.cardType == CardType.cccd){
+                  } else if (value.length != 15 &&
+                      widget.person.cardType == CardType.cccd) {
                     return 'Số căn cước không hợp lệ';
                   }
-
-                }
-                else if (value.length != 11 && value.length != 15 ) {
+                } else if (value.length != 11 && value.length != 15) {
                   print(widget._cmnd);
                   return 'Số chứng minh nhân dân/căn cước công dân không hợp lệ';
                 }
@@ -239,8 +294,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 return null;
               },
               onSaved: (String val) {
-//                _cmnd = val;
-                widget._cmnd = controller.text;
+                widget._cmnd = val;
+                // widget._cmnd = controller.text;
 //                setState(() {
 //                  print(controller.text);
 //
@@ -306,7 +361,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     context: context,
                     firstDate: DateTime(1900),
                     initialDate:
-                    currentValue ?? DateTime(1995, now.month, now.day),
+                        currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -358,7 +413,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     context: context,
                     firstDate: DateTime(1900),
                     initialDate:
-                    currentValue ?? DateTime(2015, now.month, now.day),
+                        currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -390,7 +445,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                           child: Text(value),
                         );
                       }).toList(),
-
                     ),
                   ),
                 );
@@ -427,30 +481,27 @@ class MyCustomFormState extends State<MyCustomForm> {
                   onPressed: () {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
-//                    getData();
+                    getData("555-555-555");
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
                       widget.person.name = widget._fullName;
-                      widget.person.permanentAddress=widget._address;
-                      widget.person.birthDay=widget._birthday;
-                      widget.person.cardDate=widget._ngaycap;
-                      if (currentSelectedGender=="Nam"){
-                        widget.person.gender=Gender.male;
+                      widget.person.permanentAddress = widget._address;
+                      widget.person.birthDay = widget._birthday;
+                      widget.person.cardDate = widget._ngaycap;
+                      widget.person.cmnd = widget._cmnd;
+                      if (currentSelectedGender == "Nam") {
+                        widget.person.gender = Gender.male;
+                      } else if (currentSelectedGender == "Nam") {
+                        widget.person.gender = Gender.female;
+                      } else {
+                        widget.person.gender = Gender.other;
                       }
-                      else if (currentSelectedGender=="Nam"){
-                        widget.person.gender=Gender.female;
-                      }
-                      else{
-                        widget.person.gender=Gender.other;
-                      }
-                      widget.person.cardPlace=currentSelectedProvince;
-
-
+                      widget.person.cardPlace = currentSelectedProvince;
 //
                       Navigator.pushNamed(
-                          context,
-                          RouteStrings.fillFormEmailPhone,
-                          arguments: widget.person,
+                        context,
+                        RouteStrings.fillFormEmailPhone,
+                        arguments: widget.person,
                       );
                     } else {
                       //    If all data are not valid then start auto validation.

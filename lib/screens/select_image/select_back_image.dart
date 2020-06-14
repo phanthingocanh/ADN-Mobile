@@ -104,6 +104,7 @@ class _SelectBackImageScreenContainer extends StatelessWidget {
     PersonInfo personInfo =  await ClientApiService.instance.getPersonInfo(state.cardInfo);
     return Navigator.of(context).pushNamedAndRemoveUntil(
       RouteStrings.fillForm,
+      ModalRoute.withName(RouteStrings.selectMethod),
       arguments: personInfo,
     );
   }

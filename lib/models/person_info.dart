@@ -1,6 +1,5 @@
 import 'package:adnproject/constants/enums.dart';
-import 'package:flutter/foundation.dart';
-
+// import 'package:flutter/foundation.dart';
 
 class PersonInfo {
   String name;
@@ -15,7 +14,6 @@ class PersonInfo {
   String email;
   Gender gender;
 
-
   PersonInfo({
     this.name,
     this.cmnd,
@@ -29,6 +27,30 @@ class PersonInfo {
     this.phone,
     this.gender,
   });
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'idCardNumber': cmnd,
+        'birthDay': birthDay.toString(),
+        'permanentAddress': permanentAddress,
+        'cardDate': cardDate.toString(),
+        'cardPlace': cardPlace,
+        'email': email,
+        'phone': phone,
+  };
+  factory PersonInfo.fromJson(Map<String, dynamic> json) {
+    return PersonInfo(
+      name: json['name'],
+      cmnd: json['idCardNumber'],
+      // cccd: json['idCardNumber'],
+      birthDay: json['birthDay'],
+      permanentAddress: json['permanentAddress'],
+      cardDate: json['cardDate'],
+      cardPlace: json['cardPlace'],
+      email: json['email'],
+      phone: json['phone'],
+    );
+  }
+  
 
 //  String get personName{
 //    return name;

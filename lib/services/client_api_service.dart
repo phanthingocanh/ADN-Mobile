@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:adnproject/models/card_info.dart';
+import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/constants/enums.dart';
+import 'package:http/http.dart' as http;
 
 class ClientApiService {
   ClientApiService._();
@@ -23,5 +27,37 @@ class ClientApiService {
       gender: Gender.male,
       cardType: CardType.cmnd,
     );
+  }
+
+  Future<String> postPersonDeclare(
+      PersonInfo person, Declaration declare) async {
+    String json1 = jsonEncode(person);
+    String json2 = jsonEncode(declare);
+    String bodyPass = {'userRequest':json1,'declarationRequest': json2}.toString();
+    print(bodyPass);
+    var res = await http.post(
+        Uri.encodeFull("http://10.0.2.2:8080/user-declarations"),
+        headers: {"Accept": "application/hal+json"},
+        body: {
+          'userRequest': json1,
+          'declarationRequest': json2,
+        },
+    );
+    print(json2);
+    if (res.statusCode == 200){
+      print("Body " +res.body);
+      return "Success";
+    }
+    else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to post user-declare');
+    }
+  }
+
+  
+  Future<String> getData() async {
+    await http.get(Uri.encodeFull("http://10.0.2.2:8080/users"),
+        headers: {"Accept": "application/hal+json", "id": "string"});
   }
 }

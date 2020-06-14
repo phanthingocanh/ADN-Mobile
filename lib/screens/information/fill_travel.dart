@@ -177,12 +177,20 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   bool _travel = false;
   var now = new DateTime.now();
+  
 
-
+  var currentSelectedValue1 = 'Hồ Chí Minh';
   var currentSelectedValue = 'Hồ Chí Minh';
   var provinceTypes = ['An Giang', 'Bà Rịa-Vũng Tàu', 'Bạc Liêu', 'Bắc Kạn', 'Bắc Giang', 'Bắc Ninh', 'Bến Tre', 'Bình Dương', 'Bình Định', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cao Bằng', 'Cần Thơ', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tây', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hòa Bình', 'Hồ Chí Minh', 'Hậu Giang', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên - Huế', 'Tiền Giang', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'];
   final format = DateFormat("yyyy-MM-dd");
   Widget build(BuildContext context) {
+    widget.declare.isDomesticTravel = _travel;
+    widget.declare.fromProvince = "";
+    widget.declare.toProvince = "";
+    widget.declare.arrivalDate = new DateTime(2020);
+    widget.declare.departureDate = new DateTime(2020);
+    widget.declare.travelBy = "";
+
     return Column(
       children: <Widget>[
         Padding(
@@ -194,6 +202,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                 ),
               ),
               value: _travel,
+              
               onChanged: (bool value) {
                 widget.declare.isDomesticTravel=value;
                 setState(() {
@@ -220,14 +229,14 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           hint: Text("Chọn tỉnh"),
-                          value: currentSelectedValue,
+                          value: currentSelectedValue1,
                           isDense: true,
                           onChanged: (newValue) {
                             widget.declare.fromProvince=newValue;
                             setState(() {
-                              currentSelectedValue = newValue;
+                              currentSelectedValue1 = newValue;
                             });
-                            print(currentSelectedValue);
+                            print(currentSelectedValue1);
                           },
                           items: provinceTypes.map((String value) {
                             return DropdownMenuItem<String>(
