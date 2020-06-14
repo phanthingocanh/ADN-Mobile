@@ -23,10 +23,10 @@ Future<PersonInfo> analyzeImage(File frontImage, File backImage) async {
     cmnd: _extractCmnd(frontVisionText) ?? '',
     birthDay: _extractDate(frontVisionText),
     permanentAddress: _extractBlock(frontVisionText, 'noi dkhk thuong tru')
-            .replaceAll('\n', ' ') ??
+            ?.replaceAll('\n', ' ') ??
         '',
     cardDate: _extractCardDate(backVisionText),
-    cardPlace: _extractCardPlace(backVisionText),
+    cardPlace: _extractCardPlace(backVisionText) ?? '',
     cardType: CardType.cmnd,
   );
 
