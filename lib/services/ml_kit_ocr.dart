@@ -62,11 +62,15 @@ DateTime _extractCardDate(VisionText visionText) {
   );
   var numbers =
       datePattern.allMatches(simplified).map((e) => e.group(0)).toList();
-  return new DateTime(
-    int.parse(numbers[2] + numbers[3]),
-    int.parse(numbers[1]),
-    int.parse(numbers[0]),
-  );
+  if (numbers.length >= 4) {
+    return new DateTime(
+      int.parse(numbers[2] + numbers[3]),
+      int.parse(numbers[1]),
+      int.parse(numbers[0]),
+    );
+  } else {
+    return DateTime.now();
+  }
 }
 
 DateTime _extractDate(VisionText visionText) {
