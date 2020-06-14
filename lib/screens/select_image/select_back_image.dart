@@ -2,6 +2,7 @@ import 'package:adnproject/blocs/card_info/card_info_bloc.dart';
 import 'package:adnproject/blocs/card_info/card_info_event.dart';
 import 'package:adnproject/blocs/card_info/card_info_state.dart';
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/screens/select_image/select_image_button.dart';
 import 'package:adnproject/services/client_api_service.dart';
 import 'package:adnproject/widgets/domestic_guest_banner.dart';
@@ -100,10 +101,10 @@ class _SelectBackImageScreenContainer extends StatelessWidget {
 
   _process(BuildContext context, CardInfoState state) async {
     BlocProvider.of<CardInfoBloc>(context).add(SendCardInfoEvent());
-    final personInfo =
-        await ClientApiService.instance.getPersonInfo(state.cardInfo);
-    return Navigator.of(context).pushReplacementNamed(
+    PersonInfo personInfo =  await ClientApiService.instance.getPersonInfo(state.cardInfo);
+    return Navigator.of(context).pushNamedAndRemoveUntil(
       RouteStrings.fillForm,
+      ModalRoute.withName(RouteStrings.selectMethod),
       arguments: personInfo,
     );
   }

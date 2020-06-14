@@ -1,9 +1,11 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/screens/select_image/select_front_image.dart';
 import 'package:adnproject/widgets/domestic_guest_banner.dart';
 import 'package:flutter/material.dart';
 
 class SelectMethodRoute extends StatelessWidget {
+  PersonInfo person = new PersonInfo();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +55,7 @@ class SelectMethodRoute extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     RouteStrings.fillForm,
+                    arguments: person,
                   );
                 },
               ),

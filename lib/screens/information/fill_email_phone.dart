@@ -3,15 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:adnproject/models/person_info.dart';
+import 'package:adnproject/services/client_api_service.dart';
+
 // import 'package:validators/validators.dart' as validate;
 
 class FillEmailPhoneRoute extends StatelessWidget {
+  PersonInfo person;
+  FillEmailPhoneRoute({
+    Key key,
+    @required this.person,
+  }) : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
         appBar: AppBar(
           title: Text(Strings.formInfoTitle),
+//          title: Text(name),
         ),
         body: ListView(
 //        crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,7 +55,7 @@ class FillEmailPhoneRoute extends StatelessWidget {
                 height: 30.0,
                 color: Colors.grey[800],
               ),
-              MyCustomFormEmailPhone(),
+              MyCustomFormEmailPhone(person: person),
             ],
         ),
     );
@@ -53,6 +64,8 @@ class FillEmailPhoneRoute extends StatelessWidget {
 
 // Create a Form widget.
 class MyCustomFormEmailPhone extends StatefulWidget {
+  PersonInfo person;
+  MyCustomFormEmailPhone({this.person});
   @override
   MyCustomFormEmailPhoneState createState() {
     return MyCustomFormEmailPhoneState();
@@ -68,14 +81,50 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
+//  final personInfo.PersonInfo person;
   bool _autoValidate = false;
   var _email ;
   var _mobile;
 
-  
+
 
   @override
+
+
+
   Widget build(BuildContext context) {
+    // var getPerson = ClientApiService.instance.getPersonInfoById(widget.person.cmnd);
+    ClientApiService.instance.getPersonInfoById(widget.person.cmnd).then((personInfo) {
+      print("aa");
+      if (personInfo!=null){
+        // print(personInfo.email);
+        _email=personInfo.email;
+        _mobile=personInfo.phone;
+        print(_email);
+      }
+      else {
+        print("fail");
+      }
+    });
+    final PersonInfo args = ModalRoute.of(context).settings.arguments;
+//    RouteSettings settings = ModalRoute.of(context).settings;
+//    PersonInfo arguments = settings.arguments;
+//    final PersonInfo arguments = ModalRoute
+//        .of(context)
+//        .settings
+//        .arguments;
+//    PersonInfo person=PersonInfo(name: arguments.name,
+//        cardType: arguments.cardType,
+//        cardDate: arguments.cardDate,
+//        cardPlace: arguments.cardPlace,
+//        cmnd: arguments.cmnd,
+//        phone: arguments.phone,
+//        birthDay: arguments.birthDay,
+//        email: arguments.email,
+//        gender: arguments.gender,
+//        permanentAddress: arguments.permanentAddress);
+
+
     var controller = new MaskedTextController(mask: '0000-000-000');
     controller.beforeChange = (String previous, String next) {
       print("$previous");
@@ -103,6 +152,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
           padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           child: TextFormField(
             controller: controller,
+            // initialValue: _mobile,
             inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
               labelText: 'Số điện thoại',
@@ -115,7 +165,9 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
               String patttern =r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)';
               RegExp regExp = new RegExp(patttern);
               _mobile = value;
+              print(widget.person.name);
               if (value.isEmpty) {
+
 
                 return 'Vui lòng nhập số điện thoại';
               }
@@ -126,8 +178,11 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
 
             },
             onSaved: (String val) {
-              _mobile = val;
+              _mobile =val;
+//              arguments.phone=val;
+//              print(args.name);
             },
+
           ),
         ),
 
@@ -136,11 +191,14 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
           child: new TextFormField(
             decoration: InputDecoration(
               labelText: 'Địa chỉ email',
+              
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0)
               ),
 
             ),
+            initialValue: _email,
+
             keyboardType: TextInputType.emailAddress,
             validator: validateEmail,
             onSaved: (String val) {
@@ -159,10 +217,15 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                 height: 50,
                 child: RaisedButton(
                   onPressed: (){
+//                    print(arguments.name);
+                    print(widget.person.gender);
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                           _formKey.currentState.save();
-                          Navigator.pushNamed(context, RouteStrings.fillFormTravel);
+                          widget.person.phone=_mobile;
+                          widget.person.email=_email;
+
+                          Navigator.pushNamed(context, RouteStrings.fillFormTravel,arguments: widget.person);
                         } else {
                       //    If all data are not valid then start auto validation.
                           setState(() {

@@ -1,7 +1,17 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/person_info.dart';
 import 'package:flutter/material.dart';
+import 'package:adnproject/services/client_api_service.dart';
 
 class SendInfoRoute extends StatelessWidget {
+  PersonInfo person;
+  Declaration declare;
+  SendInfoRoute({
+    Key key,
+    @required this.person,
+    @required this.declare,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // final appTitle = 'Form Validation Demo';
@@ -30,7 +40,10 @@ class SendInfoRoute extends StatelessWidget {
             height: 30.0,
             color: Colors.grey[800],
           ),
-          MySendInfoForm(),
+          MySendInfoForm(
+            person: person,
+            declare: declare,
+          ),
         ],
       ),
     );
@@ -38,8 +51,12 @@ class SendInfoRoute extends StatelessWidget {
 }
 
 class MySendInfoForm extends StatefulWidget {
+  PersonInfo person;
+  Declaration declare;
+  MySendInfoForm({this.person, this.declare});
   @override
   MySendInfoFormState createState() {
+    print(person.name);
     return MySendInfoFormState();
   }
 }
@@ -78,16 +95,16 @@ class MySendInfoFormState extends State<MySendInfoForm> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Đóng'),
-                onPressed: () {
+                  child: Text('Đóng'),
+                  onPressed: () {
 //                  Navigator.pushNamed(context, RouteStrings.home)  ,
-                  return Navigator.of(context).pushNamedAndRemoveUntil(
-                  RouteStrings.home,
-                  ModalRoute.withName(RouteStrings.home),
-
-                  );
-                }
-              )
+                    // print("PRESS" + widget.person.name);
+                    // ClientApiService.instance.postPersonDeclare(widget.person,widget.declare);
+                    return Navigator.of(context).pushNamedAndRemoveUntil(
+                      RouteStrings.home,
+                      ModalRoute.withName(RouteStrings.home),
+                    );
+                  })
             ],
           );
         });
@@ -101,22 +118,22 @@ class MySendInfoFormState extends State<MySendInfoForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Mã bảo mật',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-              ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Vui lòng nhập mã bảo mật';
-                }
-                return null;
-              },
-            ),
-          ),
+//          Padding(
+//            padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+//            child: TextFormField(
+//              decoration: InputDecoration(
+//                labelText: 'Mã bảo mật',
+//                border: OutlineInputBorder(
+//                    borderRadius: BorderRadius.circular(10.0)),
+//              ),
+//              validator: (value) {
+//                if (value.isEmpty) {
+//                  return 'Vui lòng nhập mã bảo mật';
+//                }
+//                return null;
+//              },
+//            ),
+//          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             child: Text(
@@ -159,6 +176,14 @@ class MySendInfoFormState extends State<MySendInfoForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+                      print("Press");
+                      print(widget.person.name);
+                      widget.declare.createdAt = DateTime.now();
+                      ClientApiService.instance
+                          .postPersonDeclare(widget.person, widget.declare);
+                      // var res = ClientApiService.instance.getData();
+                      // print(res.toString());
+
                       createAlertDialog(context);
                     } else {
                       //    If all data are not valid then start auto validation.
