@@ -1,4 +1,5 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/declaration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -10,14 +11,22 @@ import 'package:adnproject/services/client_api_service.dart';
 
 class FillEmailPhoneRoute extends StatelessWidget {
   PersonInfo person;
+  String email;
+  String mobile;
   FillEmailPhoneRoute({
     Key key,
     @required this.person,
+    @required this.email,
+    @required this.mobile,
   }) : super(key: key);
 
 
+
   @override
+
+
   Widget build(BuildContext context) {
+    print(email);
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
         appBar: AppBar(
@@ -55,7 +64,7 @@ class FillEmailPhoneRoute extends StatelessWidget {
                 height: 30.0,
                 color: Colors.grey[800],
               ),
-              MyCustomFormEmailPhone(person: person),
+              MyCustomFormEmailPhone(person: person, email: email, phone: mobile),
             ],
         ),
     );
@@ -65,7 +74,9 @@ class FillEmailPhoneRoute extends StatelessWidget {
 // Create a Form widget.
 class MyCustomFormEmailPhone extends StatefulWidget {
   PersonInfo person;
-  MyCustomFormEmailPhone({this.person});
+  String email;
+  String phone;
+  MyCustomFormEmailPhone({this.person, this.email,this.phone});
   @override
   MyCustomFormEmailPhoneState createState() {
     return MyCustomFormEmailPhoneState();
@@ -85,27 +96,37 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
   bool _autoValidate = false;
   var _email ;
   var _mobile;
+  String countries;
+  bool isMoving = false;
+  String noidi;
+  String noiden;
+  String phuongtien;
+  DateTime ngaydi;
+  DateTime ngayden;
+
 
 
 
   @override
 
-
-
   Widget build(BuildContext context) {
-    // var getPerson = ClientApiService.instance.getPersonInfoById(widget.person.cmnd);
-    ClientApiService.instance.getPersonInfoById(widget.person.cmnd).then((personInfo) {
-      print("aa");
-      if (personInfo!=null){
-        // print(personInfo.email);
-        _email=personInfo.email;
-        _mobile=personInfo.phone;
-        print(_email);
-      }
-      else {
-        print("fail");
-      }
-    });
+//    Future<PersonInfo> getPerson() async
+//    {
+//      return await ClientApiService.instance.getPersonInfoById(widget.person.cmnd);
+//    };
+//    getPerson().then((personInfo) {
+//      print("aa");
+//      if (personInfo!=null){
+//        // print(personInfo.email);
+//        _email=personInfo.email;
+//        _mobile=personInfo.phone;
+//        print(_email);
+//      }
+//      else {
+//        print("fail");
+//      }
+//    });
+//    print("email2: "+ widget.email);
     final PersonInfo args = ModalRoute.of(context).settings.arguments;
 //    RouteSettings settings = ModalRoute.of(context).settings;
 //    PersonInfo arguments = settings.arguments;
@@ -124,7 +145,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
 //        gender: arguments.gender,
 //        permanentAddress: arguments.permanentAddress);
 
-
+    print(widget.email);
     var controller = new MaskedTextController(mask: '0000-000-000');
     controller.beforeChange = (String previous, String next) {
       print("$previous");
@@ -140,7 +161,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
     controller.afterChange = (String previous, String next) {
 //    print("$previous | $next");
     };
-    controller.updateText(_mobile);
+    controller.updateText(widget.phone);
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -164,8 +185,8 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
             validator: (value) {
               String patttern =r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)';
               RegExp regExp = new RegExp(patttern);
-              _mobile = value;
-              print(widget.person.name);
+              widget.phone = value;
+//              print(widget.person.name);
               if (value.isEmpty) {
 
 
@@ -178,7 +199,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
 
             },
             onSaved: (String val) {
-              _mobile =val;
+              widget.phone =val;
 //              arguments.phone=val;
 //              print(args.name);
             },
@@ -197,12 +218,12 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
               ),
 
             ),
-            initialValue: _email,
+            initialValue: widget.email,
 
             keyboardType: TextInputType.emailAddress,
             validator: validateEmail,
             onSaved: (String val) {
-              _email = val;
+              widget.email = val;
             },
           ),
         ),
@@ -222,10 +243,51 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                           _formKey.currentState.save();
-                          widget.person.phone=_mobile;
-                          widget.person.email=_email;
+                          widget.person.phone=widget.phone;
+                          widget.person.email=widget.email;
 
-                          Navigator.pushNamed(context, RouteStrings.fillFormTravel,arguments: widget.person);
+                          Future<Declaration> getDeclare() async
+                          {
+
+                            return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
+                          }
+
+                          getDeclare().then((declare) {
+                            if (declare != null) {
+                              // print(declare.email);
+//                              print("khac null");
+                              countries = declare.countriesVisited;
+                              isMoving = declare.isDomesticTravel;
+                              noiden = declare.toProvince;
+                              noidi = declare.fromProvince;
+                              ngaydi = declare.departureDate;
+                              ngayden = declare.arrivalDate;
+                              phuongtien = declare.travelBy;
+                            }
+                            else {
+                              countries = "";
+                              isMoving = false;
+                              noiden = "";
+                              noidi = "";
+                              ngaydi = DateTime(DateTime.now().year, DateTime.now().month);
+                              ngayden = DateTime(DateTime.now().year, DateTime.now().month);
+                              phuongtien = "";
+
+                            }
+                          });
+//                          print("aa");
+//                          print(isMoving);
+                      Future delay() async{
+                        await new Future.delayed(new Duration(seconds: 1), ()
+                        {
+                          Navigator.pushNamed(context, RouteStrings.fillFormTravel,arguments: [widget.person, countries, isMoving, ngayden, ngaydi, noiden, noidi, phuongtien]);
+                        }
+                        );
+
+                      }
+                      delay();
+
+//                          Navigator.pushNamed(context, RouteStrings.fillFormTravel,arguments: [widget.person, countries, isMoving, ngayden, ngaydi, noiden, noidi, phuongtien]);
                         } else {
                       //    If all data are not valid then start auto validation.
                           setState(() {

@@ -4,6 +4,7 @@ import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/user_declare.dart';
+import 'package:adnproject/services/client_api_service.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -182,6 +183,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     'Yên Bái'
   ];
   var gender = ["Nam", "Nữ", "Khác"];
+  String email;
+  String mobile;
 
   @override
   Widget build(BuildContext context) {
@@ -480,6 +483,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     // getData("111-111-111-111");
+
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
                       widget.person.name = widget._fullName;
@@ -495,12 +499,47 @@ class MyCustomFormState extends State<MyCustomForm> {
                         widget.person.gender = Gender.other;
                       }
                       widget.person.cardPlace = currentSelectedProvince;
+
+                      Future<PersonInfo> getPerson() async
+                      {
+//                        await new Future.delayed(const Duration(seconds: 3));
+
+                        return await ClientApiService.instance.getPersonInfoById(widget._cmnd);
+                      }
+
+                      getPerson().then((personInfo) {
+                        if (personInfo!=null){
+                          // print(personInfo.email);
+                          email=personInfo.email;
+                          mobile=personInfo.phone;
+
+                        }
+                        else {
+                          email='';
+                          mobile='';
+                        }
+                      });
+
+                      Future delay() async{
+                        await new Future.delayed(new Duration(seconds: 1), ()
+                        {
+                          Navigator.pushNamed(
+                              context,
+                              RouteStrings.fillFormEmailPhone,
+                              arguments: [widget.person, email, mobile]
+                          );
+                        }
+                        );
+
+                      }
+                      delay();
+
 //
-                      Navigator.pushNamed(
-                        context,
-                        RouteStrings.fillFormEmailPhone,
-                        arguments: widget.person,
-                      );
+//                      Navigator.pushNamed(
+//                        context,
+//                        RouteStrings.fillFormEmailPhone,
+//                        arguments: [widget.person, email, mobile]
+//                      );
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {

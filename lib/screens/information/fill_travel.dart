@@ -13,12 +13,28 @@ import 'package:intl/intl.dart';
 
 class FillTravelRoute extends StatelessWidget {
   PersonInfo person;
+  String countries;
+  bool isMoving;
+  String noidi;
+  String noiden;
+  String phuongtien;
+  DateTime ngaydi;
+  DateTime ngayden;
   FillTravelRoute({
     Key key,
     @required this.person,
+    @required this.countries,
+    @required this.isMoving,
+    @required this.ngaydi,
+    @required this.ngayden,
+    @required this.noidi,
+    @required this.noiden,
+    @required this.phuongtien,
+
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print("route"+isMoving.toString());
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
       appBar: AppBar(
@@ -47,6 +63,14 @@ class FillTravelRoute extends StatelessWidget {
           ),
           MyTravelForm(
             person: person,
+            countries: countries,
+            isMoving:isMoving,
+            ngaydi:ngaydi,
+            ngayden:ngayden,
+            noidi:noidi,
+            noiden:noiden,
+            phuongtien:phuongtien,
+
           ),
         ],
       ),
@@ -57,7 +81,22 @@ class FillTravelRoute extends StatelessWidget {
 // Create a Form widget.
 class MyTravelForm extends StatefulWidget {
   PersonInfo person;
-  MyTravelForm({this.person});
+  String countries;
+  bool isMoving = false;
+  String noidi;
+  String noiden;
+  String phuongtien;
+  DateTime ngaydi;
+  DateTime ngayden;
+  MyTravelForm({this.person,
+     this.countries,
+     this.isMoving,
+     this.ngaydi,
+     this.ngayden,
+     this.noidi,
+     this.noiden,
+     this.phuongtien,
+  });
   @override
   MyTravelFormState createState() {
     return MyTravelFormState();
@@ -73,34 +112,37 @@ class MyTravelFormState extends State<MyTravelForm> {
   final _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
+  bool sot, ho, khoTho, viemPhoi, dauHong, metMoi;
+
   Declaration declare = new Declaration();
-  String countries;
-  bool isMoving = false;
-  String noidi;
-  String noiden;
-  String phuongtien;
-  DateTime ngaydi;
-  DateTime ngayden;
+//  String countries;
+//  bool isMoving = false;
+//  String noidi;
+//  String noiden;
+//  String phuongtien;
+//  DateTime ngaydi;
+//  DateTime ngayden;
 
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
-    ClientApiService.instance
-        .getDeclaration(widget.person.cmnd)
-        .then((declare) {
-      if (declare != null) {
-        // print(declare.email);
-        countries = declare.countriesVisited;
-        isMoving = declare.isDomesticTravel;
-        noiden = declare.toProvince;
-        noidi = declare.fromProvince;
-        ngaydi = declare.departureDate;
-        ngayden = declare.arrivalDate;
-        phuongtien = declare.travelBy;
-      } else {
-        print("fail");
-      }
-    });
+//    ClientApiService.instance
+//        .getDeclaration(widget.person.cmnd)
+//        .then((declare) {
+//      if (declare != null) {
+//        // print(declare.email);
+//        countries = declare.countriesVisited;
+//        isMoving = declare.isDomesticTravel;
+//        noiden = declare.toProvince;
+//        noidi = declare.fromProvince;
+//        ngaydi = declare.departureDate;
+//        ngayden = declare.arrivalDate;
+//        phuongtien = declare.travelBy;
+//      } else {
+//        print("fail");
+//      }
+//    });
+    print("form"+widget.isMoving.toString());
 
     return Form(
       key: _formKey,
@@ -126,7 +168,7 @@ class MyTravelFormState extends State<MyTravelForm> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)),
               ),
-              initialValue: countries,
+              initialValue: widget.countries,
               validator: (value) {
                 return null;
               },
@@ -137,12 +179,12 @@ class MyTravelFormState extends State<MyTravelForm> {
           ),
           TravelCheckbox(
             declare: declare,
-            isMoving: isMoving,
-            ngaydi: ngaydi,
-            ngayden: ngayden,
-            noidi: noidi,
-            noiden: noiden,
-            phuongtien: phuongtien,
+            isMoving: widget.isMoving,
+            ngaydi: widget.ngaydi,
+            ngayden: widget.ngayden,
+            noidi: widget.noidi,
+            noiden: widget.noiden,
+            phuongtien: widget.phuongtien,
           ),
           new SizedBox(
             height: 10.0,
@@ -158,9 +200,46 @@ class MyTravelFormState extends State<MyTravelForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      print(widget.person.name);
-                      Navigator.pushNamed(context, RouteStrings.fillFormSymptom,
-                          arguments: [widget.person, declare]);
+//                      print(widget.person.name);
+                      Future<Declaration> getDeclare() async
+                      {
+//                        await new Future.delayed(const Duration(seconds: 3));
+                        return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
+                      }
+
+                      getDeclare().then((declare) {
+                        if (declare != null) {
+                          // print(declare.email);
+//                              print("khac null");
+                          sot = declare.sot;
+                          ho = declare.ho;
+                          khoTho =declare.khoTho;
+                          viemPhoi = declare.viemPhoi;
+                          dauHong = declare.dauHong;
+                          metMoi = declare.metMoi;
+                        }
+                        else {
+                          sot = false;
+                          ho = false;
+                          khoTho = false;
+                          viemPhoi = false;
+                          dauHong = false;
+                          metMoi = false;
+
+                        }
+                      });
+                      print(declare.fromProvince.toString());
+                      Future delay() async{
+                        await new Future.delayed(new Duration(seconds: 1), ()
+                        {
+                          Navigator.pushNamed(context, RouteStrings.fillFormSymptom,
+                              arguments: [widget.person, declare, sot, ho, khoTho, viemPhoi, dauHong, metMoi]);
+                        }
+                        );
+
+                      }
+                      delay();
+
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -211,7 +290,6 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
   @override
   // bool _travel = false;
   var now = new DateTime.now();
-
 
   var provinceTypes = [
     'An Giang',
@@ -279,17 +357,24 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
     'Vĩnh Phúc',
     'Yên Bái'
   ];
-  var currentSelectedValue1= 'Hồ Chí Minh';
-  var currentSelectedValue= 'Hồ Chí Minh';
+  var noidi;
+  var noiden;
   final format = DateFormat("yyyy-MM-dd");
   Widget build(BuildContext context) {
-    
-    if (widget.noidi!=""){
-      currentSelectedValue1 = widget.noidi;
-      currentSelectedValue = widget.noiden;
+    if (widget.noidi=="" || widget.noiden==""){
+      noidi = 'Hồ Chí Minh';
+      noiden = 'Hồ Chí Minh';
     }
-       
+    else{
+      noidi = widget.noidi;
+      noiden = widget.noiden;
+    }
     
+
+
+
+
+    print(widget.isMoving);
     widget.declare.isDomesticTravel = widget.isMoving;
     widget.declare.fromProvince = "";
     widget.declare.toProvince = "";
@@ -332,14 +417,17 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           hint: Text("Chọn tỉnh"),
-                          value: currentSelectedValue1,
+                          value: noidi,
                           isDense: true,
                           onChanged: (newValue) {
                             widget.declare.fromProvince = newValue;
                             setState(() {
-                              currentSelectedValue1 = newValue;
+                              noidi = newValue;
+                              widget.noidi=newValue;
+                              widget.declare.fromProvince = newValue;
+
                             });
-                            print(currentSelectedValue1);
+//                            print(currentSelectedValue1);
                           },
                           items: provinceTypes.map((String value) {
                             return DropdownMenuItem<String>(
@@ -368,14 +456,18 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           hint: Text('Chọn Tỉnh'),
-                          value: currentSelectedValue,
+                          value: noiden,
                           isDense: true,
                           onChanged: (newValue) {
                             widget.declare.toProvince = newValue;
                             setState(() {
-                              currentSelectedValue = newValue;
+                              noiden = newValue;
+                              widget.noiden=newValue;
+                              widget.declare.toProvince = newValue;
+
+
                             });
-                            print(currentSelectedValue);
+//                            print(currentSelectedValue);
                           },
                           items: provinceTypes.map((String value) {
                             return DropdownMenuItem<String>(
@@ -401,13 +493,14 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                   format: format,
+                  initialValue: widget.ngaydi,
                   onShowPicker: (context, currentValue) {
-                    currentValue=widget.ngaydi;
+//                    widget.ngaydi=currentValue;
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime(1900),
                         initialDate:
-                            currentValue ?? DateTime(now.year, now.month),
+                            currentValue ?? widget.ngaydi,
                         lastDate: DateTime(2100));
                   },
                   onSaved: (DateTime val) {
@@ -427,12 +520,13 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                   format: format,
+                  initialValue: widget.ngayden,
                   onShowPicker: (context, currentValue) {
-                    currentValue=widget.ngayden;
+//                    currentValue=widget.ngayden;
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime(1900),
-                        initialDate: currentValue ?? DateTime.now(),
+                        initialDate: currentValue ?? widget.ngayden,
                         lastDate: DateTime(2100));
                   },
                   onSaved: (DateTime val) {

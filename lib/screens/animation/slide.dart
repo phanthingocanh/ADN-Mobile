@@ -9,4 +9,12 @@ class MySlide extends MaterialPageRoute{
     return SlideTransition(position: custom, child: child);
 //    return super.buildTransitions(context, animation, secondaryAnimation, child);
   }
+//  Widget widget;
+//  MySlide({this.widget}):
+//      super(
+//        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+//
+//        },
+//
+//      );
 }

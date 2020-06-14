@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+
 import 'package:adnproject/models/card_info.dart';
 import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
@@ -88,10 +89,11 @@ class ClientApiService {
   }
 
   Future<Declaration> getDeclaration(String id) async {
-    await new Future.delayed(const Duration(seconds: 1));
+//    await new Future.delayed(const Duration(seconds: 2));
     Map<String, String> qParams = {
       'id': id,
     };
+
     
     var response = await http.get(
       Uri.http("10.0.2.2:8080", "/user-declarations", qParams),

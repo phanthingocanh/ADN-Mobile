@@ -11,10 +11,33 @@ import 'package:flutter/material.dart';
 class FillMedicalHistoricalRoute extends StatelessWidget {
   PersonInfo person;
   Declaration declare;
+  bool benhGanManTinh;
+  bool benhMauManTinh;
+  bool benhPhoiManTinh;
+  bool benhThanManTinh;
+  bool benhTimMach;
+  bool huyetApCao;
+  bool suyGiamMienDich;
+  bool ghepTangHoacXuong;
+  bool tieuDuong;
+  bool ungThu;
+  bool mangThai;
   FillMedicalHistoricalRoute({
     Key key,
     @required this.person,
     @required this.declare,
+    @required this.benhGanManTinh,
+    @required this.benhMauManTinh,
+    @required this.benhPhoiManTinh,
+    @required this.benhThanManTinh,
+    @required this.benhTimMach,
+    @required this.huyetApCao,
+    @required this.suyGiamMienDich,
+    @required this.ghepTangHoacXuong,
+    @required this.tieuDuong,
+    @required this.ungThu,
+    @required this.mangThai,
+
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -47,6 +70,17 @@ class FillMedicalHistoricalRoute extends StatelessWidget {
           MyMedicalHistoricalForm(
             person: person,
             declare: declare,
+            benhGanManTinh: benhGanManTinh,
+            benhMauManTinh:benhMauManTinh,
+            benhPhoiManTinh:benhPhoiManTinh,
+            benhThanManTinh:benhThanManTinh,
+            benhTimMach:benhTimMach,
+            huyetApCao:huyetApCao,
+            suyGiamMienDich:suyGiamMienDich,
+            ghepTangHoacXuong:ghepTangHoacXuong,
+            tieuDuong:tieuDuong,
+            ungThu:ungThu,
+            mangThai:mangThai,
           ),
         ],
       ),
@@ -58,7 +92,32 @@ class FillMedicalHistoricalRoute extends StatelessWidget {
 class MyMedicalHistoricalForm extends StatefulWidget {
   PersonInfo person;
   Declaration declare;
-  MyMedicalHistoricalForm({this.person, this.declare});
+  bool benhGanManTinh;
+  bool benhMauManTinh;
+  bool benhPhoiManTinh;
+  bool benhThanManTinh;
+  bool benhTimMach;
+  bool huyetApCao;
+  bool suyGiamMienDich;
+  bool ghepTangHoacXuong;
+  bool tieuDuong;
+  bool ungThu;
+  bool mangThai;
+  MyMedicalHistoricalForm({
+    this.person, this.declare,
+      this.benhGanManTinh,
+      this.benhMauManTinh,
+      this.benhPhoiManTinh,
+      this.benhThanManTinh,
+      this.benhTimMach,
+      this.huyetApCao,
+      this.suyGiamMienDich,
+      this.ghepTangHoacXuong,
+      this.tieuDuong,
+      this.ungThu,
+      this.mangThai,
+
+  });
   @override
   MyMedicalHistoricalFormState createState() {
     return MyMedicalHistoricalFormState();
@@ -92,6 +151,17 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
           MedicalHistoricalCheckbox(
             person: widget.person,
             declare: widget.declare,
+            benhGanManTinh: widget.benhGanManTinh,
+            benhMauManTinh:widget.benhMauManTinh,
+            benhPhoiManTinh:widget.benhPhoiManTinh,
+            benhThanManTinh: widget.benhThanManTinh,
+            benhTimMach: widget.benhTimMach,
+            huyetApCao: widget.huyetApCao,
+            suyGiamMienDich: widget.suyGiamMienDich,
+            ghepTangHoacXuong: widget.ghepTangHoacXuong,
+            tieuDuong: widget.tieuDuong,
+            ungThu: widget.ungThu,
+            mangThai: widget.mangThai,
           ),
           new SizedBox(
             height: 10.0,
@@ -107,6 +177,7 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+
                       Navigator.pushNamed(context, RouteStrings.sendInfoForm,
                           arguments: [widget.person, widget.declare]);
                     } else {
@@ -134,7 +205,34 @@ class MyMedicalHistoricalFormState extends State<MyMedicalHistoricalForm> {
 class MedicalHistoricalCheckbox extends StatefulWidget {
   PersonInfo person;
   Declaration declare;
-  MedicalHistoricalCheckbox({this.person, this.declare});
+
+  bool benhGanManTinh;
+  bool benhMauManTinh;
+  bool benhPhoiManTinh;
+  bool benhThanManTinh;
+  bool benhTimMach;
+  bool huyetApCao;
+  bool suyGiamMienDich;
+  bool ghepTangHoacXuong;
+  bool tieuDuong;
+  bool ungThu;
+  bool mangThai;
+  MedicalHistoricalCheckbox({
+    this.person, this.declare,
+    this.benhGanManTinh,
+    this.benhMauManTinh,
+    this.benhPhoiManTinh,
+    this.benhThanManTinh,
+    this.benhTimMach,
+    this.huyetApCao,
+    this.suyGiamMienDich,
+    this.ghepTangHoacXuong,
+    this.tieuDuong,
+    this.ungThu,
+    this.mangThai,
+
+  });
+//  MedicalHistoricalCheckbox({this.person, this.declare});
 //  MedicalHistoricalCheckbox({Key key}) : super(key: key);
 
   @override
@@ -159,6 +257,20 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
 
   @override
   Widget build(BuildContext context) {
+    question3['Bệnh gan mãn tĩnh']=widget.benhGanManTinh;
+    question3['Bệnh máu mãn tính']=widget.benhMauManTinh;
+    question3['Bệnh phổi mãn tính']=widget.benhPhoiManTinh;
+    question3['Bệnh thận mãn tính']=widget.benhThanManTinh;
+    question3['Bệnh tim mạch']=widget.benhTimMach;
+    question3['Huyết áp cao']=widget.huyetApCao ;
+    question3['Suy giảm miễn dịch']=widget.suyGiamMienDich ;
+    question3['Người nhận ghép tạng , Thủy xương']=widget.ghepTangHoacXuong
+    ;
+    question3['Tiểu đường']=widget.tieuDuong ;
+    question3['Ung thư']=widget.ungThu;
+    question3['Bạn có đang trong thời gian thai kỳ hay không?']=widget.mangThai;
+
+
     widget.declare.benhGanManTinh = question3['Bệnh gan mãn tĩnh'];
     widget.declare.benhMauManTinh = question3['Bệnh máu mãn tính'];
     widget.declare.benhPhoiManTinh = question3['Bệnh phổi mãn tính'];
@@ -180,6 +292,19 @@ class _MedicalHistoricalCheckboxState extends State<MedicalHistoricalCheckbox> {
           onChanged: (bool value) {
             setState(() {
               question3[key] = value;
+              widget.benhGanManTinh = question3['Bệnh gan mãn tĩnh'];
+              widget.benhMauManTinh = question3['Bệnh máu mãn tính'];
+              widget.benhPhoiManTinh = question3['Bệnh phổi mãn tính'];
+              widget.benhThanManTinh = question3['Bệnh thận mãn tính'];
+              widget.benhTimMach = question3['Bệnh tim mạch'];
+              widget.huyetApCao = question3['Huyết áp cao'];
+              widget.suyGiamMienDich = question3['Suy giảm miễn dịch'];
+              widget.ghepTangHoacXuong =
+              question3['Người nhận ghép tạng , Thủy xương'];
+              widget.tieuDuong = question3['Tiểu đường'];
+              widget.ungThu = question3['Ung thư'];
+              widget.mangThai =
+              question3['Bạn có đang trong thời gian thai kỳ hay không?'];
             });
             widget.declare.benhGanManTinh = question3['Bệnh gan mãn tĩnh'];
             widget.declare.benhMauManTinh = question3['Bệnh máu mãn tính'];

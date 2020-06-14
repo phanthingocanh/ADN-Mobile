@@ -50,21 +50,21 @@ Route onGenerateRoute(RouteSettings settings) {
 //      page = MySlide(builder: (BuildContext context) => FillInforRoute());
 //      break;
     case RouteStrings.fillFormEmailPhone:
-      final PersonInfo args = settings.arguments;
+      final List args = settings.arguments;
 //      print(args);
       return MySlide(
         builder: (context) {
-          return FillEmailPhoneRoute(person: args);
+          return FillEmailPhoneRoute(person: args[0], email: args[1], mobile: args[2]);
         },
       );
 //      page = MySlide(builder: (BuildContext context) => FillEmailPhoneRoute());
 //      break;
     case RouteStrings.fillFormTravel:
-      final PersonInfo args = settings.arguments;
+      final List args = settings.arguments;
 //      print(args);
       return MySlide(
           builder: (context) {
-            return FillTravelRoute(person: args);
+            return FillTravelRoute(person: args[0], countries: args[1], isMoving: args[2], ngayden: args[3], ngaydi: args[4],noiden: args[5],noidi: args[6], phuongtien: args[7]);
           },
       );
 //      page = MySlide(builder: (BuildContext context) => FillTravelRoute());
@@ -92,7 +92,7 @@ Route onGenerateRoute(RouteSettings settings) {
       // print(args[0]);
       return MySlide(
         builder: (context) {
-          return FillSymptomRoute(person: args[0], declare: args[1],);
+          return FillSymptomRoute(person: args[0], declare: args[1], sot: args[2], ho: args[3], khoTho: args[4], viemPhoi: args[5], dauHong: args[6], metMoi:args[7]);
         },
       );
 
@@ -104,7 +104,7 @@ Route onGenerateRoute(RouteSettings settings) {
       // print(args[0]);
       return MySlide(
         builder: (context) {
-          return FillScheduleRoute(person: args[0], declare: args[1],);
+          return FillScheduleRoute(person: args[0], declare: args[1],nguoiBenh: args[2], nguoiTuNuocCoBenh: args[3], nguoiCoBieuHien: args[4]);
         },
       );
 //      page = MySlide(builder: (BuildContext context) => FillScheduleRoute());
@@ -115,7 +115,20 @@ Route onGenerateRoute(RouteSettings settings) {
       // print(args[0]);
       return MySlide(
         builder: (context) {
-          return FillMedicalHistoricalRoute(person: args[0], declare: args[1],);
+          return FillMedicalHistoricalRoute(
+            person: args[0], declare: args[1],
+            benhMauManTinh:args[2],
+            benhPhoiManTinh:args[3],
+            benhThanManTinh:args[4],
+            benhTimMach:args[5],
+            huyetApCao:args[6],
+            suyGiamMienDich:args[7],
+            ghepTangHoacXuong:args[8],
+            tieuDuong:args[9],
+            ungThu:args[10],
+            mangThai:args[11],
+            benhGanManTinh:args[12] ,
+          );
         },
       );
 //      page = MySlide(builder: (BuildContext context) => FillMedicalHistoricalRoute());

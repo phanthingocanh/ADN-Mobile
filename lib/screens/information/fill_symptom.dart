@@ -14,10 +14,18 @@ import 'package:flutter/material.dart';
 class FillSymptomRoute extends StatelessWidget {
   PersonInfo person;
   Declaration declare;
+  bool sot, ho, khoTho, viemPhoi, dauHong, metMoi;
+
   FillSymptomRoute({
     Key key,
     @required this.person,
     @required this.declare,
+    @required this.sot,
+    @required this.ho,
+    @required this.khoTho,
+    @required this.viemPhoi,
+    @required this.dauHong,
+    @required this.metMoi,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -50,6 +58,12 @@ class FillSymptomRoute extends StatelessWidget {
           MySymptomForm(
             person: person,
             declare: declare,
+            sot: sot,
+            ho: ho,
+            viemPhoi: viemPhoi,
+            khoTho: khoTho,
+            dauHong: dauHong,
+            metMoi: metMoi,
           ),
         ],
       ),
@@ -61,7 +75,17 @@ class FillSymptomRoute extends StatelessWidget {
 class MySymptomForm extends StatefulWidget {
   PersonInfo person;
   Declaration declare;
-  MySymptomForm({this.person, this.declare});
+  bool sot, ho, khoTho, viemPhoi, dauHong, metMoi;
+
+
+
+  MySymptomForm({this.person, this.declare,
+     this.sot,
+     this.ho,
+     this.khoTho,
+     this.viemPhoi,
+     this.dauHong,
+     this.metMoi, });
   @override
   MySymptomFormState createState() {
     return MySymptomFormState();
@@ -76,29 +100,32 @@ class MySymptomFormState extends State<MySymptomForm> {
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
-  bool sot, ho, khoTho, viemPhoi, dauHong, metMoi;
+//  bool sot, ho, khoTho, viemPhoi, dauHong, metMoi;
+  bool nguoiBenh;
+  bool nguoiCoBieuHien;
+  bool nguoiTuNuocCoBenh;
 
   @override
   Widget build(BuildContext context) {
-     ClientApiService.instance
-        .getDeclaration(widget.person.cmnd)
-        .then((declare) {
-      if (declare != null) {
-        // print(declare.email);
-        sot = declare.sot;
-        ho = declare.ho;
-        khoTho =declare.khoTho;
-        viemPhoi = declare.viemPhoi;
-        dauHong = declare.dauHong;
-        metMoi = declare.metMoi;
-        print("Sot1: "+ sot.toString());
-
-
-      } else {
-        print("fail");
-      }
-    });
-    print("Sot2: "+ sot.toString());
+//     ClientApiService.instance
+//        .getDeclaration(widget.person.cmnd)
+//        .then((declare) {
+//      if (declare != null) {
+//        // print(declare.email);
+//        widget.sot = declare.sot;
+//        ho = declare.ho;
+//        khoTho =declare.khoTho;
+//        viemPhoi = declare.viemPhoi;
+//        dauHong = declare.dauHong;
+//        metMoi = declare.metMoi;
+//        print("Sot1: "+ sot.toString());
+//
+//
+//      } else {
+//        print("fail");
+//      }
+//    });
+//    print("Sot2: "+ sot.toString());
 
     // Build a Form widget using the _formKey created above.
     return Form(
@@ -116,12 +143,12 @@ class MySymptomFormState extends State<MySymptomForm> {
           SymptomCheckbox(
             person: widget.person,
             declare: widget.declare,
-            sot: sot,
-            ho: ho,
-            viemPhoi: viemPhoi,
-            khoTho: khoTho,
-            dauHong: dauHong,
-            metMoi: metMoi,
+            sot: widget.sot,
+            ho: widget.ho,
+            viemPhoi: widget.viemPhoi,
+            khoTho: widget.khoTho,
+            dauHong: widget.dauHong,
+            metMoi: widget.metMoi,
           ),
           new SizedBox(
             height: 10.0,
@@ -137,10 +164,41 @@ class MySymptomFormState extends State<MySymptomForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
+                      Future<Declaration> getDeclare() async
+                      {
 
-                      Navigator.pushNamed(
-                          context, RouteStrings.fillFormSchedule,
-                          arguments: [widget.person, widget.declare]);
+                        return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
+                      }
+
+                      getDeclare().then((declare) {
+                        if (declare != null) {
+                          // print(declare.email);
+//                              print("khac null");
+                          nguoiBenh=declare.nguoiBenh;
+                          nguoiCoBieuHien=declare.nguoiCoBieuHien;
+                          nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
+                        }
+                        else {
+                          nguoiBenh=false;
+                          nguoiCoBieuHien=false;
+                          nguoiTuNuocCoBenh=false;
+
+                        }
+                      });
+                      Future delay() async{
+                        await new Future.delayed(new Duration(seconds: 1), ()
+                        {
+                          Navigator.pushNamed(
+                              context, RouteStrings.fillFormSchedule,
+                              arguments: [widget.person, widget.declare, nguoiBenh, nguoiTuNuocCoBenh, nguoiCoBieuHien]);
+                        }
+                        );
+
+                      }
+                      delay();
+//                      Navigator.pushNamed(
+//                          context, RouteStrings.fillFormSchedule,
+//                          arguments: [widget.person, widget.declare, nguoiBenh, nguoiTuNuocCoBenh, nguoiCoBieuHien]);
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -193,15 +251,15 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
   @override
   Widget build(BuildContext context) {
     print("from checkbox: " + widget.sot.toString());
-    if (widget.sot != null){
-      print(widget.sot);
-      question1["Sốt"] = widget.sot;
-      question1["Ho"] = widget.ho;
-      question1["Khó thở"] = widget.khoTho;
-      question1["Viêm phổi"]=widget.viemPhoi;
-      question1["Đau họng"] = widget.dauHong;
-      question1["Mệt mỏi"] = widget.metMoi;
-    }
+
+    print(widget.sot);
+    question1["Sốt"] = widget.sot;
+    question1["Ho"] = widget.ho;
+    question1["Khó thở"] = widget.khoTho;
+    question1["Viêm phổi"]=widget.viemPhoi;
+    question1["Đau họng"] = widget.dauHong;
+    question1["Mệt mỏi"] = widget.metMoi;
+
     widget.declare.sot = question1["Sốt"];
     widget.declare.ho = question1["Ho"];
     widget.declare.khoTho = question1["Khó thở"];
@@ -216,6 +274,12 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
           onChanged: (bool value) {
             setState(() {
               question1[key] = value;
+              widget.sot = question1["Sốt"];
+              widget.ho = question1["Ho"];
+              widget.khoTho = question1["Khó thở"];
+              widget.viemPhoi = question1["Viêm phổi"];
+              widget.dauHong = question1["Đau họng"];
+              widget.metMoi = question1["Mệt mỏi"];
             });
             widget.declare.sot = question1["Sốt"];
             widget.declare.ho = question1["Ho"];

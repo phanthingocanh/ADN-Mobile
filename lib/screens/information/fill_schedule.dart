@@ -10,12 +10,19 @@ import 'package:flutter/material.dart';
 // import 'package:validators/validators.dart' as validate;
 
 class FillScheduleRoute extends StatelessWidget {
+  bool nguoiBenh;
+  bool nguoiCoBieuHien;
+  bool nguoiTuNuocCoBenh;
   PersonInfo person;
   Declaration declare;
   FillScheduleRoute({
     Key key,
     @required this.person,
     @required this.declare,
+    @required this.nguoiBenh,
+    @required this.nguoiTuNuocCoBenh,
+    @required this.nguoiCoBieuHien,
+
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -48,6 +55,9 @@ class FillScheduleRoute extends StatelessWidget {
           MyScheduleForm(
             person: person,
             declare: declare,
+            nguoiBenh: nguoiBenh,
+            nguoiTuNuocCoBenh: nguoiTuNuocCoBenh,
+            nguoiCoBieuHien: nguoiCoBieuHien,
           ),
         ],
       ),
@@ -59,7 +69,15 @@ class FillScheduleRoute extends StatelessWidget {
 class MyScheduleForm extends StatefulWidget {
   PersonInfo person;
   Declaration declare;
-  MyScheduleForm({this.person, this.declare});
+  bool nguoiBenh;
+  bool nguoiCoBieuHien;
+  bool nguoiTuNuocCoBenh;
+  MyScheduleForm({this.person, this.declare,
+    this.nguoiBenh,
+    this.nguoiTuNuocCoBenh,
+    this.nguoiCoBieuHien,
+
+  });
   @override
   MyScheduleFormState createState() {
     return MyScheduleFormState();
@@ -73,23 +91,34 @@ class MyScheduleFormState extends State<MyScheduleForm> {
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormEmailPhoneState>.
   final _formKey = GlobalKey<FormState>();
+  bool benhGanManTinh;
+  bool benhMauManTinh;
+  bool benhPhoiManTinh;
+  bool benhThanManTinh;
+  bool benhTimMach;
+  bool huyetApCao;
+  bool suyGiamMienDich;
+  bool ghepTangHoacXuong;
+  bool tieuDuong;
+  bool ungThu;
+  bool mangThai;
   bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
-    ClientApiService.instance
-        .getDeclaration(widget.person.cmnd)
-        .then((declare) {
-      if (declare != null) {
-        // print(declare.email);
-        widget.declare.nguoiBenh = declare.nguoiBenh;
-        widget.declare.nguoiCoBieuHien = declare.nguoiCoBieuHien;
-        widget.declare.nguoiTuNuocCoBenh =declare.nguoiTuNuocCoBenh;
-       
-      } else {
-        print("fail");
-      }
-    });
+//    ClientApiService.instance
+//        .getDeclaration(widget.person.cmnd)
+//        .then((declare) {
+//      if (declare != null) {
+//        // print(declare.email);
+//        widget.declare.nguoiBenh = declare.nguoiBenh;
+//        widget.declare.nguoiCoBieuHien = declare.nguoiCoBieuHien;
+//        widget.declare.nguoiTuNuocCoBenh =declare.nguoiTuNuocCoBenh;
+//
+//      } else {
+//        print("fail");
+//      }
+//    });
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -106,6 +135,9 @@ class MyScheduleFormState extends State<MyScheduleForm> {
           ScheduleCheckbox(
             person: widget.person,
             declare: widget.declare,
+            nguoiBenh: widget.nguoiBenh,
+            nguoiTuNuocCoBenh: widget.nguoiTuNuocCoBenh,
+            nguoiCoBieuHien: widget.nguoiCoBieuHien,
           ),
           new SizedBox(
             height: 10.0,
@@ -121,9 +153,71 @@ class MyScheduleFormState extends State<MyScheduleForm> {
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
-                      Navigator.pushNamed(
-                          context, RouteStrings.fillFormMedicalHistorical,
-                          arguments: [widget.person, widget.declare]);
+                      Future<Declaration> getDeclare() async
+                      {
+//                        await new Future.delayed(const Duration(seconds: 3));
+                        return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
+                      }
+
+                      getDeclare().then((declare) {
+                        if (declare != null) {
+                          // print(declare.email);
+//                              print("khac null");
+                          benhGanManTinh=declare.benhGanManTinh;
+                          benhMauManTinh=declare.benhMauManTinh;
+                          benhPhoiManTinh=declare.benhPhoiManTinh;
+                          benhThanManTinh=declare.benhThanManTinh;
+                          benhTimMach=declare.benhTimMach;
+                          huyetApCao=declare.huyetApCao;
+                          suyGiamMienDich=declare.suyGiamMienDich;
+                          ghepTangHoacXuong=declare.ghepTangHoacXuong;
+                          tieuDuong=declare.tieuDuong;
+                          ungThu=declare.ungThu;
+                          mangThai=declare.mangThai;
+
+                        }
+                        else {
+                          benhGanManTinh=false;
+                          benhMauManTinh= false;
+                          benhPhoiManTinh= false;
+                          benhThanManTinh= false;
+                          benhTimMach= false;
+                          huyetApCao= false;
+                          suyGiamMienDich= false;
+                          ghepTangHoacXuong= false;
+                          tieuDuong= false;
+                          ungThu= false;
+                          mangThai= false;
+
+
+                        }
+                      });
+                      Future delay() async{
+                        await new Future.delayed(new Duration(seconds: 1), ()
+                        {
+                          Navigator.pushNamed(
+                              context, RouteStrings.fillFormMedicalHistorical,
+                              arguments: [widget.person, widget.declare,
+
+                                benhMauManTinh,
+                                benhPhoiManTinh,
+                                benhThanManTinh,
+                                benhTimMach,
+                                huyetApCao,
+                                suyGiamMienDich,
+                                ghepTangHoacXuong,
+                                tieuDuong,
+                                ungThu,
+                                mangThai,
+                                benhGanManTinh,
+                              ]);
+                        }
+                        );
+
+                      }
+                      delay();
+
+
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -149,7 +243,12 @@ class MyScheduleFormState extends State<MyScheduleForm> {
 class ScheduleCheckbox extends StatefulWidget {
   PersonInfo person;
   Declaration declare;
-  ScheduleCheckbox({this.person, this.declare});
+  bool nguoiBenh;
+  bool nguoiCoBieuHien;
+  bool nguoiTuNuocCoBenh;
+  ScheduleCheckbox({this.person, this.declare, this.nguoiBenh,
+    this.nguoiTuNuocCoBenh,
+    this.nguoiCoBieuHien,});
 //  ScheduleCheckbox({Key key}) : super(key: key);
 
   @override
@@ -165,12 +264,12 @@ class _ScheduleCheckboxState extends State<ScheduleCheckbox> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.declare.nguoiBenh != null){
-      question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'] = widget.declare.nguoiBenh;
-      question2['Người từ nước có bệnh COVID-19'] = widget.declare.nguoiCoBieuHien;
-      question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'] = widget.declare.nguoiCoBieuHien;
+
+    question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'] = widget.nguoiBenh;
+    question2['Người từ nước có bệnh COVID-19'] = widget.nguoiTuNuocCoBenh;
+    question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'] = widget.nguoiCoBieuHien;
     
-    }
+
     widget.declare.nguoiBenh =
         question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'];
     widget.declare.nguoiTuNuocCoBenh =
@@ -187,6 +286,12 @@ class _ScheduleCheckboxState extends State<ScheduleCheckbox> {
           onChanged: (bool value) {
             setState(() {
               question2[key] = value;
+              widget.nguoiBenh =
+              question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'];
+              widget.nguoiTuNuocCoBenh =
+              question2['Người từ nước có bệnh COVID-19'];
+              widget.nguoiCoBieuHien =
+              question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'];
             });
             widget.declare.nguoiBenh =
                 question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'];
