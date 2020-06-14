@@ -104,7 +104,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   
   final _formKey = GlobalKey<FormState>();
-  bool _autoValidate = true;
+  bool _autoValidate = false;
 
   final format = DateFormat("yyyy-MM-dd");
   var now = new DateTime.now();
