@@ -1,5 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/globals.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:flutter/material.dart';
 import 'package:adnproject/services/client_api_service.dart';
@@ -173,6 +174,7 @@ class MySendInfoFormState extends State<MySendInfoForm> {
                 height: 50,
                 child: RaisedButton(
                   onPressed: () {
+                  
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
@@ -183,8 +185,10 @@ class MySendInfoFormState extends State<MySendInfoForm> {
                           .postPersonDeclare(widget.person, widget.declare);
                       // var res = ClientApiService.instance.getData();
                       // print(res.toString());
-
+                      declareGlobal.setToNull();
+                      personInfoGlobal.setToNull();
                       createAlertDialog(context);
+                      
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {

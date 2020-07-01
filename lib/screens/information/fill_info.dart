@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
-
+import 'package:adnproject/models/globals.dart';
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart' as datetime_picker_formfield;
 
 class FillInforRoute extends StatelessWidget {
@@ -82,7 +82,18 @@ class MyCustomForm extends StatefulWidget {
 
   @override
   MyCustomFormState createState() {
-    return MyCustomFormState();
+        var controller = new MaskedTextController(mask: '000-000-000-000');
+    controller.beforeChange = (String previous, String next) {
+      if (previous.length == 9) {
+        controller.updateMask('000-000-000');
+      } else {
+        controller.updateMask('000-000-000-000');
+      }
+      return true;
+    };
+
+    // controller.updateText(widget._cmnd);
+    return MyCustomFormState(controller:controller);
   }
 }
 
@@ -96,6 +107,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
 
   List data;
+  var controller;
+  MyCustomFormState({this.controller});
   
   
 
@@ -106,13 +119,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   final format = DateFormat("yyyy-MM-dd");
   var now = new DateTime.now();
 
-  // var formatter = new DateFormat("MM");
-  // String month = formatter.format(now);
-
   var currentSelectedProvince = 'Hồ Chí Minh';
   var currentSelectedGender = 'Nam';
 
-  // var currentSelectedValue = 'Hồ Chí Minh';
   var provinceTypes = [
     'An Giang',
     'Bà Rịa-Vũng Tàu',
@@ -191,35 +200,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     widget._address = widget.person.permanentAddress;
     widget._fullName = widget.person.name;
     // Build a Form widget using the _formKey created above.
-    var controller = new MaskedTextController(mask: '000-000-000-000');
-    controller.beforeChange = (String previous, String next) {
-      if (previous.length == 9) {
-        controller.updateMask('000-000-000');
-      } else {
-        controller.updateMask('000-000-000-000');
-      }
-      return true;
-    };
-
-    controller.updateText(widget._cmnd);
-
-//    controller.afterChange = (String previous, String next) {
-//      print("$previous | $next");
-//    };
-
-    PersonInfo arguments = ModalRoute.of(context).settings.arguments;
-//    personInfo.PersonInfo person=personInfo.PersonInfo(name: arguments.name,
-//        cardType: arguments.cardType,
-//        cardDate: arguments.cardDate,
-//        cardPlace: arguments.cardPlace,
-//        cmnd: arguments.cmnd,
-//        phone: arguments.phone,
-//        birthDay: arguments.birthDay,
-//        email: arguments.email,
-//        gender: arguments.gender,
-//        permanentAddress: arguments.permanentAddress);
-//    personInfo.PersonInfo person = new personInfo.PersonInfo();
-    String namePerson;
 
     return Form(
       key: _formKey,
@@ -489,8 +469,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                   onPressed: () {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
-                    // getData("111-111-111-111");
-
+                    print("phone");
+                    print(personInfoGlobal.phone);
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
                       widget.person.name = widget._fullName;
@@ -498,34 +478,62 @@ class MyCustomFormState extends State<MyCustomForm> {
                       widget.person.birthDay = widget._birthday;
                       widget.person.cardDate = widget._ngaycap;
                       widget.person.cmnd = widget._cmnd;
+
+                      personInfoGlobal.name = widget._fullName;
+                      personInfoGlobal.permanentAddress = widget._address;
+                      personInfoGlobal.birthDay = widget._birthday;
+                      personInfoGlobal.cardDate = widget._ngaycap;
+                      personInfoGlobal.cmnd = widget._cmnd;
+
                       if (currentSelectedGender == "Nam") {
                         widget.person.gender = Gender.male;
-                      } else if (currentSelectedGender == "Nam") {
+                        personInfoGlobal.gender = Gender.male;
+                      } else if (currentSelectedGender == "Nữ") {
                         widget.person.gender = Gender.female;
+                        personInfoGlobal.gender = Gender.female;
                       } else {
                         widget.person.gender = Gender.other;
+                        personInfoGlobal.gender = Gender.other;
                       }
+
                       widget.person.cardPlace = currentSelectedProvince;
+                      personInfoGlobal.cardPlace = currentSelectedProvince;
 
                       Future<PersonInfo> getPerson() async
                       {
 //                        await new Future.delayed(const Duration(seconds: 3));
-
                         return await ClientApiService.instance.getPersonInfoById(widget._cmnd);
                       }
+                      email='';
+                      mobile='';
+                      
 
                       getPerson().then((personInfo) {
                         if (personInfo!=null){
-                          // print(personInfo.email);
+                          print("Tìm thấy person");
+                          print(personInfo.phone);           
                           email=personInfo.email;
-                          mobile=personInfo.phone;
-
+                          mobile=personInfo.phone;                     
                         }
-                        else {
-                          email='';
-                          mobile='';
+                        else{
+                          personInfoGlobal.setToNull();
+                          declareGlobal.setToNull();
                         }
+                        if (personInfoGlobal.email==null){
+                        personInfoGlobal.email=email;
+                        }
+                        if (personInfoGlobal.phone==null){
+                          print("Phone Global bị null");
+                          print(personInfoGlobal.phone);
+                          personInfoGlobal.phone=mobile;
+                          print("phone sau khi cập nhật:");
+                          print(personInfoGlobal.phone);
+                        }
+                        
                       });
+                      
+                      
+                      
 
                       Future delay() async{
                         await new Future.delayed(new Duration(seconds: 1), ()

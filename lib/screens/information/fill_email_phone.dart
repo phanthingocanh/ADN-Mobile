@@ -1,5 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -147,10 +148,13 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
 
     print(widget.email);
     var controller = new MaskedTextController(mask: '0000-000-000');
+    controller.updateText(personInfoGlobal.phone);
     controller.beforeChange = (String previous, String next) {
       print("$previous");
       if (previous.length == 12 ) {
         controller.updateMask('0000-000-000');
+        widget.phone=controller.text;
+        personInfoGlobal.phone=controller.text;
       }
       else{
         controller.updateMask('0000-000-000');
@@ -161,7 +165,6 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
     controller.afterChange = (String previous, String next) {
 //    print("$previous | $next");
     };
-    controller.updateText(widget.phone);
     // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
@@ -198,6 +201,10 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
               return null;
 
             },
+            onChanged: (String val) {
+              personInfoGlobal.phone=val;
+              widget.phone=val;
+            },
             onSaved: (String val) {
               widget.phone =val;
 //              arguments.phone=val;
@@ -218,10 +225,15 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
               ),
 
             ),
-            initialValue: widget.email,
+            initialValue: personInfoGlobal.email,
 
             keyboardType: TextInputType.emailAddress,
             validator: validateEmail,
+            onChanged: (String val) {
+              widget.email=val;
+              personInfoGlobal.email=val;
+
+            },
             onSaved: (String val) {
               widget.email = val;
             },
@@ -238,24 +250,39 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                 height: 50,
                 child: RaisedButton(
                   onPressed: (){
+                    
 //                    print(arguments.name);
                     print(widget.person.gender);
+                    print("Phone: ");
+                    print(personInfoGlobal.phone);
                     if (_formKey.currentState.validate()) {
                       //    If all data are correct then save data to out variables
                           _formKey.currentState.save();
                           widget.person.phone=widget.phone;
                           widget.person.email=widget.email;
 
+                          personInfoGlobal.phone=widget.phone;
+                          personInfoGlobal.email=widget.email;
+                          countries = "";
+                          isMoving = false;
+                          noiden = "";
+                          noidi = "";
+                          ngaydi = DateTime(DateTime.now().year, DateTime.now().month);
+                          ngayden = DateTime(DateTime.now().year, DateTime.now().month);
+                          phuongtien = "";
+
+                         
+
                           Future<Declaration> getDeclare() async
                           {
-
-                            return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
+                            return await ClientApiService.instance.getDeclaration(personInfoGlobal.cmnd);
                           }
 
                           getDeclare().then((declare) {
                             if (declare != null) {
                               // print(declare.email);
 //                              print("khac null");
+                              print("Lấy được form travel");
                               countries = declare.countriesVisited;
                               isMoving = declare.isDomesticTravel;
                               noiden = declare.toProvince;
@@ -263,18 +290,43 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                               ngaydi = declare.departureDate;
                               ngayden = declare.arrivalDate;
                               phuongtien = declare.travelBy;
-                            }
-                            else {
-                              countries = "";
-                              isMoving = false;
-                              noiden = "";
-                              noidi = "";
-                              ngaydi = DateTime(DateTime.now().year, DateTime.now().month);
-                              ngayden = DateTime(DateTime.now().year, DateTime.now().month);
-                              phuongtien = "";
 
+                              // declareGlobal.countriesVisited = declare.countriesVisited;
+                              // declareGlobal.isDomesticTravel = declare.isDomesticTravel;
+                              // declareGlobal.toProvince = declare.toProvince;
+                              // declareGlobal.fromProvince = declare.fromProvince;
+                              // declareGlobal.departureDate = declare.departureDate;
+                              // declareGlobal.arrivalDate = declare.arrivalDate;
+                              // declareGlobal.travelBy= declare.travelBy;
                             }
+
+                          if (declareGlobal.countriesVisited==null){
+                            declareGlobal.countriesVisited=countries;
+                            
+                          }
+                          if (declareGlobal.isDomesticTravel==null){
+                            declareGlobal.isDomesticTravel=isMoving;
+                          }
+                          if (declareGlobal.toProvince==null){
+                            declareGlobal.toProvince=noiden;
+                          }
+                          if (declareGlobal.fromProvince==null){
+                            declareGlobal.fromProvince=noidi;
+                          }
+                          if (declareGlobal.departureDate==null){
+                            declareGlobal.departureDate=ngaydi;
+                          }
+                          if (declareGlobal.arrivalDate==null){
+                            declareGlobal.arrivalDate=ngayden;
+                          }
+                          if (declareGlobal.travelBy==null){
+                            declareGlobal.travelBy=phuongtien;
+                          }
+                            
                           });
+
+                          
+                          
 //                          print("aa");
 //                          print(isMoving);
                       Future delay() async{

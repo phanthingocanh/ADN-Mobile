@@ -58,12 +58,18 @@ class ClientApiService {
     
     var response = await http.get(
       Uri.http(Strings.serverPath, "/user-declarations", qParams),
-      headers: {"Accept": "application/hal+json"},
+      headers: {"content-type": "application/hal+json; charset = utf-8"
+      },
     );
+
+    String source = Utf8Decoder().convert(response.bodyBytes);
+    
 //    data = json.decode(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
-      return parsePersonInfo(response.body);
+      print("source");
+      print(source);
+      // print(response.body);
+      return parsePersonInfo(source);
     } 
     if (response.statusCode == 404) {
       print(response.body);
@@ -87,10 +93,14 @@ class ClientApiService {
       Uri.http(Strings.serverPath, "/user-declarations", qParams),
       headers: {"Accept": "application/hal+json"},
     );
+
+    String source = Utf8Decoder().convert(response.bodyBytes);
 //    data = json.decode(response.body);
     if (response.statusCode == 200) {
       print(response.body);
-      return parseDeclaration(response.body);
+      print("source");
+      print(source);
+      return parseDeclaration(source);
     } 
     if (response.statusCode == 404) {
       print(response.body);

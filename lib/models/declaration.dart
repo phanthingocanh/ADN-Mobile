@@ -124,4 +124,36 @@ class Declaration {
         'ungThu': ungThu,
         'mangThai': mangThai,
       };
+
+  void setToNull(){
+    this.createdAt=null;
+    this.countriesVisited=null;
+    this.isDomesticTravel=null;
+    this.fromProvince=null;
+    this.toProvince=null;
+    this.departureDate=null;
+    this.arrivalDate=null;
+    this.travelBy=null;
+    this.sot=null;
+    this.ho=null;
+    this.khoTho=null;
+    this.viemPhoi=null;
+    this.dauHong=null;
+    this.metMoi=null;
+    this.nguoiBenh=null;
+    this.nguoiTuNuocCoBenh=null;
+    this.nguoiCoBieuHien=null;
+    this.benhGanManTinh=null;
+    this.benhMauManTinh=null;
+    this.benhPhoiManTinh=null;
+    this.benhThanManTinh=null;
+    this.benhTimMach=null;
+    this.huyetApCao=null;
+    this.suyGiamMienDich=null;
+    this.ghepTangHoacXuong=null;
+    this.tieuDuong=null;
+    this.ungThu=null;
+    this.mangThai=null;
+
+  }
 }
