@@ -109,7 +109,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
 
   List data;
-  var controller;
+  MaskedTextController controller;
   MyCustomFormState({this.controller});
 
   final _formKey = GlobalKey<FormState>();
@@ -193,6 +193,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
+    controller.updateText(widget.person.cmnd);
     widget._cmnd = widget.person.cmnd;
     widget._birthday = widget.person.birthDay;
     widget._ngaycap = widget.person.cardDate;

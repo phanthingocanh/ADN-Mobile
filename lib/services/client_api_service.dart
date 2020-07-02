@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:adnproject/constants/enums.dart';
 import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/card_info.dart';
+import 'package:adnproject/models/card_info_request.dart';
 import 'package:adnproject/models/declaration.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/user_declare.dart';
-import 'package:adnproject/services/ml_kit_ocr.dart';
 import 'package:http/http.dart' as http;
 
 class ClientApiService {
@@ -16,7 +18,41 @@ class ClientApiService {
   static ClientApiService get instance => _instance ?? ClientApiService._();
 
   Future<PersonInfo> getPersonInfo(CardInfo cardInfo) async {
-    return analyzeImage(cardInfo.frontImage, cardInfo.backImage);
+//    return analyzeImage(cardInfo.frontImage, cardInfo.backImage);
+    return analyzeImageCloud(
+      cardInfo.cardType,
+      cardInfo.frontImage,
+      cardInfo.backImage,
+    );
+  }
+
+  Future<PersonInfo> analyzeImageCloud(
+      CardType cardType, File frontImage, File backImage) async {
+    try {
+      List<int> frontImageBytes = frontImage.readAsBytesSync();
+      String frontImageBase64 = base64Encode(frontImageBytes);
+      List<int> backImageBytes = backImage.readAsBytesSync();
+      String backImageBase64 = base64Encode(backImageBytes);
+      Map<String, String> params = {'service': 'GOOGLE'};
+      CardInfoRequest bodyPass = new CardInfoRequest(
+        cardType: cardType,
+        frontImageBase64: frontImageBase64,
+        backImageBase64: backImageBase64,
+      );
+      var jsonEncoded = jsonEncode(bodyPass);
+      var response = await http.post(
+        Uri.http(Strings.serverPath, 'ocr', params),
+        headers: {"content-type": "application/hal+json; charset=utf-8"},
+        body: jsonEncoded,
+      );
+      String source = Utf8Decoder().convert(response.bodyBytes);
+      PersonInfo personInfo = parsePersonInfo(source);
+      print(source);
+      print(personInfo.cmnd);
+      return personInfo;
+    } catch (e) {
+      return new PersonInfo();
+    }
   }
 
   Future<String> postPersonDeclare(
