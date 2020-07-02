@@ -29,9 +29,10 @@ class ClientApiService {
     print(bodyPass);
     // String transformedText = bodyPass.replaceAll('""', '"');
     var res = await http.post(
-        Uri.encodeFull("http://10.0.2.2:8080/user-declarations"),    
-        headers: {"Content-Type": "application/json"},
-        body: body,
+      Uri.http(Strings.serverPath, "/user-declarations"),
+//        Uri.encodeFull("http://10.0.2.2:8080/user-declarations"),
+      headers: {"Content-Type": "application/json"},
+      body: body,
     );
     print(body);
     if (res.statusCode == 200){
