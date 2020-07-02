@@ -71,18 +71,16 @@ class ClientApiService {
       body: body,
     );
     print(body);
-    if (res.statusCode == 200){
-      print("Body " +res.body);
+    if (res.statusCode == 200) {
+      print("Body " + res.body);
       return "Success";
-    }
-    else {
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    throw Exception('Failed to post user-declare');
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to post user-declare');
     }
   }
 
-  
   // Future<String> getData() async {
   //   await http.get(Uri.encodeFull("http://10.0.2.2:8080/users"),
   //       headers: {"Accept": "application/hal+json", "id": "string"});
@@ -91,24 +89,22 @@ class ClientApiService {
   Future<PersonInfo> getPersonInfoById(String id) async {
     var response = await http.get(
       Uri.http(Strings.serverPath, "/user-declarations/$id"),
-      headers: {"content-type": "application/hal+json; charset = utf-8"
-      },
+      headers: {"content-type": "application/hal+json; charset = utf-8"},
     );
 
     String source = Utf8Decoder().convert(response.bodyBytes);
-    
+
 //    data = json.decode(response.body);
     if (response.statusCode == 200) {
       print("source");
       print(source);
       // print(response.body);
       return parsePersonInfo(source);
-    } 
+    }
     if (response.statusCode == 404) {
       print(response.body);
       return null;
-    } 
-    else {
+    } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to load user-declare');
@@ -116,6 +112,7 @@ class ClientApiService {
   }
 
   Future<Declaration> getDeclaration(String id) async {
+    print("vo client declare");
     var response = await http.get(
       Uri.http(Strings.serverPath, "/user-declarations/$id"),
       headers: {"Accept": "application/hal+json"},
@@ -128,30 +125,27 @@ class ClientApiService {
       print("source");
       print(source);
       return parseDeclaration(source);
-    } 
+    }
     if (response.statusCode == 404) {
       print(response.body);
       return null;
-    } 
-    else {
+    } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to load user-declare');
     }
   }
-  
 
-  PersonInfo parsePersonInfo(String responseBody) {    
+  PersonInfo parsePersonInfo(String responseBody) {
     // final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     // return parsed.map<PersonInfo>((json) => PersonInfo.fromJson(json)).toList();
-    var json=jsonDecode(responseBody);
+    var json = jsonDecode(responseBody);
 
     return PersonInfo.fromJson(json);
   }
 
   Declaration parseDeclaration(String responseBody) {
-    var json=jsonDecode(responseBody);
+    var json = jsonDecode(responseBody);
     return Declaration.fromJson(json);
   }
-
 }

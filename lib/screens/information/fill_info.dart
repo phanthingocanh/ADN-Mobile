@@ -82,17 +82,17 @@ class MyCustomForm extends StatefulWidget {
 
   @override
   MyCustomFormState createState() {
-    var controller = new MaskedTextController(mask: '000-000-000-000', text: '');
-     controller.beforeChange = (String previous, String next) {
-       if (previous.length == 9) {
-         controller.updateMask('000-000-000');
-       }else{
-         controller.updateMask('000-000-000-000');
-       }
-       print("mask");
-       print(controller.mask);
-       return true;
-     };
+    var controller = new MaskedTextController(mask: '000-000-000-000');
+    controller.beforeChange = (String previous, String next) {
+      if (previous.length == 9) {
+        controller.updateMask('000-000-000');
+      } else {
+        controller.updateMask('000-000-000-000');
+      }
+      print("mask");
+      print(controller.mask);
+      return true;
+    };
 
     // controller.updateText(widget._cmnd);
     return MyCustomFormState(controller: controller);
@@ -193,7 +193,9 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    controller.updateText(widget.person.cmnd);
+    if (widget.person.cmnd != null) {
+      controller.updateText(widget.person.cmnd);
+    }
     widget._cmnd = widget.person.cmnd;
     widget._birthday = widget.person.birthDay;
     widget._ngaycap = widget.person.cardDate;
@@ -263,7 +265,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     return 'Số căn cước không hợp lệ';
                   }
                 } else if (value.length != 9 && value.length != 12) {
-                  // print("asas");                  
+                  // print("asas");
                   // print(widget._cmnd);
                   // print(value);
                   return 'Số chứng minh nhân dân/căn cước công dân không hợp lệ';
@@ -287,7 +289,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 //                  widget._cmnd = controller.text;
 //                });
               },
-              
             ),
           ),
 
@@ -349,7 +350,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     firstDate: DateTime(1900),
                     initialDate:
                         currentValue ?? DateTime(1995, now.month, now.day),
-                    lastDate: DateTime(DateTime.now().year, DateTime.now().month));
+                    lastDate:
+                        DateTime(DateTime.now().year, DateTime.now().month));
               },
             ),
           ),
@@ -403,7 +405,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     firstDate: DateTime(1900),
                     initialDate:
                         currentValue ?? DateTime(2015, now.month, now.day),
-                    lastDate: DateTime(DateTime.now().year, DateTime.now().month));
+                    lastDate:
+                        DateTime(DateTime.now().year, DateTime.now().month));
               },
             ),
           ),
@@ -479,8 +482,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                       widget.person.birthDay = widget._birthday;
                       widget.person.cardDate = widget._ngaycap;
                       widget.person.cmnd = widget._cmnd;
+//                      String new_cmnd = widget._cmnd.replaceAll('-', '');
+//                      print("new_cmnd");
+//                      print(new_cmnd);
+                      print("global cmnd");
+                      print(personInfoGlobal.cmnd);
                       if (personInfoGlobal.cmnd != null &&
                           personInfoGlobal.cmnd != widget._cmnd) {
+                        print("set null");
                         personInfoGlobal.setToNull();
                         declareGlobal.setToNull();
                       }
@@ -520,10 +529,16 @@ class MyCustomFormState extends State<MyCustomForm> {
                           print(personInfo.phone);
                           email = personInfo.email;
                           mobile = personInfo.phone;
-
                         } else {
-                          personInfoGlobal.setToNull();
-                          declareGlobal.setToNull();
+                          if (personInfoGlobal.cmnd != null &&
+                              personInfoGlobal.cmnd != widget._cmnd) {
+                            print("set null2");
+                            personInfoGlobal.setToNull();
+                            declareGlobal.setToNull();
+                          }
+
+                          // personInfoGlobal.setToNull();
+                          // declareGlobal.setToNull();
                         }
                         // if (!found) {
                         //   email = '';

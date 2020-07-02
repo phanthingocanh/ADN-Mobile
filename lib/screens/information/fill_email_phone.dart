@@ -24,53 +24,39 @@ class FillEmailPhoneRoute extends StatelessWidget {
     @required this.mobile,
   }) : super(key: key);
 
-
-
   @override
-
-
   Widget build(BuildContext context) {
     print(email);
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
-        appBar: AppBar(
-          title: Text(Strings.formInfoTitle),
+      appBar: AppBar(
+        title: Text(Strings.formInfoTitle),
 //          title: Text(name),
-        ),
-        body: ListView(
+      ),
+      body: ListView(
 //        crossAxisAlignment: CrossAxisAlignment.center,
 //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Center(
-                child: Container(
-                    padding: EdgeInsets.only(top:20),
-                    child: Text(
-                        'KHAI BÁO Y TẾ',
-                        style: TextStyle(
-                            fontSize: 40.0
-                        )
-                    ),
-                  ),
-              ),
-
-              Center(
-                child: Container(
-                  padding: EdgeInsets.only(top:10),
-                  child: Text(
-                      'Cho khách nội địa',
-                      style: TextStyle(
-                      fontSize: 25.0
-                    )
-                    ),
-                  ),
-                ),
-              Divider(
-                height: 30.0,
-                color: Colors.grey[800],
-              ),
-              MyCustomFormEmailPhone(person: person, email: email, phone: mobile),
-            ],
-        ),
+        children: <Widget>[
+          Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Text('KHAI BÁO Y TẾ', style: TextStyle(fontSize: 40.0)),
+            ),
+          ),
+          Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 10),
+              child:
+                  Text('Cho khách nội địa', style: TextStyle(fontSize: 25.0)),
+            ),
+          ),
+          Divider(
+            height: 30.0,
+            color: Colors.grey[800],
+          ),
+          MyCustomFormEmailPhone(person: person, email: email, phone: mobile),
+        ],
+      ),
     );
   }
 }
@@ -80,16 +66,17 @@ class MyCustomFormEmailPhone extends StatefulWidget {
   PersonInfo person;
   String email;
   String phone;
-  MyCustomFormEmailPhone({this.person, this.email,this.phone});
+  MyCustomFormEmailPhone({this.person, this.email, this.phone});
   @override
   MyCustomFormEmailPhoneState createState() {
     return MyCustomFormEmailPhoneState();
   }
-} 
-  
+}
+
 // Create a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with TickerProviderStateMixin {
+class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone>
+    with TickerProviderStateMixin {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -112,7 +99,6 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
   int _state = 0;
   @override
   Widget build(BuildContext context) {
-
 //    Future<PersonInfo> getPerson() async
 //    {
 //      return await ClientApiService.instance.getPersonInfoById(widget.person.cmnd);
@@ -130,10 +116,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
 //      }
 //    });
 //    print("email2: "+ widget.email);
-    final PersonInfo args = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    final PersonInfo args = ModalRoute.of(context).settings.arguments;
 //    RouteSettings settings = ModalRoute.of(context).settings;
 //    PersonInfo arguments = settings.arguments;
 //    final PersonInfo arguments = ModalRoute
@@ -161,8 +144,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
         controller.updateMask('0000-000-000');
         widget.phone = controller.text;
         personInfoGlobal.phone = controller.text;
-      }
-      else {
+      } else {
         controller.updateMask('0000-000-000');
       }
 
@@ -188,19 +170,18 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
               decoration: InputDecoration(
                 labelText: 'Số điện thoại',
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               keyboardType: TextInputType.number,
               validator: (value) {
-                String patttern = r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)';
+                String patttern =
+                    r'(^(?:[+0]9)?[0-9]{4}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$)';
                 RegExp regExp = new RegExp(patttern);
                 widget.phone = value;
 //              print(widget.person.name);
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số điện thoại';
-                }
-                else if (!regExp.hasMatch(value)) {
+                } else if (!regExp.hasMatch(value)) {
                   return 'Số điện thoại không hợp lệ';
                 }
                 return null;
@@ -214,7 +195,6 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
 //              arguments.phone=val;
 //              print(args.name);
               },
-
             ),
           ),
 
@@ -223,14 +203,10 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
             child: new TextFormField(
               decoration: InputDecoration(
                 labelText: 'Địa chỉ email',
-
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)
-                ),
-
+                    borderRadius: BorderRadius.circular(10.0)),
               ),
               initialValue: personInfoGlobal.email,
-
               keyboardType: TextInputType.emailAddress,
               validator: validateEmail,
               onChanged: (String val) {
@@ -270,24 +246,26 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
                       isMoving = false;
                       noiden = "";
                       noidi = "";
-                      ngaydi = DateTime(DateTime
-                          .now()
-                          .year, DateTime
-                          .now()
-                          .month);
-                      ngayden = DateTime(DateTime
-                          .now()
-                          .year, DateTime
-                          .now()
-                          .month);
+                      ngaydi =
+                          DateTime(DateTime.now().year, DateTime.now().month);
+                      ngayden =
+                          DateTime(DateTime.now().year, DateTime.now().month);
                       phuongtien = "";
-                      Future<Declaration> getDeclare() async
-                      {
-                        return await ClientApiService.instance.getDeclaration(
-                            personInfoGlobal.cmnd);
+                      Future<Declaration> getDeclare() async {
+                        return await ClientApiService.instance
+                            .getDeclaration(personInfoGlobal.cmnd);
                       }
+
                       bool found = false;
-                      bool sot, ho, khoTho, viemPhoi, dauHong, metMoi, nguoiBenh, nguoiCoBieuHien, nguoiTuNuocCoBenh;
+                      bool sot,
+                          ho,
+                          khoTho,
+                          viemPhoi,
+                          dauHong,
+                          metMoi,
+                          nguoiBenh,
+                          nguoiCoBieuHien,
+                          nguoiTuNuocCoBenh;
                       bool benhGanManTinh;
                       bool benhMauManTinh;
                       bool benhPhoiManTinh;
@@ -305,22 +283,23 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
                       viemPhoi = false;
                       dauHong = false;
                       metMoi = false;
-                      nguoiBenh=false;
-                      nguoiCoBieuHien=false;
-                      nguoiTuNuocCoBenh=false;
-                      benhGanManTinh=false;
-                      benhMauManTinh= false;
-                      benhPhoiManTinh= false;
-                      benhThanManTinh= false;
-                      benhTimMach= false;
-                      huyetApCao= false;
-                      suyGiamMienDich= false;
-                      ghepTangHoacXuong= false;
-                      tieuDuong= false;
-                      ungThu= false;
-                      mangThai= false;
+                      nguoiBenh = false;
+                      nguoiCoBieuHien = false;
+                      nguoiTuNuocCoBenh = false;
+                      benhGanManTinh = false;
+                      benhMauManTinh = false;
+                      benhPhoiManTinh = false;
+                      benhThanManTinh = false;
+                      benhTimMach = false;
+                      huyetApCao = false;
+                      suyGiamMienDich = false;
+                      ghepTangHoacXuong = false;
+                      tieuDuong = false;
+                      ungThu = false;
+                      mangThai = false;
 
                       getDeclare().then((declare) {
+                        print("vào getdeclare");
                         if (declare != null) {
                           // print(declare.email);
 //                              print("khac null");
@@ -341,27 +320,23 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
                           dauHong = declare.dauHong;
                           metMoi = declare.metMoi;
 
-                          nguoiBenh=declare.nguoiBenh;
-                          nguoiCoBieuHien=declare.nguoiCoBieuHien;
-                          nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
+                          nguoiBenh = declare.nguoiBenh;
+                          nguoiCoBieuHien = declare.nguoiCoBieuHien;
+                          nguoiTuNuocCoBenh = declare.nguoiTuNuocCoBenh;
 
-                          benhGanManTinh=declare.benhGanManTinh;
-                          benhMauManTinh=declare.benhMauManTinh;
-                          benhPhoiManTinh=declare.benhPhoiManTinh;
-                          benhThanManTinh=declare.benhThanManTinh;
-                          benhTimMach=declare.benhTimMach;
-                          huyetApCao=declare.huyetApCao;
-                          suyGiamMienDich=declare.suyGiamMienDich;
-                          ghepTangHoacXuong=declare.ghepTangHoacXuong;
-                          tieuDuong=declare.tieuDuong;
-                          ungThu=declare.ungThu;
-                          mangThai=declare.mangThai;
-
-
-
+                          benhGanManTinh = declare.benhGanManTinh;
+                          benhMauManTinh = declare.benhMauManTinh;
+                          benhPhoiManTinh = declare.benhPhoiManTinh;
+                          benhThanManTinh = declare.benhThanManTinh;
+                          benhTimMach = declare.benhTimMach;
+                          huyetApCao = declare.huyetApCao;
+                          suyGiamMienDich = declare.suyGiamMienDich;
+                          ghepTangHoacXuong = declare.ghepTangHoacXuong;
+                          tieuDuong = declare.tieuDuong;
+                          ungThu = declare.ungThu;
+                          mangThai = declare.mangThai;
                         }
-                        print("isMoving null");
-
+                        // print("isMoving null");
 
                         if (declareGlobal.countriesVisited == null) {
                           declareGlobal.countriesVisited = countries;
@@ -404,59 +379,57 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
                           declareGlobal.metMoi = metMoi;
                         }
 
-                        if (declareGlobal.nguoiBenh==null){
-                          declareGlobal.nguoiBenh=nguoiBenh;
+                        if (declareGlobal.nguoiBenh == null) {
+                          declareGlobal.nguoiBenh = nguoiBenh;
                         }
-                        if (declareGlobal.nguoiCoBieuHien==null){
-                          declareGlobal.nguoiCoBieuHien=nguoiCoBieuHien;
+                        if (declareGlobal.nguoiCoBieuHien == null) {
+                          declareGlobal.nguoiCoBieuHien = nguoiCoBieuHien;
                         }
-                        if (declareGlobal.nguoiTuNuocCoBenh==null){
-                          declareGlobal.nguoiTuNuocCoBenh=nguoiTuNuocCoBenh;
-                        }
-
-                        if (declareGlobal.benhGanManTinh==null){
-                          declareGlobal.benhGanManTinh=benhGanManTinh;
-                        }
-                        if (declareGlobal.benhMauManTinh==null){
-                          declareGlobal.benhMauManTinh=benhMauManTinh;
-                        }
-                        if (declareGlobal.benhPhoiManTinh==null){
-                          declareGlobal.benhPhoiManTinh=benhPhoiManTinh;
-                        }
-                        if (declareGlobal.benhThanManTinh==null){
-                          declareGlobal.benhThanManTinh=benhThanManTinh;
-                        }
-                        if (declareGlobal.benhTimMach==null){
-                          declareGlobal.benhTimMach=benhTimMach;
-                        }
-                        if (declareGlobal.huyetApCao==null){
-                          declareGlobal.huyetApCao=huyetApCao;
-                        }
-                        if (declareGlobal.suyGiamMienDich==null){
-                          declareGlobal.suyGiamMienDich=suyGiamMienDich;
-                        }
-                        if (declareGlobal.ghepTangHoacXuong==null){
-                          declareGlobal.ghepTangHoacXuong=ghepTangHoacXuong;
-                        }
-                        if (declareGlobal.tieuDuong==null){
-                          declareGlobal.tieuDuong=tieuDuong;
-                        }
-                        if (declareGlobal.mangThai==null){
-                          declareGlobal.mangThai=mangThai;
-                        }
-                        if (declareGlobal.ungThu==null){
-                          declareGlobal.ungThu=ungThu;
+                        if (declareGlobal.nguoiTuNuocCoBenh == null) {
+                          declareGlobal.nguoiTuNuocCoBenh = nguoiTuNuocCoBenh;
                         }
 
+                        if (declareGlobal.benhGanManTinh == null) {
+                          declareGlobal.benhGanManTinh = benhGanManTinh;
+                        }
+                        if (declareGlobal.benhMauManTinh == null) {
+                          declareGlobal.benhMauManTinh = benhMauManTinh;
+                        }
+                        if (declareGlobal.benhPhoiManTinh == null) {
+                          declareGlobal.benhPhoiManTinh = benhPhoiManTinh;
+                        }
+                        if (declareGlobal.benhThanManTinh == null) {
+                          declareGlobal.benhThanManTinh = benhThanManTinh;
+                        }
+                        if (declareGlobal.benhTimMach == null) {
+                          declareGlobal.benhTimMach = benhTimMach;
+                        }
+                        if (declareGlobal.huyetApCao == null) {
+                          declareGlobal.huyetApCao = huyetApCao;
+                        }
+                        if (declareGlobal.suyGiamMienDich == null) {
+                          declareGlobal.suyGiamMienDich = suyGiamMienDich;
+                        }
+                        if (declareGlobal.ghepTangHoacXuong == null) {
+                          declareGlobal.ghepTangHoacXuong = ghepTangHoacXuong;
+                        }
+                        if (declareGlobal.tieuDuong == null) {
+                          declareGlobal.tieuDuong = tieuDuong;
+                        }
+                        if (declareGlobal.mangThai == null) {
+                          declareGlobal.mangThai = mangThai;
+                        }
+                        if (declareGlobal.ungThu == null) {
+                          declareGlobal.ungThu = ungThu;
+                        }
                       });
                       print("isDomesticTravel");
                       print(declareGlobal.isDomesticTravel);
 
-
 //                          print("aa");
 //                          print(isMoving);
                       Future delay() async {
-                        await new Future.delayed(new Duration(seconds: 2), () {
+                        await new Future.delayed(new Duration(seconds: 4), () {
                           Navigator.pushNamed(
                               context, RouteStrings.fillFormTravel, arguments: [
                             widget.person,
@@ -468,9 +441,9 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
                             noidi,
                             phuongtien
                           ]);
-                        }
-                        );
+                        });
                       }
+
                       delay();
 
 //                          Navigator.pushNamed(context, RouteStrings.fillFormTravel,arguments: [widget.person, countries, isMoving, ngayden, ngaydi, noiden, noidi, phuongtien]);
@@ -508,15 +481,12 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
 //              color: Colors.lightGreen,
 //            ),
 //          ),
-
         ],
       ),
     );
   }
 
-
   Widget setUpButtonChild() {
-
     if (_state == 0) {
       return new Text(
         "Click Here",
@@ -545,22 +515,14 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
         isMoving = false;
         noiden = "";
         noidi = "";
-        ngaydi = DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month);
-        ngayden = DateTime(DateTime
-            .now()
-            .year, DateTime
-            .now()
-            .month);
+        ngaydi = DateTime(DateTime.now().year, DateTime.now().month);
+        ngayden = DateTime(DateTime.now().year, DateTime.now().month);
         phuongtien = "";
-        Future<Declaration> getDeclare() async
-        {
-          return await ClientApiService.instance.getDeclaration(
-              personInfoGlobal.cmnd);
+        Future<Declaration> getDeclare() async {
+          return await ClientApiService.instance
+              .getDeclaration(personInfoGlobal.cmnd);
         }
+
         bool found = false;
         bool sot, ho, khoTho, viemPhoi, dauHong, metMoi;
         sot = false;
@@ -633,25 +595,24 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
           }
         });
 
-
 //                          print("aa");
 //                          print(isMoving);
         Future delay() async {
           await new Future.delayed(new Duration(seconds: 3), () {
-            Navigator.pushNamed(
-                context, RouteStrings.fillFormTravel, arguments: [
-              widget.person,
-              countries,
-              isMoving,
-              ngayden,
-              ngaydi,
-              noiden,
-              noidi,
-              phuongtien
-            ]);
-          }
-          );
+            Navigator.pushNamed(context, RouteStrings.fillFormTravel,
+                arguments: [
+                  widget.person,
+                  countries,
+                  isMoving,
+                  ngayden,
+                  ngaydi,
+                  noiden,
+                  noidi,
+                  phuongtien
+                ]);
+          });
         }
+
         delay();
 
 //                          Navigator.pushNamed(context, RouteStrings.fillFormTravel,arguments: [widget.person, countries, isMoving, ngayden, ngaydi, noiden, noidi, phuongtien]);
@@ -677,7 +638,6 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
     });
   }
 
-
   Widget _phoneInput() {
     var controller = new MaskedTextController(mask: '0000-000-000');
     var _mobile;
@@ -686,8 +646,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
       print("$previous");
       if (previous.length == 12) {
         controller.updateMask('0000-000-000');
-      }
-      else {
+      } else {
         controller.updateMask('0000-000-000');
       }
 
@@ -702,11 +661,8 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
       inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
       decoration: InputDecoration(
         labelText: 'Số điện thoại',
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0)
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
       ),
-
       keyboardType: TextInputType.number,
       validator: (value) {
         if (value.isEmpty) {
@@ -719,7 +675,6 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
       },
     );
   }
-
 
   String validateEmail(String value) {
     // Pattern pattern =
@@ -747,12 +702,9 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> with Tic
 
     if (value.isEmpty) {
       return 'Vui lòng nhập số điện thoại';
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return 'Số điện thoại không hợp lệ';
     }
     return null;
   }
-
-
 }
