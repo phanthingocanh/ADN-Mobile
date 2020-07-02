@@ -82,18 +82,20 @@ class MyCustomForm extends StatefulWidget {
 
   @override
   MyCustomFormState createState() {
-        var controller = new MaskedTextController(mask: '000-000-000-000');
-    controller.beforeChange = (String previous, String next) {
-      if (previous.length == 9) {
-        controller.updateMask('000-000-000');
-      } else {
-        controller.updateMask('000-000-000-000');
-      }
-      return true;
-    };
+    var controller = new MaskedTextController(mask: '000-000-000-000', text: '');
+    // controller.beforeChange = (String previous, String next) {
+    //   if (previous.length == 9) {
+    //     controller.updateMask('000-000-000');
+    //   }else{
+    //     controller.updateMask('000-000-000-000');
+    //   }
+    //   print("mask");
+    //   print(controller.mask);
+    //   return true;
+    // };
 
     // controller.updateText(widget._cmnd);
-    return MyCustomFormState(controller:controller);
+    return MyCustomFormState(controller: controller);
   }
 }
 
@@ -109,10 +111,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   List data;
   var controller;
   MyCustomFormState({this.controller});
-  
-  
 
-  
   final _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
 
@@ -247,25 +246,27 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 widget._cmnd = value;
+                value = value.replaceAll('-', '');
+                print(value);
                 if (value.isEmpty) {
                   return 'Vui lòng nhập số chứng minh nhân dân';
                 }
 
                 if (widget.person.cardType != null) {
-                  if (value.length != 11 &&
+                  if (value.length != 9 &&
                       widget.person.cardType == CardType.cmnd) {
-                    print(widget._cmnd);
+                    // print(widget._cmnd);
                     return 'Số chứng minh nhân dân không hợp lệ';
-                  } else if (value.length != 15 &&
+                  } else if (value.length != 12 &&
                       widget.person.cardType == CardType.cccd) {
                     return 'Số căn cước không hợp lệ';
                   }
-                } else if (value.length != 11 && value.length != 15) {
-                  print(widget._cmnd);
+                } else if (value.length != 9 && value.length != 12) {
+                  // print("asas");                  
+                  // print(widget._cmnd);
+                  // print(value);
                   return 'Số chứng minh nhân dân/căn cước công dân không hợp lệ';
                 }
-              
-                
                 // getData(controller.text).then((personInfo) {
                 //   if (personInfo!=null){
                 //     print(personInfo);
@@ -273,10 +274,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 //   else {
                 //     print("fail");
                 //   }
-                
 
-                // });    
-                
+                // });
               },
               onSaved: (String val) {
                 widget._cmnd = val;
@@ -287,6 +286,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 //                  widget._cmnd = controller.text;
 //                });
               },
+              
             ),
           ),
 
@@ -347,7 +347,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     context: context,
                     firstDate: DateTime(1900),
                     initialDate:
-                    currentValue ?? DateTime(1995, now.month, now.day),
+                        currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -401,7 +401,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     context: context,
                     firstDate: DateTime(1900),
                     initialDate:
-                    currentValue ?? DateTime(2015, now.month, now.day),
+                        currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate: DateTime(2100));
               },
             ),
@@ -478,7 +478,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                       widget.person.birthDay = widget._birthday;
                       widget.person.cardDate = widget._ngaycap;
                       widget.person.cmnd = widget._cmnd;
-
+                      if (personInfoGlobal.cmnd != null &&
+                          personInfoGlobal.cmnd != widget._cmnd) {
+                        personInfoGlobal.setToNull();
+                        declareGlobal.setToNull();
+                      }
                       personInfoGlobal.name = widget._fullName;
                       personInfoGlobal.permanentAddress = widget._address;
                       personInfoGlobal.birthDay = widget._birthday;
@@ -499,54 +503,52 @@ class MyCustomFormState extends State<MyCustomForm> {
                       widget.person.cardPlace = currentSelectedProvince;
                       personInfoGlobal.cardPlace = currentSelectedProvince;
 
-                      Future<PersonInfo> getPerson() async
-                      {
+                      Future<PersonInfo> getPerson() async {
 //                        await new Future.delayed(const Duration(seconds: 3));
-                        return await ClientApiService.instance.getPersonInfoById(widget._cmnd);
+                        return await ClientApiService.instance
+                            .getPersonInfoById(widget._cmnd);
                       }
-                      email='';
-                      mobile='';
-                      
 
+                      email = '';
+                      mobile = '';
+
+                      bool found = false;
                       getPerson().then((personInfo) {
-                        if (personInfo!=null){
+                        if (personInfo != null) {
                           print("Tìm thấy person");
-                          print(personInfo.phone);           
-                          email=personInfo.email;
-                          mobile=personInfo.phone;                     
-                        }
-                        else{
+                          print(personInfo.phone);
+                          email = personInfo.email;
+                          mobile = personInfo.phone;
+                          found = true;
+                        } else {
                           personInfoGlobal.setToNull();
                           declareGlobal.setToNull();
                         }
-                        if (personInfoGlobal.email==null){
-                        personInfoGlobal.email=email;
+                        // if (!found) {
+                        //   email = '';
+                        //   mobile = '';
+                        // }
+
+                        if (personInfoGlobal.email == null) {
+                          personInfoGlobal.email = email;
                         }
-                        if (personInfoGlobal.phone==null){
+                        if (personInfoGlobal.phone == null) {
                           print("Phone Global bị null");
                           print(personInfoGlobal.phone);
-                          personInfoGlobal.phone=mobile;
+                          personInfoGlobal.phone = mobile;
                           print("phone sau khi cập nhật:");
                           print(personInfoGlobal.phone);
                         }
-                        
                       });
-                      
-                      
-                      
 
-                      Future delay() async{
-                        await new Future.delayed(new Duration(seconds: 1), ()
-                        {
+                      Future delay() async {
+                        await new Future.delayed(new Duration(seconds: 1), () {
                           Navigator.pushNamed(
-                              context,
-                              RouteStrings.fillFormEmailPhone,
-                              arguments: [widget.person, email, mobile]
-                          );
-                        }
-                        );
-
+                              context, RouteStrings.fillFormEmailPhone,
+                              arguments: [widget.person, email, mobile]);
+                        });
                       }
+
                       delay();
 
 //

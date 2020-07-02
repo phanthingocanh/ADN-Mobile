@@ -408,6 +408,8 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
     
     print("isMoving: ");
     print(widget.isMoving);
+    print("global");
+    print(declareGlobal.isDomesticTravel);
     widget.declare.isDomesticTravel = widget.isMoving;
     widget.declare.fromProvince = "";
     widget.declare.toProvince = "";

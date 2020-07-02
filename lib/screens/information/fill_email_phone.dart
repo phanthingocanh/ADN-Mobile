@@ -8,6 +8,9 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/services/client_api_service.dart';
 
+import '../../models/globals.dart';
+import '../../models/globals.dart';
+
 // import 'package:validators/validators.dart' as validate;
 
 class FillEmailPhoneRoute extends StatelessWidget {
@@ -269,15 +272,12 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                           noidi = "";
                           ngaydi = DateTime(DateTime.now().year, DateTime.now().month);
                           ngayden = DateTime(DateTime.now().year, DateTime.now().month);
-                          phuongtien = "";
-
-                         
-
+                          phuongtien = "";                      
                           Future<Declaration> getDeclare() async
                           {
                             return await ClientApiService.instance.getDeclaration(personInfoGlobal.cmnd);
                           }
-
+                          bool found = false;
                           getDeclare().then((declare) {
                             if (declare != null) {
                               // print(declare.email);
@@ -290,7 +290,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                               ngaydi = declare.departureDate;
                               ngayden = declare.arrivalDate;
                               phuongtien = declare.travelBy;
-
+                              found = true;
                               // declareGlobal.countriesVisited = declare.countriesVisited;
                               // declareGlobal.isDomesticTravel = declare.isDomesticTravel;
                               // declareGlobal.toProvince = declare.toProvince;
@@ -298,11 +298,10 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone> {
                               // declareGlobal.departureDate = declare.departureDate;
                               // declareGlobal.arrivalDate = declare.arrivalDate;
                               // declareGlobal.travelBy= declare.travelBy;
-                            }
+                          }
 
                           if (declareGlobal.countriesVisited==null){
-                            declareGlobal.countriesVisited=countries;
-                            
+                            declareGlobal.countriesVisited=countries;     
                           }
                           if (declareGlobal.isDomesticTravel==null){
                             declareGlobal.isDomesticTravel=isMoving;
@@ -415,9 +414,16 @@ Widget _phoneInput() {
 
 
 String validateEmail(String value) {
-  Pattern pattern =
-      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regex = new RegExp(pattern);
+  // Pattern pattern =
+      // r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+      "\\@" +
+      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+      "(" +
+      "\\." +
+      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+      ")+";
+  RegExp regex = new RegExp(p);
   if (value.isEmpty){
     return 'Vui lòng nhập địa chỉ email';
   }
