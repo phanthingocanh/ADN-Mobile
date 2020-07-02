@@ -243,7 +243,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 //              initialValue: widget._cmnd,
               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
-                labelText: 'Số CMND',
+                labelText: 'Số CMND/CCCD',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)),
               ),
@@ -268,7 +268,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // print("asas");
                   // print(widget._cmnd);
                   // print(value);
-                  return 'Số chứng minh nhân dân/căn cước công dân không hợp lệ';
+                  return 'Số CMND/CCCD không hợp lệ';
                 }
                 // getData(controller.text).then((personInfo) {
                 //   if (personInfo!=null){
@@ -558,7 +558,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       });
 
                       Future delay() async {
-                        await new Future.delayed(new Duration(seconds: 1), () {
+                        await new Future.delayed(new Duration(seconds: 2), () {
                           Navigator.pushNamed(
                               context, RouteStrings.fillFormEmailPhone,
                               arguments: [widget.person, email, mobile]);
