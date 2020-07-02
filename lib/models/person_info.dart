@@ -52,6 +52,12 @@ class PersonInfo {
       phone: json['phoneNumber'],
     );
   }
+
+  void setToNull(){
+    this.email=null;
+    this.phone=null;
+
+  }
   
 
 //  String get personName{

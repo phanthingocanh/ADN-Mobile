@@ -1,5 +1,7 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/globals.dart';
+import 'package:adnproject/models/if.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/services/client_api_service.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -30,11 +32,10 @@ class FillTravelRoute extends StatelessWidget {
     @required this.noidi,
     @required this.noiden,
     @required this.phuongtien,
-
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print("route"+isMoving.toString());
+    print("route" + isMoving.toString());
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
       appBar: AppBar(
@@ -64,13 +65,12 @@ class FillTravelRoute extends StatelessWidget {
           MyTravelForm(
             person: person,
             countries: countries,
-            isMoving:isMoving,
-            ngaydi:ngaydi,
-            ngayden:ngayden,
-            noidi:noidi,
-            noiden:noiden,
-            phuongtien:phuongtien,
-
+            isMoving: isMoving,
+            ngaydi: ngaydi,
+            ngayden: ngayden,
+            noidi: noidi,
+            noiden: noiden,
+            phuongtien: phuongtien,
           ),
         ],
       ),
@@ -88,14 +88,15 @@ class MyTravelForm extends StatefulWidget {
   String phuongtien;
   DateTime ngaydi;
   DateTime ngayden;
-  MyTravelForm({this.person,
-     this.countries,
-     this.isMoving,
-     this.ngaydi,
-     this.ngayden,
-     this.noidi,
-     this.noiden,
-     this.phuongtien,
+  MyTravelForm({
+    this.person,
+    this.countries,
+    this.isMoving,
+    this.ngaydi,
+    this.ngayden,
+    this.noidi,
+    this.noiden,
+    this.phuongtien,
   });
   @override
   MyTravelFormState createState() {
@@ -142,7 +143,7 @@ class MyTravelFormState extends State<MyTravelForm> {
 //        print("fail");
 //      }
 //    });
-    print("form"+widget.isMoving.toString());
+    print("form" + widget.isMoving.toString());
 
     return Form(
       key: _formKey,
@@ -168,7 +169,10 @@ class MyTravelFormState extends State<MyTravelForm> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0)),
               ),
-              initialValue: widget.countries,
+              initialValue: declareGlobal.countriesVisited,
+              onChanged: (String val) {
+                declareGlobal.countriesVisited = val;
+              },
               validator: (value) {
                 return null;
               },
@@ -201,45 +205,77 @@ class MyTravelFormState extends State<MyTravelForm> {
                       //    If all data are correct then save data to out variables
                       _formKey.currentState.save();
 //                      print(widget.person.name);
-                      Future<Declaration> getDeclare() async
-                      {
+                      Future<Declaration> getDeclare() async {
 //                        await new Future.delayed(const Duration(seconds: 3));
-                        return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
+                        return await ClientApiService.instance
+                            .getDeclaration(widget.person.cmnd);
                       }
+//                      sot = false;
+//                      ho = false;
+//                      khoTho = false;
+//                      viemPhoi = false;
+//                      dauHong = false;
+//                      metMoi = false;
+//
+//
+//                      getDeclare().then((declare) {
+//                        if (declare != null) {
+//                          // print(declare.email);
+////                              print("khac null");
+//                          // declareGlobal.sot = declare.sot;
+//                          // declareGlobal.ho = declare.ho;
+//                          // declareGlobal.khoTho =declare.khoTho;
+//                          // declareGlobal.viemPhoi = declare.viemPhoi;
+//                          // declareGlobal.dauHong = declare.dauHong;
+//                          // declareGlobal.metMoi = declare.metMoi;
+//
+//                          sot = declare.sot;
+//                          ho = declare.ho;
+//                          khoTho =declare.khoTho;
+//                          viemPhoi = declare.viemPhoi;
+//                          dauHong = declare.dauHong;
+//                          metMoi = declare.metMoi;
+//                        }
+//                         if (declareGlobal.sot==null){
+//                          declareGlobal.sot=sot;
+//                          }
+//                          if (declareGlobal.ho==null){
+//                            declareGlobal.ho=ho;
+//                          }
+//                          if (declareGlobal.khoTho==null){
+//                            declareGlobal.khoTho=khoTho;
+//                          }
+//                          if (declareGlobal.viemPhoi==null){
+//                            declareGlobal.viemPhoi=viemPhoi;
+//                          }
+//                          if (declareGlobal.dauHong==null){
+//                            declareGlobal.dauHong=dauHong;
+//                          }
+//                          if (declareGlobal.metMoi==null){
+//                            declareGlobal.metMoi=metMoi;
+//                          }
+//
+//                      });
 
-                      getDeclare().then((declare) {
-                        if (declare != null) {
-                          // print(declare.email);
-//                              print("khac null");
-                          sot = declare.sot;
-                          ho = declare.ho;
-                          khoTho =declare.khoTho;
-                          viemPhoi = declare.viemPhoi;
-                          dauHong = declare.dauHong;
-                          metMoi = declare.metMoi;
-                        }
-                        else {
-                          sot = false;
-                          ho = false;
-                          khoTho = false;
-                          viemPhoi = false;
-                          dauHong = false;
-                          metMoi = false;
-
-                        }
-                      });
                       print(declare.fromProvince.toString());
-                      Future delay() async{
-                        await new Future.delayed(new Duration(seconds: 1), ()
-                        {
-                          Navigator.pushNamed(context, RouteStrings.fillFormSymptom,
-                              arguments: [widget.person, declare, sot, ho, khoTho, viemPhoi, dauHong, metMoi]);
-                        }
-                        );
-
+                      Future delay() async {
+                        await new Future.delayed(new Duration(seconds: 1), () {
+                          Navigator.pushNamed(
+                              context, RouteStrings.fillFormSymptom,
+                              arguments: [
+                                widget.person,
+                                declareGlobal,
+                                sot,
+                                ho,
+                                khoTho,
+                                viemPhoi,
+                                dauHong,
+                                metMoi
+                              ]);
+                        });
                       }
-                      delay();
 
+                      delay();
                     } else {
                       //    If all data are not valid then start auto validation.
                       setState(() {
@@ -360,21 +396,25 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
   var noidi;
   var noiden;
   final format = DateFormat("yyyy-MM-dd");
+
   Widget build(BuildContext context) {
-    if (widget.noidi=="" || widget.noiden==""){
+    updateGlobalWhenNull();
+
+    if (declareGlobal.fromProvince == "") {
       noidi = 'Hồ Chí Minh';
+    } else {
+      noidi = declareGlobal.fromProvince;
+    }
+    if (declareGlobal.toProvince == "") {
       noiden = 'Hồ Chí Minh';
+    } else {
+      noiden = declareGlobal.toProvince;
     }
-    else{
-      noidi = widget.noidi;
-      noiden = widget.noiden;
-    }
-    
 
-
-
-
+    print("isMoving: ");
     print(widget.isMoving);
+    print("global");
+    print(declareGlobal.isDomesticTravel);
     widget.declare.isDomesticTravel = widget.isMoving;
     widget.declare.fromProvince = "";
     widget.declare.toProvince = "";
@@ -393,18 +433,20 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                   fontSize: 17,
                 ),
               ),
-              value: widget.isMoving,
+              value: declareGlobal.isDomesticTravel,
               onChanged: (bool value) {
                 widget.declare.isDomesticTravel = value;
                 setState(() {
                   widget.isMoving = value;
+                  widget.declare.isDomesticTravel = value;
+                  declareGlobal.isDomesticTravel = value;
                 });
               }),
         ),
         Column(
           children: <Widget>[
             Visibility(
-              visible: widget.isMoving,
+              visible: declareGlobal.isDomesticTravel,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: FormField<String>(
@@ -423,10 +465,11 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                             widget.declare.fromProvince = newValue;
                             setState(() {
                               noidi = newValue;
-                              widget.noidi=newValue;
+                              widget.noidi = newValue;
                               widget.declare.fromProvince = newValue;
-
+                              declareGlobal.fromProvince = newValue;
                             });
+                            print(noidi);
 //                            print(currentSelectedValue1);
                           },
                           items: provinceTypes.map((String value) {
@@ -443,7 +486,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
               ),
             ),
             Visibility(
-              visible: widget.isMoving,
+              visible: declareGlobal.isDomesticTravel,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: FormField<String>(
@@ -462,10 +505,9 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                             widget.declare.toProvince = newValue;
                             setState(() {
                               noiden = newValue;
-                              widget.noiden=newValue;
+                              widget.noiden = newValue;
                               widget.declare.toProvince = newValue;
-
-
+                              declareGlobal.toProvince = newValue;
                             });
 //                            print(currentSelectedValue);
                           },
@@ -483,7 +525,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
               ),
             ),
             Visibility(
-              visible: widget.isMoving,
+              visible: declareGlobal.isDomesticTravel,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: DateTimeField(
@@ -493,24 +535,30 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                   format: format,
-                  initialValue: widget.ngaydi,
+                  initialValue: declareGlobal.departureDate,
+                  onChanged: (DateTime departureDate) {
+                    declareGlobal.departureDate = departureDate;
+                  },
                   onShowPicker: (context, currentValue) {
 //                    widget.ngaydi=currentValue;
+                    declareGlobal.departureDate = currentValue;
                     return showDatePicker(
                         context: context,
                         firstDate: DateTime(1900),
                         initialDate:
-                            currentValue ?? widget.ngaydi,
-                        lastDate: DateTime(2100));
+                            currentValue ?? declareGlobal.departureDate,
+                        lastDate: DateTime(
+                            DateTime.now().year, DateTime.now().month));
                   },
                   onSaved: (DateTime val) {
                     widget.declare.departureDate = val;
+                    declareGlobal.departureDate = val;
                   },
                 ),
               ),
             ),
             Visibility(
-              visible: widget.isMoving,
+              visible: declareGlobal.isDomesticTravel,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                 child: DateTimeField(
@@ -520,14 +568,20 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                   format: format,
-                  initialValue: widget.ngayden,
+                  initialValue: declareGlobal.arrivalDate,
+                  onChanged: (DateTime arrivalDate) {
+                    declareGlobal.arrivalDate = arrivalDate;
+                  },
                   onShowPicker: (context, currentValue) {
 //                    currentValue=widget.ngayden;
+
                     return showDatePicker(
-                        context: context,
-                        firstDate: DateTime(1900),
-                        initialDate: currentValue ?? widget.ngayden,
-                        lastDate: DateTime(2100));
+                      context: context,
+                      firstDate: DateTime(1900),
+                      initialDate: currentValue ?? declareGlobal.arrivalDate,
+                      lastDate:
+                          DateTime(DateTime.now().year, DateTime.now().month),
+                    );
                   },
                   onSaved: (DateTime val) {
                     widget.declare.arrivalDate = val;
@@ -536,7 +590,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
               ),
             ),
             Visibility(
-              visible: widget.isMoving,
+              visible: declareGlobal.isDomesticTravel,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                 child: TextFormField(
@@ -545,7 +599,10 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
-                  initialValue: widget.phuongtien,
+                  initialValue: declareGlobal.travelBy,
+                  onChanged: (String val) {
+                    declareGlobal.travelBy = val;
+                  },
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Vui lòng nhập phương tiện di chuyển';
@@ -554,6 +611,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                   },
                   onSaved: (String val) {
                     widget.declare.travelBy = val;
+                    declareGlobal.travelBy = val;
                   },
                 ),
               ),

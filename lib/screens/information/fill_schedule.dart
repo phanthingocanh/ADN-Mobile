@@ -1,13 +1,21 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/globals.dart';
 import 'package:adnproject/models/person_info.dart';
+import 'package:adnproject/screens/animation/slide.dart';
 import 'package:adnproject/services/client_api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'dart:convert';
+
+import 'fill_medical_historical.dart';
 
 // import 'package:email_validator/email_validator.dart';
 // import 'package:dropdownfield/dropdownfield.dart';
 
 // import 'package:validators/validators.dart' as validate;
+
+
 
 class FillScheduleRoute extends StatelessWidget {
   bool nguoiBenh;
@@ -24,8 +32,10 @@ class FillScheduleRoute extends StatelessWidget {
     @required this.nguoiCoBieuHien,
 
   }) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
+    
     // final appTitle = 'Form Validation Demo';
     return Scaffold(
       appBar: AppBar(
@@ -158,47 +168,93 @@ class MyScheduleFormState extends State<MyScheduleForm> {
 //                        await new Future.delayed(const Duration(seconds: 3));
                         return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
                       }
+//                      benhGanManTinh=false;
+//                      benhMauManTinh= false;
+//                      benhPhoiManTinh= false;
+//                      benhThanManTinh= false;
+//                      benhTimMach= false;
+//                      huyetApCao= false;
+//                      suyGiamMienDich= false;
+//                      ghepTangHoacXuong= false;
+//                      tieuDuong= false;
+//                      ungThu= false;
+//                      mangThai= false;
+//
+//                      getDeclare().then((declare) {
+//                        if (declare != null) {
+//                          // print(declare.email);
+////                              print("khac null");
+//                          benhGanManTinh=declare.benhGanManTinh;
+//                          benhMauManTinh=declare.benhMauManTinh;
+//                          benhPhoiManTinh=declare.benhPhoiManTinh;
+//                          benhThanManTinh=declare.benhThanManTinh;
+//                          benhTimMach=declare.benhTimMach;
+//                          huyetApCao=declare.huyetApCao;
+//                          suyGiamMienDich=declare.suyGiamMienDich;
+//                          ghepTangHoacXuong=declare.ghepTangHoacXuong;
+//                          tieuDuong=declare.tieuDuong;
+//                          ungThu=declare.ungThu;
+//                          mangThai=declare.mangThai;
+//
+//                          // declareGlobal.benhGanManTinh=declare.benhGanManTinh;
+//                          // declareGlobal.benhMauManTinh=declare.benhMauManTinh;
+//                          // declareGlobal.benhPhoiManTinh=declare.benhPhoiManTinh;
+//                          // declareGlobal.benhThanManTinh=declare.benhThanManTinh;
+//                          // declareGlobal.benhTimMach=declare.benhTimMach;
+//                          // declareGlobal.huyetApCao=declare.huyetApCao;
+//                          // declareGlobal.suyGiamMienDich=declare.suyGiamMienDich;
+//                          // declareGlobal.ghepTangHoacXuong=declare.ghepTangHoacXuong;
+//                          // declareGlobal.tieuDuong=declare.tieuDuong;
+//                          // declareGlobal.ungThu=declare.ungThu;
+//                          // declareGlobal.mangThai=declare.mangThai;
+//
+//                        }
+//
+//                        if (declareGlobal.benhGanManTinh==null){
+//                        declareGlobal.benhGanManTinh=benhGanManTinh;
+//                      }
+//                      if (declareGlobal.benhMauManTinh==null){
+//                        declareGlobal.benhMauManTinh=benhMauManTinh;
+//                      }
+//                      if (declareGlobal.benhPhoiManTinh==null){
+//                        declareGlobal.benhPhoiManTinh=benhPhoiManTinh;
+//                      }
+//                      if (declareGlobal.benhThanManTinh==null){
+//                        declareGlobal.benhThanManTinh=benhThanManTinh;
+//                      }
+//                      if (declareGlobal.benhTimMach==null){
+//                        declareGlobal.benhTimMach=benhTimMach;
+//                      }
+//                      if (declareGlobal.huyetApCao==null){
+//                        declareGlobal.huyetApCao=huyetApCao;
+//                      }
+//                      if (declareGlobal.suyGiamMienDich==null){
+//                        declareGlobal.suyGiamMienDich=suyGiamMienDich;
+//                      }
+//                      if (declareGlobal.ghepTangHoacXuong==null){
+//                        declareGlobal.ghepTangHoacXuong=ghepTangHoacXuong;
+//                      }
+//                      if (declareGlobal.tieuDuong==null){
+//                        declareGlobal.tieuDuong=tieuDuong;
+//                      }
+//                      if (declareGlobal.mangThai==null){
+//                        declareGlobal.mangThai=mangThai;
+//                      }
+//                      if (declareGlobal.ungThu==null){
+//                        declareGlobal.ungThu=ungThu;
+//                      }
+//
+//                      });
 
-                      getDeclare().then((declare) {
-                        if (declare != null) {
-                          // print(declare.email);
-//                              print("khac null");
-                          benhGanManTinh=declare.benhGanManTinh;
-                          benhMauManTinh=declare.benhMauManTinh;
-                          benhPhoiManTinh=declare.benhPhoiManTinh;
-                          benhThanManTinh=declare.benhThanManTinh;
-                          benhTimMach=declare.benhTimMach;
-                          huyetApCao=declare.huyetApCao;
-                          suyGiamMienDich=declare.suyGiamMienDich;
-                          ghepTangHoacXuong=declare.ghepTangHoacXuong;
-                          tieuDuong=declare.tieuDuong;
-                          ungThu=declare.ungThu;
-                          mangThai=declare.mangThai;
-
-                        }
-                        else {
-                          benhGanManTinh=false;
-                          benhMauManTinh= false;
-                          benhPhoiManTinh= false;
-                          benhThanManTinh= false;
-                          benhTimMach= false;
-                          huyetApCao= false;
-                          suyGiamMienDich= false;
-                          ghepTangHoacXuong= false;
-                          tieuDuong= false;
-                          ungThu= false;
-                          mangThai= false;
-
-
-                        }
-                      });
+                      
+                      
+                    
                       Future delay() async{
-                        await new Future.delayed(new Duration(seconds: 1), ()
-                        {
-                          Navigator.pushNamed(
-                              context, RouteStrings.fillFormMedicalHistorical,
-                              arguments: [widget.person, widget.declare,
-
+                        await new Future.delayed(new Duration(seconds: 1), 
+                        ()async {  
+                           
+                            Navigator.pushNamed(context, RouteStrings.fillFormMedicalHistorical, 
+                            arguments: [widget.person, widget.declare,
                                 benhMauManTinh,
                                 benhPhoiManTinh,
                                 benhThanManTinh,
@@ -211,11 +267,17 @@ class MyScheduleFormState extends State<MyScheduleForm> {
                                 mangThai,
                                 benhGanManTinh,
                               ]);
+                            
+                              
                         }
+                        
                         );
 
                       }
                       delay();
+                      
+                      
+                      
 
 
                     } else {
@@ -249,6 +311,7 @@ class ScheduleCheckbox extends StatefulWidget {
   ScheduleCheckbox({this.person, this.declare, this.nguoiBenh,
     this.nguoiTuNuocCoBenh,
     this.nguoiCoBieuHien,});
+
 //  ScheduleCheckbox({Key key}) : super(key: key);
 
   @override
@@ -265,9 +328,9 @@ class _ScheduleCheckboxState extends State<ScheduleCheckbox> {
   @override
   Widget build(BuildContext context) {
 
-    question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'] = widget.nguoiBenh;
-    question2['Người từ nước có bệnh COVID-19'] = widget.nguoiTuNuocCoBenh;
-    question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'] = widget.nguoiCoBieuHien;
+    question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'] = declareGlobal.nguoiBenh;
+    question2['Người từ nước có bệnh COVID-19'] = declareGlobal.nguoiTuNuocCoBenh;
+    question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'] = declareGlobal.nguoiCoBieuHien;
     
 
     widget.declare.nguoiBenh =
@@ -291,6 +354,13 @@ class _ScheduleCheckboxState extends State<ScheduleCheckbox> {
               widget.nguoiTuNuocCoBenh =
               question2['Người từ nước có bệnh COVID-19'];
               widget.nguoiCoBieuHien =
+              question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'];
+
+              declareGlobal.nguoiBenh =
+              question2['Người bệnh hoặc nghi ngờ, mắc bệnh COVID-19'];
+              declareGlobal.nguoiTuNuocCoBenh =
+              question2['Người từ nước có bệnh COVID-19'];
+              declareGlobal.nguoiCoBieuHien =
               question2['Người có biểu hiện (Sốt, ho, khó thở , Viêm phổi)'];
             });
             widget.declare.nguoiBenh =

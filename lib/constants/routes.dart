@@ -95,7 +95,12 @@ Route onGenerateRoute(RouteSettings settings) {
           return FillSymptomRoute(person: args[0], declare: args[1], sot: args[2], ho: args[3], khoTho: args[4], viemPhoi: args[5], dauHong: args[6], metMoi:args[7]);
         },
       );
+    // case RouteStrings.fillFormSymptomBack:
+    //   // final List args = settings.arguments;
 
+    //   // print(args[0]);
+    //   return FillSymptomRoute();
+    
 //      page = MySlide(builder: (BuildContext context) => FillSymptomRoute());
 //      break;
     case RouteStrings.fillFormSchedule:

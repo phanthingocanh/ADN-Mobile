@@ -44,7 +44,9 @@ class Strings {
 
   static const String backImage = 'Mặt sau';
 
-  static const String serverPath = 'localhost:8080';
+  static const String serverPath = '54.80.59.123:8080';
+//  static const String serverPath = '10.0.2.2:8080';
+
 }
 
 class RouteStrings {
@@ -65,6 +67,8 @@ class RouteStrings {
   static const String sendInfoForm = '/sendInfoForm';
 
   static const String fillFormSymptom = '/fillFormSymptom';
+
+  static const String fillFormSymptomBack = '/fillFormSymptom';
 
   static const String fillFormSchedule = '/fillFormSchedule';
 

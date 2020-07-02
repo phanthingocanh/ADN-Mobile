@@ -18,6 +18,7 @@ class ADNApp extends StatelessWidget {
       initialRoute: RouteStrings.home,
 //      routes: routesMap,
       theme: AppThemes.lightTheme(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

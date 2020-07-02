@@ -1,5 +1,6 @@
 import 'package:adnproject/constants/strings.dart';
 import 'package:adnproject/models/declaration.dart';
+import 'package:adnproject/models/globals.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/services/client_api_service.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,14 @@ class FillSymptomRoute extends StatelessWidget {
 
   FillSymptomRoute({
     Key key,
-    @required this.person,
-    @required this.declare,
-    @required this.sot,
-    @required this.ho,
-    @required this.khoTho,
-    @required this.viemPhoi,
-    @required this.dauHong,
-    @required this.metMoi,
+     this.person,
+     this.declare,
+     this.sot,
+     this.ho,
+     this.khoTho,
+     this.viemPhoi,
+     this.dauHong,
+     this.metMoi,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -169,22 +170,36 @@ class MySymptomFormState extends State<MySymptomForm> {
 
                         return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
                       }
-
-                      getDeclare().then((declare) {
-                        if (declare != null) {
-                          // print(declare.email);
-//                              print("khac null");
-                          nguoiBenh=declare.nguoiBenh;
-                          nguoiCoBieuHien=declare.nguoiCoBieuHien;
-                          nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
-                        }
-                        else {
-                          nguoiBenh=false;
-                          nguoiCoBieuHien=false;
-                          nguoiTuNuocCoBenh=false;
-
-                        }
-                      });
+//                      nguoiBenh=false;
+//                      nguoiCoBieuHien=false;
+//                      nguoiTuNuocCoBenh=false;
+//
+//
+//                      getDeclare().then((declare) {
+//                        if (declare != null) {
+//                          // print(declare.email);
+////                              print("khac null");
+//                          nguoiBenh=declare.nguoiBenh;
+//                          nguoiCoBieuHien=declare.nguoiCoBieuHien;
+//                          nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
+//
+//                          // declareGlobal.nguoiBenh=declare.nguoiBenh;
+//                          // declareGlobal.nguoiCoBieuHien=declare.nguoiCoBieuHien;
+//                          // declareGlobal.nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
+//                        }
+//
+//                        if (declareGlobal.nguoiBenh==null){
+//                        declareGlobal.nguoiBenh=nguoiBenh;
+//                      }
+//                      if (declareGlobal.nguoiCoBieuHien==null){
+//                        declareGlobal.nguoiCoBieuHien=nguoiCoBieuHien;
+//                      }
+//                      if (declareGlobal.nguoiTuNuocCoBenh==null){
+//                        declareGlobal.nguoiTuNuocCoBenh=nguoiTuNuocCoBenh;
+//                      }
+//
+//
+//                      });
                       Future delay() async{
                         await new Future.delayed(new Duration(seconds: 1), ()
                         {
@@ -253,12 +268,12 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
     print("from checkbox: " + widget.sot.toString());
 
     print(widget.sot);
-    question1["Sốt"] = widget.sot;
-    question1["Ho"] = widget.ho;
-    question1["Khó thở"] = widget.khoTho;
-    question1["Viêm phổi"]=widget.viemPhoi;
-    question1["Đau họng"] = widget.dauHong;
-    question1["Mệt mỏi"] = widget.metMoi;
+    question1["Sốt"] = declareGlobal.sot;
+    question1["Ho"] = declareGlobal.ho;
+    question1["Khó thở"] = declareGlobal.khoTho;
+    question1["Viêm phổi"]=declareGlobal.viemPhoi;
+    question1["Đau họng"] = declareGlobal.dauHong;
+    question1["Mệt mỏi"] = declareGlobal.metMoi;
 
     widget.declare.sot = question1["Sốt"];
     widget.declare.ho = question1["Ho"];
@@ -280,6 +295,13 @@ class _SymptomCheckboxState extends State<SymptomCheckbox> {
               widget.viemPhoi = question1["Viêm phổi"];
               widget.dauHong = question1["Đau họng"];
               widget.metMoi = question1["Mệt mỏi"];
+
+              declareGlobal.sot = question1["Sốt"];
+              declareGlobal.ho = question1["Ho"];
+              declareGlobal.khoTho = question1["Khó thở"];
+              declareGlobal.viemPhoi = question1["Viêm phổi"];
+              declareGlobal.dauHong = question1["Đau họng"];
+              declareGlobal.metMoi = question1["Mệt mỏi"];
             });
             widget.declare.sot = question1["Sốt"];
             widget.declare.ho = question1["Ho"];

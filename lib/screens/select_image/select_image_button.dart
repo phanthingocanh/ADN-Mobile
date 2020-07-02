@@ -34,7 +34,7 @@ class SelectImageButton extends StatelessWidget {
           margin: EdgeInsets.all(10.0),
           child: FlatButton(
             shape: RoundedRectangleBorder(
-              side: BorderSide(),
+              side: BorderSide(color: Colors.black38),
               borderRadius: roundedBorderRadius,
             ),
             padding: EdgeInsets.all(0.0),
