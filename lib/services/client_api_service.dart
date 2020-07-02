@@ -10,6 +10,8 @@ import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/models/user_declare.dart';
 import 'package:http/http.dart' as http;
 
+import 'ml_kit_ocr.dart';
+
 class ClientApiService {
   ClientApiService._();
 
@@ -18,12 +20,12 @@ class ClientApiService {
   static ClientApiService get instance => _instance ?? ClientApiService._();
 
   Future<PersonInfo> getPersonInfo(CardInfo cardInfo) async {
-//    return analyzeImage(cardInfo.frontImage, cardInfo.backImage);
-    return analyzeImageCloud(
-      cardInfo.cardType,
-      cardInfo.frontImage,
-      cardInfo.backImage,
-    );
+    return analyzeImage(cardInfo.frontImage, cardInfo.backImage);
+//    return analyzeImageCloud(
+//      cardInfo.cardType,
+//      cardInfo.frontImage,
+//      cardInfo.backImage,
+//    );
   }
 
   Future<PersonInfo> analyzeImageCloud(
