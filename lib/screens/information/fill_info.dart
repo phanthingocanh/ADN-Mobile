@@ -83,16 +83,16 @@ class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
     var controller = new MaskedTextController(mask: '000-000-000-000', text: '');
-    // controller.beforeChange = (String previous, String next) {
-    //   if (previous.length == 9) {
-    //     controller.updateMask('000-000-000');
-    //   }else{
-    //     controller.updateMask('000-000-000-000');
-    //   }
-    //   print("mask");
-    //   print(controller.mask);
-    //   return true;
-    // };
+     controller.beforeChange = (String previous, String next) {
+       if (previous.length == 9) {
+         controller.updateMask('000-000-000');
+       }else{
+         controller.updateMask('000-000-000-000');
+       }
+       print("mask");
+       print(controller.mask);
+       return true;
+     };
 
     // controller.updateText(widget._cmnd);
     return MyCustomFormState(controller: controller);
@@ -348,7 +348,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     firstDate: DateTime(1900),
                     initialDate:
                         currentValue ?? DateTime(1995, now.month, now.day),
-                    lastDate: DateTime(2100));
+                    lastDate: DateTime(DateTime.now().year, DateTime.now().month));
               },
             ),
           ),
@@ -402,7 +402,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     firstDate: DateTime(1900),
                     initialDate:
                         currentValue ?? DateTime(2015, now.month, now.day),
-                    lastDate: DateTime(2100));
+                    lastDate: DateTime(DateTime.now().year, DateTime.now().month));
               },
             ),
           ),
