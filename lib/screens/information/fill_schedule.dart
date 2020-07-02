@@ -168,83 +168,83 @@ class MyScheduleFormState extends State<MyScheduleForm> {
 //                        await new Future.delayed(const Duration(seconds: 3));
                         return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
                       }
-                      benhGanManTinh=false;
-                      benhMauManTinh= false;
-                      benhPhoiManTinh= false;
-                      benhThanManTinh= false;
-                      benhTimMach= false;
-                      huyetApCao= false;
-                      suyGiamMienDich= false;
-                      ghepTangHoacXuong= false;
-                      tieuDuong= false;
-                      ungThu= false;
-                      mangThai= false;
-                      
-                      getDeclare().then((declare) {
-                        if (declare != null) {
-                          // print(declare.email);
-//                              print("khac null");
-                          benhGanManTinh=declare.benhGanManTinh;
-                          benhMauManTinh=declare.benhMauManTinh;
-                          benhPhoiManTinh=declare.benhPhoiManTinh;
-                          benhThanManTinh=declare.benhThanManTinh;
-                          benhTimMach=declare.benhTimMach;
-                          huyetApCao=declare.huyetApCao;
-                          suyGiamMienDich=declare.suyGiamMienDich;
-                          ghepTangHoacXuong=declare.ghepTangHoacXuong;
-                          tieuDuong=declare.tieuDuong;
-                          ungThu=declare.ungThu;
-                          mangThai=declare.mangThai;
-
-                          // declareGlobal.benhGanManTinh=declare.benhGanManTinh;
-                          // declareGlobal.benhMauManTinh=declare.benhMauManTinh;
-                          // declareGlobal.benhPhoiManTinh=declare.benhPhoiManTinh;
-                          // declareGlobal.benhThanManTinh=declare.benhThanManTinh;
-                          // declareGlobal.benhTimMach=declare.benhTimMach;
-                          // declareGlobal.huyetApCao=declare.huyetApCao;
-                          // declareGlobal.suyGiamMienDich=declare.suyGiamMienDich;
-                          // declareGlobal.ghepTangHoacXuong=declare.ghepTangHoacXuong;
-                          // declareGlobal.tieuDuong=declare.tieuDuong;
-                          // declareGlobal.ungThu=declare.ungThu;
-                          // declareGlobal.mangThai=declare.mangThai;
-
-                        }
-
-                        if (declareGlobal.benhGanManTinh==null){
-                        declareGlobal.benhGanManTinh=benhGanManTinh;
-                      }
-                      if (declareGlobal.benhMauManTinh==null){
-                        declareGlobal.benhMauManTinh=benhMauManTinh;
-                      }
-                      if (declareGlobal.benhPhoiManTinh==null){
-                        declareGlobal.benhPhoiManTinh=benhPhoiManTinh;
-                      }
-                      if (declareGlobal.benhThanManTinh==null){
-                        declareGlobal.benhThanManTinh=benhThanManTinh;
-                      }
-                      if (declareGlobal.benhTimMach==null){
-                        declareGlobal.benhTimMach=benhTimMach;
-                      }
-                      if (declareGlobal.huyetApCao==null){
-                        declareGlobal.huyetApCao=huyetApCao;
-                      }
-                      if (declareGlobal.suyGiamMienDich==null){
-                        declareGlobal.suyGiamMienDich=suyGiamMienDich;
-                      }
-                      if (declareGlobal.ghepTangHoacXuong==null){
-                        declareGlobal.ghepTangHoacXuong=ghepTangHoacXuong;
-                      }
-                      if (declareGlobal.tieuDuong==null){
-                        declareGlobal.tieuDuong=tieuDuong;
-                      }
-                      if (declareGlobal.mangThai==null){
-                        declareGlobal.mangThai=mangThai;
-                      }
-                      if (declareGlobal.ungThu==null){
-                        declareGlobal.ungThu=ungThu;
-                      }
-                        
-                      });
+//                      benhGanManTinh=false;
+//                      benhMauManTinh= false;
+//                      benhPhoiManTinh= false;
+//                      benhThanManTinh= false;
+//                      benhTimMach= false;
+//                      huyetApCao= false;
+//                      suyGiamMienDich= false;
+//                      ghepTangHoacXuong= false;
+//                      tieuDuong= false;
+//                      ungThu= false;
+//                      mangThai= false;
+//
+//                      getDeclare().then((declare) {
+//                        if (declare != null) {
+//                          // print(declare.email);
+////                              print("khac null");
+//                          benhGanManTinh=declare.benhGanManTinh;
+//                          benhMauManTinh=declare.benhMauManTinh;
+//                          benhPhoiManTinh=declare.benhPhoiManTinh;
+//                          benhThanManTinh=declare.benhThanManTinh;
+//                          benhTimMach=declare.benhTimMach;
+//                          huyetApCao=declare.huyetApCao;
+//                          suyGiamMienDich=declare.suyGiamMienDich;
+//                          ghepTangHoacXuong=declare.ghepTangHoacXuong;
+//                          tieuDuong=declare.tieuDuong;
+//                          ungThu=declare.ungThu;
+//                          mangThai=declare.mangThai;
+//
+//                          // declareGlobal.benhGanManTinh=declare.benhGanManTinh;
+//                          // declareGlobal.benhMauManTinh=declare.benhMauManTinh;
+//                          // declareGlobal.benhPhoiManTinh=declare.benhPhoiManTinh;
+//                          // declareGlobal.benhThanManTinh=declare.benhThanManTinh;
+//                          // declareGlobal.benhTimMach=declare.benhTimMach;
+//                          // declareGlobal.huyetApCao=declare.huyetApCao;
+//                          // declareGlobal.suyGiamMienDich=declare.suyGiamMienDich;
+//                          // declareGlobal.ghepTangHoacXuong=declare.ghepTangHoacXuong;
+//                          // declareGlobal.tieuDuong=declare.tieuDuong;
+//                          // declareGlobal.ungThu=declare.ungThu;
+//                          // declareGlobal.mangThai=declare.mangThai;
+//
+//                        }
+//
+//                        if (declareGlobal.benhGanManTinh==null){
+//                        declareGlobal.benhGanManTinh=benhGanManTinh;
+//                      }
+//                      if (declareGlobal.benhMauManTinh==null){
+//                        declareGlobal.benhMauManTinh=benhMauManTinh;
+//                      }
+//                      if (declareGlobal.benhPhoiManTinh==null){
+//                        declareGlobal.benhPhoiManTinh=benhPhoiManTinh;
+//                      }
+//                      if (declareGlobal.benhThanManTinh==null){
+//                        declareGlobal.benhThanManTinh=benhThanManTinh;
+//                      }
+//                      if (declareGlobal.benhTimMach==null){
+//                        declareGlobal.benhTimMach=benhTimMach;
+//                      }
+//                      if (declareGlobal.huyetApCao==null){
+//                        declareGlobal.huyetApCao=huyetApCao;
+//                      }
+//                      if (declareGlobal.suyGiamMienDich==null){
+//                        declareGlobal.suyGiamMienDich=suyGiamMienDich;
+//                      }
+//                      if (declareGlobal.ghepTangHoacXuong==null){
+//                        declareGlobal.ghepTangHoacXuong=ghepTangHoacXuong;
+//                      }
+//                      if (declareGlobal.tieuDuong==null){
+//                        declareGlobal.tieuDuong=tieuDuong;
+//                      }
+//                      if (declareGlobal.mangThai==null){
+//                        declareGlobal.mangThai=mangThai;
+//                      }
+//                      if (declareGlobal.ungThu==null){
+//                        declareGlobal.ungThu=ungThu;
+//                      }
+//
+//                      });
 
                       
                       

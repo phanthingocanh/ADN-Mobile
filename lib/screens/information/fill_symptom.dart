@@ -170,36 +170,36 @@ class MySymptomFormState extends State<MySymptomForm> {
 
                         return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
                       }
-                      nguoiBenh=false;
-                      nguoiCoBieuHien=false;
-                      nguoiTuNuocCoBenh=false;
-                      
-
-                      getDeclare().then((declare) {
-                        if (declare != null) {
-                          // print(declare.email);
-//                              print("khac null");
-                          nguoiBenh=declare.nguoiBenh;
-                          nguoiCoBieuHien=declare.nguoiCoBieuHien;
-                          nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
-
-                          // declareGlobal.nguoiBenh=declare.nguoiBenh;
-                          // declareGlobal.nguoiCoBieuHien=declare.nguoiCoBieuHien;
-                          // declareGlobal.nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
-                        }
-
-                        if (declareGlobal.nguoiBenh==null){
-                        declareGlobal.nguoiBenh=nguoiBenh;
-                      }
-                      if (declareGlobal.nguoiCoBieuHien==null){
-                        declareGlobal.nguoiCoBieuHien=nguoiCoBieuHien;
-                      }
-                      if (declareGlobal.nguoiTuNuocCoBenh==null){
-                        declareGlobal.nguoiTuNuocCoBenh=nguoiTuNuocCoBenh;
-                      }
-                      
-                        
-                      });
+//                      nguoiBenh=false;
+//                      nguoiCoBieuHien=false;
+//                      nguoiTuNuocCoBenh=false;
+//
+//
+//                      getDeclare().then((declare) {
+//                        if (declare != null) {
+//                          // print(declare.email);
+////                              print("khac null");
+//                          nguoiBenh=declare.nguoiBenh;
+//                          nguoiCoBieuHien=declare.nguoiCoBieuHien;
+//                          nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
+//
+//                          // declareGlobal.nguoiBenh=declare.nguoiBenh;
+//                          // declareGlobal.nguoiCoBieuHien=declare.nguoiCoBieuHien;
+//                          // declareGlobal.nguoiTuNuocCoBenh=declare.nguoiTuNuocCoBenh;
+//                        }
+//
+//                        if (declareGlobal.nguoiBenh==null){
+//                        declareGlobal.nguoiBenh=nguoiBenh;
+//                      }
+//                      if (declareGlobal.nguoiCoBieuHien==null){
+//                        declareGlobal.nguoiCoBieuHien=nguoiCoBieuHien;
+//                      }
+//                      if (declareGlobal.nguoiTuNuocCoBenh==null){
+//                        declareGlobal.nguoiTuNuocCoBenh=nguoiTuNuocCoBenh;
+//                      }
+//
+//
+//                      });
                       Future delay() async{
                         await new Future.delayed(new Duration(seconds: 1), ()
                         {

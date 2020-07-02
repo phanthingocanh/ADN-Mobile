@@ -519,7 +519,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           print(personInfo.phone);
                           email = personInfo.email;
                           mobile = personInfo.phone;
-                          found = true;
+
                         } else {
                           personInfoGlobal.setToNull();
                           declareGlobal.setToNull();

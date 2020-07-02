@@ -210,52 +210,52 @@ class MyTravelFormState extends State<MyTravelForm> {
 //                        await new Future.delayed(const Duration(seconds: 3));
                         return await ClientApiService.instance.getDeclaration(widget.person.cmnd);
                       }
-                      sot = false;
-                      ho = false;
-                      khoTho = false;
-                      viemPhoi = false;
-                      dauHong = false;
-                      metMoi = false;
-                       
-                      
-                      getDeclare().then((declare) {
-                        if (declare != null) {
-                          // print(declare.email);
-//                              print("khac null");
-                          // declareGlobal.sot = declare.sot;
-                          // declareGlobal.ho = declare.ho;
-                          // declareGlobal.khoTho =declare.khoTho;
-                          // declareGlobal.viemPhoi = declare.viemPhoi;
-                          // declareGlobal.dauHong = declare.dauHong;
-                          // declareGlobal.metMoi = declare.metMoi;
-
-                          sot = declare.sot;
-                          ho = declare.ho;
-                          khoTho =declare.khoTho;
-                          viemPhoi = declare.viemPhoi;
-                          dauHong = declare.dauHong;
-                          metMoi = declare.metMoi;                          
-                        }
-                         if (declareGlobal.sot==null){
-                          declareGlobal.sot=sot;
-                          }
-                          if (declareGlobal.ho==null){
-                            declareGlobal.ho=ho;
-                          }
-                          if (declareGlobal.khoTho==null){
-                            declareGlobal.khoTho=khoTho;
-                          }
-                          if (declareGlobal.viemPhoi==null){
-                            declareGlobal.viemPhoi=viemPhoi;
-                          }
-                          if (declareGlobal.dauHong==null){
-                            declareGlobal.dauHong=dauHong;
-                          }
-                          if (declareGlobal.metMoi==null){
-                            declareGlobal.metMoi=metMoi;
-                          }
-                        
-                      });
+//                      sot = false;
+//                      ho = false;
+//                      khoTho = false;
+//                      viemPhoi = false;
+//                      dauHong = false;
+//                      metMoi = false;
+//
+//
+//                      getDeclare().then((declare) {
+//                        if (declare != null) {
+//                          // print(declare.email);
+////                              print("khac null");
+//                          // declareGlobal.sot = declare.sot;
+//                          // declareGlobal.ho = declare.ho;
+//                          // declareGlobal.khoTho =declare.khoTho;
+//                          // declareGlobal.viemPhoi = declare.viemPhoi;
+//                          // declareGlobal.dauHong = declare.dauHong;
+//                          // declareGlobal.metMoi = declare.metMoi;
+//
+//                          sot = declare.sot;
+//                          ho = declare.ho;
+//                          khoTho =declare.khoTho;
+//                          viemPhoi = declare.viemPhoi;
+//                          dauHong = declare.dauHong;
+//                          metMoi = declare.metMoi;
+//                        }
+//                         if (declareGlobal.sot==null){
+//                          declareGlobal.sot=sot;
+//                          }
+//                          if (declareGlobal.ho==null){
+//                            declareGlobal.ho=ho;
+//                          }
+//                          if (declareGlobal.khoTho==null){
+//                            declareGlobal.khoTho=khoTho;
+//                          }
+//                          if (declareGlobal.viemPhoi==null){
+//                            declareGlobal.viemPhoi=viemPhoi;
+//                          }
+//                          if (declareGlobal.dauHong==null){
+//                            declareGlobal.dauHong=dauHong;
+//                          }
+//                          if (declareGlobal.metMoi==null){
+//                            declareGlobal.metMoi=metMoi;
+//                          }
+//
+//                      });
                      
                       
                           
