@@ -52,12 +52,8 @@ class ClientApiService {
   // }
 
   Future<PersonInfo> getPersonInfoById(String id) async {
-    Map<String, String> qParams = {
-      'id': id,
-    };
-    
     var response = await http.get(
-      Uri.http(Strings.serverPath, "/user-declarations", qParams),
+      Uri.http(Strings.serverPath, "/user-declarations/$id"),
       headers: {"content-type": "application/hal+json; charset = utf-8"
       },
     );
@@ -83,14 +79,8 @@ class ClientApiService {
   }
 
   Future<Declaration> getDeclaration(String id) async {
-//    await new Future.delayed(const Duration(seconds: 2));
-    Map<String, String> qParams = {
-      'id': id,
-    };
-
-    
     var response = await http.get(
-      Uri.http(Strings.serverPath, "/user-declarations", qParams),
+      Uri.http(Strings.serverPath, "/user-declarations/$id"),
       headers: {"Accept": "application/hal+json"},
     );
 
