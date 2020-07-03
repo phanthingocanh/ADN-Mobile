@@ -547,8 +547,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                         firstDate: DateTime(1900),
                         initialDate:
                             currentValue ?? declareGlobal.departureDate,
-                        lastDate: DateTime(
-                            DateTime.now().year, DateTime.now().month));
+                        lastDate: DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day), );
                   },
                   onSaved: (DateTime val) {
                     widget.declare.departureDate = val;
@@ -580,7 +579,7 @@ class _TravelCheckboxState extends State<TravelCheckbox> {
                       firstDate: DateTime(1900),
                       initialDate: currentValue ?? declareGlobal.arrivalDate,
                       lastDate:
-                          DateTime(DateTime.now().year, DateTime.now().month),
+                          DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day),
                     );
                   },
                   onSaved: (DateTime val) {

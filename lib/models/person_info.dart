@@ -54,8 +54,17 @@ class PersonInfo {
   }
 
   void setToNull(){
-    this.email=null;
-    this.phone=null;
+    this.name= null;
+    this.cmnd= null;
+    this.cccd= null;
+    this.birthDay= null;
+    this.permanentAddress= null;
+    this.cardDate= null;
+    this.cardPlace= null;
+    this.cardType= null;
+    this.email= null;
+    this.phone= null;
+    this.gender= null;
 
   }
   

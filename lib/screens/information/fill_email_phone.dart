@@ -429,7 +429,7 @@ class MyCustomFormEmailPhoneState extends State<MyCustomFormEmailPhone>
 //                          print("aa");
 //                          print(isMoving);
                       Future delay() async {
-                        await new Future.delayed(new Duration(seconds: 3), () {
+                        await new Future.delayed(new Duration(seconds: 2), () {
                           Navigator.pushNamed(
                               context, RouteStrings.fillFormTravel, arguments: [
                             widget.person,

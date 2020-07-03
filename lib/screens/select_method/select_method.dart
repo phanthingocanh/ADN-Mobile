@@ -1,4 +1,5 @@
 import 'package:adnproject/constants/strings.dart';
+import 'package:adnproject/models/globals.dart';
 import 'package:adnproject/models/person_info.dart';
 import 'package:adnproject/screens/select_image/select_front_image.dart';
 import 'package:adnproject/widgets/domestic_guest_banner.dart';
@@ -35,12 +36,17 @@ class SelectMethodRoute extends StatelessWidget {
                 child: Text(
                   Strings.selectMethodAutomatic,
                 ),
-                onPressed: () => Navigator.push(
+                onPressed: (){
+                  personInfoGlobal.setToNull();
+                  declareGlobal.setToNull();
+                  Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => SelectFrontImageScreen(),
-                  ),
-                ),
+                  )
+                  );
+                }
+
               ),
             ),
             Container(
@@ -52,6 +58,8 @@ class SelectMethodRoute extends StatelessWidget {
                   Strings.selectMethodManual,
                 ),
                 onPressed: () {
+                  personInfoGlobal.setToNull();
+                  declareGlobal.setToNull();
                   Navigator.pushNamed(
                     context,
                     RouteStrings.fillForm,

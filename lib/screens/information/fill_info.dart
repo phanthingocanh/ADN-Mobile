@@ -351,7 +351,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     initialDate:
                         currentValue ?? DateTime(1995, now.month, now.day),
                     lastDate:
-                        DateTime(DateTime.now().year, DateTime.now().month));
+                    DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day));
               },
             ),
           ),
@@ -406,7 +406,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     initialDate:
                         currentValue ?? DateTime(2015, now.month, now.day),
                     lastDate:
-                        DateTime(DateTime.now().year, DateTime.now().month));
+                    DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day));
               },
             ),
           ),
